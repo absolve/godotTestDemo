@@ -1,0 +1,112 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Sprite-0001.png" type="Texture" id=1]
+[ext_resource path="res://light.png" type="Texture" id=2]
+[ext_resource path="res://robi_shaded.png" type="Texture" id=3]
+[ext_resource path="res://gear.png" type="Texture" id=4]
+[ext_resource path="res://main.gd" type="Script" id=5]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+light_mode = 2
+
+[sub_resource type="CanvasItemMaterial" id=2]
+light_mode = 2
+
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite3:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite4:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "新建动画"
+length = 4.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite3:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2, 3, 4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 45.0, 90.0, 135.0, 180.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite4:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1, 2, 3, 4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 45.0, 90.0, 135.0, 180.0 ]
+}
+
+[node name="main" type="Node2D"]
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Sprite2" type="Sprite" parent="."]
+position = Vector2( 505, 321 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Light2D" type="Light2D" parent="."]
+position = Vector2( 557, 352 )
+texture = ExtResource( 2 )
+
+[node name="Sprite3" type="Sprite" parent="."]
+modulate = Color( 0.168627, 0.407843, 1, 1 )
+material = SubResource( 1 )
+position = Vector2( 488, 397 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 4 )
+
+[node name="Sprite4" type="Sprite" parent="."]
+modulate = Color( 1, 0.992157, 0.541176, 1 )
+material = SubResource( 2 )
+position = Vector2( 512, 347 )
+texture = ExtResource( 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "新建动画"
+anims/RESET = SubResource( 3 )
+"anims/新建动画" = SubResource( 4 )
