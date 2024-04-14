@@ -9,7 +9,7 @@
 [sub_resource type="CanvasItemMaterial" id=1]
 light_mode = 2
 
-[sub_resource type="CanvasItemMaterial" id=2]
+[sub_resource type="CanvasItemMaterial" id=5]
 light_mode = 2
 
 [sub_resource type="Animation" id=3]
@@ -90,7 +90,7 @@ __meta__ = {
 }
 
 [node name="Light2D" type="Light2D" parent="."]
-position = Vector2( 557, 352 )
+position = Vector2( 471, 307 )
 texture = ExtResource( 2 )
 
 [node name="Sprite3" type="Sprite" parent="."]
@@ -102,7 +102,7 @@ texture = ExtResource( 4 )
 
 [node name="Sprite4" type="Sprite" parent="."]
 modulate = Color( 1, 0.992157, 0.541176, 1 )
-material = SubResource( 2 )
+material = SubResource( 5 )
 position = Vector2( 512, 347 )
 texture = ExtResource( 4 )
 

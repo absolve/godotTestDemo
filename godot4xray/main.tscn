@@ -1,16 +1,43 @@
 [gd_scene load_steps=11 format=3 uid="uid://dy78hd4okps6c"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_1m1ax"]
-[ext_resource type="Texture2D" uid="uid://c7kupdi50bs8g" path="res://Sprite-0001.png" id="1_61wub"]
-[ext_resource type="Texture2D" uid="uid://2nbb6mic3vo6" path="res://light.png" id="2_ax8m4"]
-[ext_resource type="Texture2D" uid="uid://bl3vwv4yiprmv" path="res://robi_shaded.png" id="3_6vwkk"]
-[ext_resource type="Texture2D" uid="uid://dhsc7f3bc2rrs" path="res://gear.png" id="4_d7ocf"]
+[ext_resource type="Texture2D" uid="uid://dhfm7l1t04whf" path="res://Sprite-0001.png" id="1_61wub"]
+[ext_resource type="Texture2D" uid="uid://cboce10heuqta" path="res://light.png" id="2_ax8m4"]
+[ext_resource type="Texture2D" uid="uid://b3rg1q84jv5y0" path="res://robi_shaded.png" id="3_6vwkk"]
+[ext_resource type="Texture2D" uid="uid://bc6uije3gpcut" path="res://gear.png" id="4_d7ocf"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_80nqk"]
 light_mode = 2
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_r18m4"]
 light_mode = 2
+
+[sub_resource type="Animation" id="Animation_adfff"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D2:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D4:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="Animation" id="Animation_1wxp2"]
 resource_name = "new_animation"
@@ -39,33 +66,6 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
 "values": [0.0, 0.785398, 1.5708, 2.35619, 3.14159]
-}
-
-[sub_resource type="Animation" id="Animation_adfff"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D2:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D4:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_78q8p"]
