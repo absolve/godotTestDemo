@@ -17,7 +17,7 @@ animations = [ {
 "frames": [ SubResource( 4 ), SubResource( 5 ) ],
 "loop": true,
 "name": "default",
-"speed": 5.0
+"speed": 15.0
 } ]
 
 [node name="ship" type="Node2D"]
@@ -30,8 +30,6 @@ frames = SubResource( 3 )
 frame = 1
 
 [node name="Trail" parent="." instance=ExtResource( 2 )]
-points = PoolVector2Array(  )
 width = 10.0
 maxPoints = 10
 target_path = NodePath("..")
-offset = Vector2( -10, 0 )

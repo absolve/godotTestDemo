@@ -14,7 +14,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Color( 0.784314, 0.784314, 0.784314, 1 ) ]
+"values": [ Color( 0.490196, 0.490196, 0.490196, 1 ) ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -27,8 +27,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 0.6 ),
-"transitions": PoolRealArray( 2.14355, 3.86375, 1 ),
+"times": PoolRealArray( 0, 0.4, 1 ),
+"transitions": PoolRealArray( 3.13834, 1.41422, 1 ),
 "update": 0,
 "values": [ Color( 0.784314, 0.784314, 0.784314, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
@@ -48,9 +48,10 @@ tracks/1/keys = {
 }
 
 [node name="Lightning" type="Line2D"]
-self_modulate = Color( 0.784314, 0.784314, 0.784314, 1 )
+self_modulate = Color( 0.490196, 0.490196, 0.490196, 1 )
 points = PoolVector2Array( 0, 0, 10, 0 )
 width = 2.0
+default_color = Color( 0.447059, 0.819608, 1, 1 )
 begin_cap_mode = 2
 end_cap_mode = 2
 script = ExtResource( 1 )

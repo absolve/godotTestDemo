@@ -7,9 +7,9 @@ export var target_path: NodePath
 export var offset:Vector2=Vector2.ZERO 
 var startAdd=false 
 var timer=0  #添加点的定时器
-var delay=20 #毫秒
+var delay=5 #毫秒
 var lifeTimer=0
-var lifetime=50
+var lifetime=12
 var angle=0  #角度
 
 

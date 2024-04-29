@@ -11,6 +11,7 @@ var light=preload("res://Lightning.tscn")
 var length=500
 
 func _ready():
+	ani.play("default")
 	pass # Replace with function body.
 
 
@@ -56,6 +57,7 @@ func _process(delta):
 		trail.startAdd=true
 	else:
 		trail.startAdd=false	
+	
 		
 	position+=velocity*delta
 
@@ -65,5 +67,5 @@ func shoot():
 		add_child(temp)
 		var start=global_position
 		var end=global_position+Vector2.RIGHT.rotated(ani.rotation)*length
-		print(start,end)
+#		print(start,end)
 		temp.add(start,end)
