@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://script/fogUtil.gd" type="Script" id=1]
+
+[node name="fogUtil" type="Node2D"]
+z_index = 20
+script = ExtResource( 1 )
