@@ -1,0 +1,28 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "shader_type canvas_item;
+
+uniform vec2 player_position;
+uniform vec4 color : hint_color = vec4(0,0,0,1);
+uniform float ratio=0.56;  //比例 主要用于y轴上
+uniform float outer_radius :hint_range(0., 1.) = 0.25;  //外圈大小
+uniform float inner_radius :hint_range(0., 1.) = 0.1;  //内圈大小
+uniform float outer_opacity:hint_range(0., 1.) = 0.4;  //外圈颜色透明度
+uniform float inner_opacity:hint_range(0., 1.) = 0;
+
+float circle(vec2 position){
+	float val = distance(vec2(position.x , position.y * ratio), vec2(player_position.x , player_position.y * ratio));
+	if(val<=outer_radius&&val>inner_radius){
+		return  outer_opacity;
+	}else if(val<=inner_radius){
+		return inner_opacity;
+	}else{
+		return 1.;
+	}
+
+}
+
+void fragment(){
+	COLOR = vec4(color.rgb , circle(UV));
+}"
