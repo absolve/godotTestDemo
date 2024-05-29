@@ -4,7 +4,10 @@ extends KinematicBody2D
 var velocity=Vector2.ZERO	#速度
 var speed=200
 export var angularVel=5   #旋转速度
+var fireTimer=0	#开火定时器
+var fireDelay=100
 
+var bullet=preload("res://scene/bullet.tscn")
 onready var ani=$ani
 onready var barrel=$barrel
 
@@ -24,7 +27,9 @@ func _physics_process(delta):
 		velocity.y=-speed
 	if Input.is_action_pressed("ui_down"):
 		velocity.y=speed
-	
+	if Input.is_action_pressed("shoot"):
+		fire()
+		
 	move_and_collide(velocity*delta)
 	animation()
 
@@ -52,3 +57,11 @@ func animation():
 					ani.rotation_degrees+=angularVel	
 	else:
 		ani.stop()
+
+func fire():
+	if Time.get_ticks_msec()-fireTimer>fireDelay:
+		fireTimer=Time.get_ticks_msec()
+		var temp=bullet.instance()
+		temp.position=position+Vector2(10,0).rotated(barrel.rotation)
+		temp.velocity=Vector2(400,0).rotated(barrel.rotation)
+		get_parent().add_child(temp)

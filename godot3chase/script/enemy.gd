@@ -2,18 +2,19 @@ extends KinematicBody2D
 
 
 var velocity=Vector2.ZERO	#速度
-var speed=200
+var speed=130
 var rayLength=80
-var rayCount=10
+var rayCount=12
 var currentRayDir=null  #当前的方向
 var rayDir=[]  #所有的方向射线
 var target=null	#指定出现在范围内的玩家
 var startMove=false  #开始移动
 var moveTimer=0 #移动定时器
 var moveTime=300 #移动时间
-var debug=false
-export var angularVel=5   #旋转速度
-export var distance=180 #超过距离
+var debug=true
+var angularVel=5   #旋转速度
+var barrelAngVel=8
+var distance=100 #超过距离
 
 onready var barrel=$barrel
 onready var ani=$ani
@@ -71,6 +72,18 @@ func _physics_process(delta):
 					if i.dir.dot(targetDir)>newDir.dir.dot(targetDir):
 						newDir=i
 			currentRayDir=newDir	
+		
+		if barrel.rotation_degrees!=angle:
+			if barrel.rotation_degrees>angle:
+				if barrel.rotation_degrees-barrelAngVel<angle:
+					barrel.rotation_degrees=angle
+				else:
+					barrel.rotation_degrees-=barrelAngVel
+			if barrel.rotation_degrees<angle:	
+				if barrel.rotation_degrees+barrelAngVel>angle:
+					barrel.rotation_degrees=angle
+				else:
+					barrel.rotation_degrees+=barrelAngVel
 			
 		velocity=currentRayDir.dir*speed
 		if global_position.distance_to(target.global_position)<distance:
@@ -110,7 +123,7 @@ func _physics_process(delta):
 					startMove=true
 	move_and_collide(velocity*delta)	
 	animation(delta)
-	
+	update()
 
 func animation(delta):
 	if velocity!=Vector2.ZERO:
@@ -136,12 +149,25 @@ func animation(delta):
 					ani.rotation_degrees+=angularVel	
 	else:
 		ani.stop()
+
+func hit(pos:Vector2=Vector2.ZERO):
+	target=Game.getPlayer()
+	var sameSide=[]
+	if position.x>pos.x:
+		for i in rayDir:
+			if i.dir.dot(Vector2.LEFT)>0:
+				sameSide.append(i)
+	else:
+		for i in rayDir:
+			if i.dir.dot(Vector2.RIGHT)>0:
+				sameSide.append(i)
+	currentRayDir=sameSide[randi()%sameSide.size()]	
 	
 func _draw():
 	if !debug:
 		return
 	if target:
-		draw_line(Vector2(), (target.position - position) , Color(1.0, .329, .298))
+		draw_line(Vector2(), (target.position-position ) , Color(0, 1, 0))
 	
 	for i in rayDir:
 		draw_line(Vector2.ZERO, (i.dir*i.rayLength) , Color(1.0, .329, .298))

@@ -7,11 +7,13 @@ var mapWidth
 var mapHeight
 
 var tile=preload("res://scene/tile.tscn")
+onready var player=$tank
 
 func _ready():
 	VisualServer.set_default_clear_color(Color('#9c9c9c'))
 	OS.center_window()
-
+	Game.map=self
+	
 	loadMap("res://level/test0.json")
 	width=get_viewport_rect().size.x
 	height=get_viewport_rect().size.y
@@ -27,9 +29,9 @@ func loadMap(fileName:String):
 		for i in content['data']:
 			if i['type'] =='tile':
 				var temp=tile.instance()
-#				temp.spriteIndex=i['spriteIndex']
 				temp.position.x=i['x']*size+size/2
 				temp.position.y=i['y']*size+size/2
 				add_child(temp)
 
-
+func getPlayer():
+	return player
