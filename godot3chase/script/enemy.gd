@@ -39,7 +39,7 @@ func _ready():
 func _physics_process(delta):
 	if target:
 		var space_state = get_world_2d().direct_space_state
-		for i in rayDir:
+		for i in rayDir:#判断每个方向是否发生碰撞
 			var result=space_state.intersect_ray(global_position,global_position+i.dir*i.rayLength,[self],collision_mask)
 			if result:
 				i.canMove=false
@@ -54,25 +54,31 @@ func _physics_process(delta):
 				raySameSide.append(i)
 			elif i.canMove:
 				rayOtherSide.append(i)
-		if currentRayDir.canMove:
+		if currentRayDir.canMove:  #如果当前的方向可以移动，就寻找一个离目标最接近的方向
 			for i in  raySameSide:
 				if targetDir.dot(i.dir)>=targetDir.dot(currentRayDir.dir):
 					currentRayDir=i
 		else:
-			var oldDir=currentRayDir
 			var newDir=currentRayDir
-			if !raySameSide.empty():
+			if !raySameSide.empty():  #选择一个可以移动的方向
 				newDir=raySameSide[0]
 				for i in  raySameSide:
-					if i.dir.dot(currentRayDir.dir)>newDir.dir.dot(oldDir.dir):
+					if i.dir.dot(currentRayDir.dir)>newDir.dir.dot(currentRayDir.dir):
 						newDir=i
-			elif !rayOtherSide.empty():
+			elif !rayOtherSide.empty():#在反方向选择一个与目标接近的方向
 				newDir=rayOtherSide[0]
 				for i in rayOtherSide:
 					if i.dir.dot(targetDir)>newDir.dir.dot(targetDir):
 						newDir=i
 			currentRayDir=newDir	
-		
+	
+		if angle<0:
+			angle=360-abs(angle)
+		if 	abs(angle-ani.rotation_degrees)>180:#变化的幅度超过180 就把angle增加360或者较少360
+			if angle<ani.rotation_degrees:
+				angle+=360
+			else:
+				angle-=360
 		if barrel.rotation_degrees!=angle:
 			if barrel.rotation_degrees>angle:
 				if barrel.rotation_degrees-barrelAngVel<angle:
@@ -130,7 +136,7 @@ func animation(delta):
 		var angle=round(rad2deg(velocity.angle()))
 		if angle<0:
 			angle=360-abs(angle)
-		if 	abs(angle-ani.rotation_degrees)>180:#变化的幅度超过180 就把angle增加360或者较少360
+		if 	abs(angle-ani.rotation_degrees)>180:#变化的幅度超过180 就把angle增加360或者减少360
 			if angle<ani.rotation_degrees:
 				angle+=360
 			else:
