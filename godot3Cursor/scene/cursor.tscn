@@ -12,5 +12,6 @@ animations = [ {
 } ]
 
 [node name="cursor" type="AnimatedSprite"]
+z_index = 99
 frames = SubResource( 1 )
 script = ExtResource( 2 )
