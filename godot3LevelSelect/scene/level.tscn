@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://sprite/Locked.png" type="Texture" id=1]
 [ext_resource path="res://sprite/Hover.png" type="Texture" id=2]
 [ext_resource path="res://script/level.gd" type="Script" id=3]
+[ext_resource path="res://font/num.tres" type="DynamicFont" id=4]
 
 [sub_resource type="StyleBoxTexture" id=1]
 texture = ExtResource( 2 )
@@ -32,8 +33,10 @@ expand = true
 stretch_mode = 6
 
 [node name="num" type="Label" parent="."]
+visible = false
 margin_left = 10.0
-margin_top = 33.0
+margin_top = 16.0
 margin_right = 70.0
-margin_bottom = 47.0
+margin_bottom = 63.0
+custom_fonts/font = ExtResource( 4 )
 align = 1

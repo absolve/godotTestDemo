@@ -1,7 +1,7 @@
 extends PanelContainer
 
 
-export var lock=false
+export var lock=true
 export var levelNum=1
 
 onready var _lock=$lock
@@ -15,9 +15,12 @@ func setLock(value:bool):
 
 #设置关卡数字
 func setLevel(value):
-	_num=value
+	levelNum=value
 	_num.text=str(value)
 
 func _gui_input(event):
 	if lock:
 		return
+	if event is InputEventMouseButton and event.pressed:	
+		print('click ',levelNum)
+	
