@@ -7,6 +7,7 @@ export var angularVel=5   #旋转速度
 var fireTimer=0	#开火定时器
 var fireDelay=100
 var isShoot=false
+var timeScale=1.0  #时间缩放
 
 var bullet=preload("res://scene/bullet.tscn")
 onready var ani=$ani
@@ -71,10 +72,10 @@ func fire():
 		fireTimer=Time.get_ticks_msec()
 		var temp=bullet.instance()
 		temp.position=position+Vector2(10,0).rotated(barrel.rotation)
-		temp.velocity=Vector2(400,0).rotated(barrel.rotation)
+		temp.velocity=Vector2(500,0).rotated(barrel.rotation)
 		get_parent().add_child(temp)
 
 
 func _on_Timer_timeout():
 	isShoot=false
-	pass # Replace with function body.
+

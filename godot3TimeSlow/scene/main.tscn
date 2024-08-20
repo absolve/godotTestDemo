@@ -8,3 +8,26 @@ script = ExtResource( 1 )
 
 [node name="tank" parent="." instance=ExtResource( 2 )]
 position = Vector2( 226, 146 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="slow" type="Button" parent="CanvasLayer/Control"]
+margin_left = 14.0
+margin_top = 18.0
+margin_right = 84.0
+margin_bottom = 48.0
+text = "slow"
+
+[node name="normal" type="Button" parent="CanvasLayer/Control"]
+margin_left = 107.0
+margin_top = 20.0
+margin_right = 177.0
+margin_bottom = 50.0
+text = "normal"
+
+[connection signal="pressed" from="CanvasLayer/Control/slow" to="." method="_on_slow_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/normal" to="." method="_on_normal_pressed"]

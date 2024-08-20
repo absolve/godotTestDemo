@@ -10,7 +10,7 @@ var tile=preload("res://scene/tile.tscn")
 onready var player=$tank
 
 func _ready():
-	VisualServer.set_default_clear_color(Color('#9c9c9c'))
+	VisualServer.set_default_clear_color(Color('#000'))
 	OS.center_window()
 	
 	loadMap("res://level/test0.json")
@@ -35,3 +35,13 @@ func loadMap(fileName:String):
 
 func getPlayer():
 	return player
+
+
+func _on_slow_pressed():
+	Engine.time_scale=0.5
+	AudioServer.global_rate_scale=1.5
+
+
+func _on_normal_pressed():
+	Engine.time_scale=1
+	AudioServer.global_rate_scale=1
