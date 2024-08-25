@@ -5,7 +5,7 @@ var itemList=[0,1,2,3,4,5]
 var index=0
 var imgList=[]
 var speed=100
-var boxSize=64 #每个格子的高度
+var boxSize=32 #每个格子的高度
 var img1=preload("res://sprite/NES - Snow Brothers Snow Bros Nick & Tom - Machine Bonus_33.png")
 var img2=preload("res://sprite/NES - Snow Brothers Snow Bros Nick & Tom - Machine Bonus_34.png")
 var img3=preload("res://sprite/NES - Snow Brothers Snow Bros Nick & Tom - Machine Bonus_29.png")
@@ -34,6 +34,7 @@ func _ready():
 		var temp=TextureRect.new()
 		temp.texture=imgList[i]
 		temp.rect_position.y=boxSize*i
+#		temp.rect_scale=Vector2(3,3)
 		vbox.add_child(temp)
 		
 #	currState=state.scroll
