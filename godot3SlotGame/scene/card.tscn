@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://script/card.gd" type="Script" id=1]
+
+[node name="card" type="TextureRect"]
+margin_right = 16.0
+margin_bottom = 32.0
+script = ExtResource( 1 )
