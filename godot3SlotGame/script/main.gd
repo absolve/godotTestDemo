@@ -5,6 +5,7 @@ extends Node2D
 onready var slot1=$slot
 onready var slot2=$slot2
 onready var slot3=$slot3
+var index=0  #索引
 
 func _ready():
 	VisualServer.set_default_clear_color(Color('#000'))

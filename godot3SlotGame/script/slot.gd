@@ -81,11 +81,24 @@ func _physics_process(delta):
 				vbox.add_child(temp)
 	elif currState==Game.state.stop: #停止
 		if speed>0:
-			speed-=0.8
-		else:
+			speed-=1
+			for i in vbox.get_children():
+				i.rect_position.y-=speed*delta
+		elif speed<5:
 			currState=Game.state.finish
-		for i in vbox.get_children():
-			i.rect_position.y-=speed*delta
+			if vbox.get_child_count()>0:
+				var node=vbox.get_child(0)
+				var yPos=0
+				var index=0
+				if node.rect_position.y<-boxSize/2:
+					yPos=-boxSize
+				for i in vbox.get_children():
+					var temp=create_tween()
+					temp.tween_property(i,'rect_position:y',yPos+boxSize*index,1)
+					if index==0:
+						temp.tween_callback(self,'getResult')
+					index+=1
+					
 			
 		if vbox.get_child_count()>0:
 			var node=vbox.get_child(0)
@@ -109,3 +122,10 @@ func _physics_process(delta):
 				vbox.add_child(temp)
 	elif currState==Game.state.finish: #结束
 		pass
+		
+			
+func getResult():
+	if vbox.get_child_count()>0:
+		var node=vbox.get_child(0)
+		print(node.type)
+	pass
