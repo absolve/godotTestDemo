@@ -16,3 +16,5 @@ enum state{
 	stop,
 	finish,
 }
+
+signal getResult

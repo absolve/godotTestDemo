@@ -19,12 +19,6 @@ onready var vbox=$vbox
 var card=preload("res://scene/card.tscn")
 var slotList=[]
 
-#enum state{
-#	idle,
-#	scroll,
-#	stop,
-#	finish,
-#}
 
 func _ready():
 #	imgList.append(img5)
@@ -89,15 +83,15 @@ func _physics_process(delta):
 			if vbox.get_child_count()>0:
 				var node=vbox.get_child(0)
 				var yPos=0
-				var index=0
-				if node.rect_position.y<-boxSize/2:
+				var idx=0
+				if node.rect_position.y<-boxSize/2:  #如果第一个位置超过屏幕外就继续让它滚动到 屏幕外
 					yPos=-boxSize
 				for i in vbox.get_children():
 					var temp=create_tween()
-					temp.tween_property(i,'rect_position:y',yPos+boxSize*index,1)
-					if index==0:
+					temp.tween_property(i,'rect_position:y',yPos+boxSize*idx,1)
+					if idx==0:
 						temp.tween_callback(self,'getResult')
-					index+=1
+					idx+=1
 					
 			
 		if vbox.get_child_count()>0:
@@ -127,5 +121,9 @@ func _physics_process(delta):
 func getResult():
 	if vbox.get_child_count()>0:
 		var node=vbox.get_child(0)
+		if node.rect_position.y<0:  #把这个超过屏幕的删除了
+			vbox.remove_child(node)
+		node=vbox.get_child(0)	
 		print(node.type)
+		Game.emit_signal("getResult",node.type)
 	pass
