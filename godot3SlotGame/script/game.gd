@@ -17,4 +17,11 @@ enum state{
 	finish,
 }
 
+enum gameState{
+	idle,
+	wait,
+	start,
+	finish,
+}
+
 signal getResult

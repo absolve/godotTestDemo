@@ -1,9 +1,12 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://script/main.gd" type="Script" id=1]
 [ext_resource path="res://sprite/.png" type="Texture" id=2]
 [ext_resource path="res://sprite/imh1.png" type="Texture" id=3]
 [ext_resource path="res://scene/slot.tscn" type="PackedScene" id=4]
+[ext_resource path="res://sprite/NES - Snow Brothers Snow Bros Nick & Tom - Machine Bonus_27.png" type="Texture" id=5]
+[ext_resource path="res://sprite/NES - Snow Brothers Snow Bros Nick & Tom - Machine Bonus_28.png" type="Texture" id=6]
+[ext_resource path="res://font/new_dynamicfont.tres" type="DynamicFont" id=7]
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 3 )
@@ -33,8 +36,8 @@ animations = [ {
 script = ExtResource( 1 )
 
 [node name="ani" type="AnimatedSprite" parent="."]
-position = Vector2( 545, 217 )
-scale = Vector2( 2, 2 )
+position = Vector2( 545, 145 )
+scale = Vector2( 3, 3 )
 frames = SubResource( 1 )
 centered = false
 
@@ -66,3 +69,43 @@ margin_top = 170.0
 margin_right = 465.0
 margin_bottom = 202.0
 rect_scale = Vector2( 3, 3 )
+
+[node name="light1" type="Sprite" parent="."]
+visible = false
+position = Vector2( 328, 344 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 5 )
+
+[node name="light2" type="Sprite" parent="."]
+visible = false
+position = Vector2( 400, 344 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 5 )
+
+[node name="light3" type="Sprite" parent="."]
+visible = false
+position = Vector2( 472, 344 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 5 )
+
+[node name="hand" type="Sprite" parent="."]
+visible = false
+position = Vector2( 330, 390 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 6 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="Label" type="Label" parent="."]
+margin_left = 64.0
+margin_top = 144.0
+margin_right = 174.0
+margin_bottom = 255.0
+custom_colors/font_color = Color( 0.0627451, 0.713726, 1, 1 )
+custom_fonts/font = ExtResource( 7 )
+text = "1p"
+uppercase = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

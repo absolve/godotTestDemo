@@ -4,7 +4,7 @@ extends Control
 var itemList=[0,1,2,3,4,5]
 var index=0
 var imgList=[]
-var speed=200
+var speed=1
 var boxSize=32 #每个格子的高度
 var img1=preload("res://sprite/NES - Snow Brothers Snow Bros Nick & Tom - Machine Bonus_33.png")
 var img2=preload("res://sprite/NES - Snow Brothers Snow Bros Nick & Tom - Machine Bonus_34.png")
@@ -21,19 +21,6 @@ var slotList=[]
 
 
 func _ready():
-#	imgList.append(img5)
-#	imgList.append(img1)
-#	imgList.append(img2)
-#	imgList.append(img3)
-#	imgList.append(img4)
-#	imgList.append(img6)
-#
-#	for i in range(imgList.size()):
-#		var temp=TextureRect.new()
-#		temp.texture=imgList[i]
-#		temp.rect_position.y=boxSize*i
-#		vbox.add_child(temp)
-	
 	slotList.append(Game.cardType.man)
 	slotList.append(Game.cardType.s)
 	slotList.append(Game.cardType.n)
@@ -46,11 +33,17 @@ func _ready():
 		temp.rect_position.y=boxSize*i
 		vbox.add_child(temp)
 		
-	currState=Game.state.scroll
+#	currState=Game.state.scroll
 	
+func start():
+	currState=Game.state.scroll
 	
 func _physics_process(delta):
 	if currState==Game.state.scroll:
+		if speed<200:
+			speed+=1
+		else:
+			speed=200	
 		for i in vbox.get_children():
 			i.rect_position.y-=speed*delta
 		if vbox.get_child_count()>0:
@@ -124,6 +117,6 @@ func getResult():
 		if node.rect_position.y<0:  #把这个超过屏幕的删除了
 			vbox.remove_child(node)
 		node=vbox.get_child(0)	
-		print(node.type)
+#		print(node.type)
 		Game.emit_signal("getResult",node.type)
-	pass
+
