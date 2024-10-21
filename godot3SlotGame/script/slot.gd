@@ -43,7 +43,7 @@ func _physics_process(delta):
 		if speed<200:
 			speed+=1
 		else:
-			speed=200	
+			speed=200
 		for i in vbox.get_children():
 			i.rect_position.y-=speed*delta
 		if vbox.get_child_count()>0:

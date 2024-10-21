@@ -20,15 +20,15 @@ __meta__ = {
 }
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
-position = Vector2( 230, 218 )
+position = Vector2( 459, 274 )
 occluder = SubResource( 1 )
 
 [node name="Sprite2" type="Sprite" parent="."]
-position = Vector2( 231, 219 )
+position = Vector2( 460, 274 )
 texture = ExtResource( 3 )
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 127, 209 )
+position = Vector2( 226, 273 )
