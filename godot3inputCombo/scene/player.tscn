@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://script/player.gd" type="Script" id=1]
 [ext_resource path="res://sprite/Char_3_No_Armor.png" type="Texture" id=2]
@@ -21,9 +21,29 @@ region = Rect2( 128, 128, 64, 64 )
 atlas = ExtResource( 2 )
 region = Rect2( 192, 128, 64, 64 )
 
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 2 )
+region = Rect2( 576, 256, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 2 )
+region = Rect2( 640, 256, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 2 )
+region = Rect2( 704, 256, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 2 )
+region = Rect2( 768, 256, 64, 64 )
+
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 2 )
 region = Rect2( 0, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 2 )
+region = Rect2( 64, 64, 64, 64 )
 
 [sub_resource type="SpriteFrames" id=7]
 animations = [ {
@@ -32,9 +52,24 @@ animations = [ {
 "name": "attack",
 "speed": 8.0
 }, {
+"frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ) ],
+"loop": true,
+"name": "attack1",
+"speed": 5.0
+}, {
+"frames": [  ],
+"loop": true,
+"name": "attack2",
+"speed": 5.0
+}, {
 "frames": [ SubResource( 6 ) ],
 "loop": true,
 "name": "default",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 12 ) ],
+"loop": true,
+"name": "move",
 "speed": 5.0
 } ]
 
@@ -46,4 +81,4 @@ shape = SubResource( 1 )
 
 [node name="ani" type="AnimatedSprite" parent="."]
 frames = SubResource( 7 )
-animation = "attack"
+animation = "move"
