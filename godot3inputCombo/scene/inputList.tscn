@@ -9,13 +9,14 @@ anchor_bottom = 1.0
 script = ExtResource( 2 )
 
 [node name="hbox" type="HBoxContainer" parent="."]
-margin_right = 202.0
+margin_right = 320.0
 margin_bottom = 40.0
 
 [node name="Label" type="Label" parent="hbox"]
-margin_top = 1.0
-margin_right = 202.0
-margin_bottom = 38.0
+margin_top = 10.0
+margin_right = 320.0
+margin_bottom = 29.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 1 )
+clip_text = true
 uppercase = true

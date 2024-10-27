@@ -6,11 +6,11 @@ var inputList=PoolStringArray([])
 var inputStr=''
 
 func _ready():
-	
-	pass
+	OS.center_window()
+
 
 func addInputList(name):
-	if inputList.size()>=20:
+	if inputList.size()>=10:
 		inputList.remove(0)
 	inputList.append(name)	
 
