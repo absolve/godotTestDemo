@@ -6,7 +6,7 @@ onready var player=$player
 onready var aniTree=$AnimationTree
 onready var animation_state=aniTree.get("parameters/playback")
 
-const inpnutListSize=50
+const inpnutListSize=50  #输入缓冲的大小
 var combo=[]
 
 var inputList=[]  #按键列表记录
@@ -25,6 +25,11 @@ func add2InputList(key:String):
 	if inputList.size()>=inpnutListSize:
 		inputList.pop_front()
 	inputList.push_back(key)
+
+#检查连招
+func checkCombo():
+	
+	pass
 	
 func _physics_process(delta):
 	
@@ -61,6 +66,7 @@ func _physics_process(delta):
 			animation_state.travel("idle")
 		if Input.is_action_just_pressed("punch"):
 			state=Game.state.attack
+			animation_state.start("punch1")
 				
 		if velocity.x>0:
 			ani.flip_h=false
@@ -68,16 +74,18 @@ func _physics_process(delta):
 			ani.flip_h=true	
 			
 		velocity = move_and_slide(velocity)
-	elif state==Game.state.attack:
+	elif state==Game.state.attack:		
+		if !player.is_playing():
+			if inputList.size()>0&&inputList[inputList.size()-1]=="punch":
+				if animation_state.get_current_node()=="punch1":
+					animation_state.travel("punch2")
+				elif animation_state.get_current_node()=="punch2":
+					animation_state.travel("punch3")
+				else:
+					state=Game.state.idle	
+			else:
+				state=Game.state.idle
 		
-		animation_state.start("punch1")
-		print(animation_state.get_current_node())
-		if animation_state.get_current_node():
-			pass
-			
-		if !animation_state.is_playing():
-			state=Game.state.idle
-		
-#		state=Game.state.idle
-		
+						
+
 		
