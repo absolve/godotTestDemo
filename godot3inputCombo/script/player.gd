@@ -51,7 +51,7 @@ func _physics_process(delta):
 		timer=0
 		inputList.pop_back()
 
-
+	
 	if state==Game.state.idle ||state==Game.state.move:
 		var input_vector = Vector2.ZERO
 		input_vector.x = Input.get_action_strength("right") - Input.get_action_strength("left")
@@ -66,7 +66,10 @@ func _physics_process(delta):
 			animation_state.travel("idle")
 		if Input.is_action_just_pressed("punch"):
 			state=Game.state.attack
-			animation_state.start("punch1")
+			animation_state.travel("punch1")
+		if Input.is_action_just_pressed("jump"):
+			state=Game.state.skill
+			animation_state.travel("skill2")
 				
 		if velocity.x>0:
 			ani.flip_h=false
@@ -85,7 +88,12 @@ func _physics_process(delta):
 					state=Game.state.idle	
 			else:
 				state=Game.state.idle
-		
-						
+	elif state==Game.state.skill:
+		print(animation_state.get_current_node())
+		print(animation_state.is_playing())
+		print(player.is_playing())
+		if !animation_state.get_current_node().begins_with("skill"):
+			state=Game.state.idle
+				
 
 		

@@ -11,5 +11,6 @@ enum state{
 	move,
 	attack,
 	jump,
+	skill,
 }
 
