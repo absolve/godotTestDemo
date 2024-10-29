@@ -7,7 +7,7 @@ onready var aniTree=$AnimationTree
 onready var animation_state=aniTree.get("parameters/playback")
 
 const inpnutListSize=50  #输入缓冲的大小
-var combo=[]
+var combo=[]  #连招列表
 
 var inputList=[]  #按键列表记录
 var timer=0 # 定时器
@@ -28,8 +28,14 @@ func add2InputList(key:String):
 
 #检查连招
 func checkCombo():
+	var temp = "".join(inputList)
+	print(temp)
+	var existCombo=[]
+	for i in combo:
+		if temp.find_last(i)!=-1:
+			existCombo.append(i)
+	#如果有连招被触发就执行连招
 	
-	pass
 	
 func _physics_process(delta):
 	
