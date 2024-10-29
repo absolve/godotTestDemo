@@ -11,14 +11,16 @@ var combo=[]  #连招列表
 
 var inputList=[]  #按键列表记录
 var timer=0 # 定时器
-var timeDelay=5
-var velocity=Vector2.ZERO #速度
+var timeDelay=30
+export var velocity=Vector2.ZERO #速度
 var state=Game.state.idle
-
+var dir=Game.direction.right
 
 
 func _ready():
 	aniTree.active=true
+	combo.append_array(Game.combos)
+	print(combo)
 
 
 func add2InputList(key:String):
@@ -29,13 +31,21 @@ func add2InputList(key:String):
 #检查连招
 func checkCombo():
 	var temp = "".join(inputList)
-	print(temp)
+#	print(temp)
 	var existCombo=[]
 	for i in combo:
-		if temp.find_last(i)!=-1:
-			existCombo.append(i)
+		var combosList=i['combos']
+		for y in combosList:
+			var str1="".join(y)
+			if temp.find_last(str1)!=-1:
+				existCombo.append(i)
+				break
 	#如果有连招被触发就执行连招
-	
+	if existCombo.size()>0:
+		var skill=existCombo[0].name
+		state=Game.state.skill
+		animation_state.travel(skill)
+		print(skill)
 	
 func _physics_process(delta):
 	
@@ -73,14 +83,16 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("punch"):
 			state=Game.state.attack
 			animation_state.travel("punch1")
-		if Input.is_action_just_pressed("jump"):
-			state=Game.state.skill
-			animation_state.travel("skill2")
+#		if Input.is_action_just_pressed("jump"):
+#			state=Game.state.skill
+#			animation_state.travel("skill2")
 				
 		if velocity.x>0:
 			ani.flip_h=false
+			dir=Game.direction.right
 		elif velocity.x<0:
 			ani.flip_h=true	
+			dir=Game.direction.left
 			
 		velocity = move_and_slide(velocity)
 	elif state==Game.state.attack:		
@@ -95,11 +107,14 @@ func _physics_process(delta):
 			else:
 				state=Game.state.idle
 	elif state==Game.state.skill:
-		print(animation_state.get_current_node())
-		print(animation_state.is_playing())
-		print(player.is_playing())
+#		print(animation_state.get_current_node())
+#		print(animation_state.is_playing())
+#		print(player.is_playing())
 		if !animation_state.get_current_node().begins_with("skill"):
 			state=Game.state.idle
-				
-
+		if dir==Game.direction.left:
+			velocity=-velocity
+		velocity = move_and_slide(velocity)
+	#检查连招		
+	checkCombo()
 		
