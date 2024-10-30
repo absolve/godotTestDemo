@@ -1,8 +1,9 @@
-[gd_scene load_steps=62 format=2]
+[gd_scene load_steps=63 format=2]
 
 [ext_resource path="res://script/player.gd" type="Script" id=1]
 [ext_resource path="res://sprite/Char_3_No_Armor.png" type="Texture" id=2]
 [ext_resource path="res://sprite/MediumShadow.png" type="Texture" id=3]
+[ext_resource path="res://sound/electric  (1).mp3" type="AudioStream" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 5, 1 )
@@ -209,6 +210,20 @@ tracks/1/keys = {
 "update": 1,
 "values": [ 0 ]
 }
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "punch1" ],
+"method": "aniFinish"
+} ]
+}
 
 [sub_resource type="Animation" id=25]
 resource_name = "punch2"
@@ -237,6 +252,20 @@ tracks/1/keys = {
 "update": 1,
 "values": [ 2 ]
 }
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "punch2" ],
+"method": "aniFinish"
+} ]
+}
 
 [sub_resource type="Animation" id=26]
 resource_name = "punch3"
@@ -264,6 +293,20 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ 1, 2 ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.3 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "punch3" ],
+"method": "aniFinish"
+} ]
 }
 
 [sub_resource type="Animation" id=42]
@@ -329,6 +372,32 @@ tracks/4/keys = {
 "update": 0,
 "values": [ Vector2( 0, 0 ) ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("sound:playing")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.4, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/6/type = "method"
+tracks/6/path = NodePath(".")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 1.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "skill1" ],
+"method": "aniFinish"
+} ]
+}
 
 [sub_resource type="Animation" id=48]
 resource_name = "skill2"
@@ -393,9 +462,36 @@ tracks/4/keys = {
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 200, 0 ), Vector2( 0, 0 ) ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("sound:playing")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.3, 1.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/6/type = "method"
+tracks/6/path = NodePath(".")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 1.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "skill2" ],
+"method": "aniFinish"
+} ]
+}
 
 [sub_resource type="Animation" id=55]
 resource_name = "skill3"
+length = 1.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("ani:animation")
 tracks/0/interp = 1
@@ -427,10 +523,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.4, 1, 1.001 ),
+"times": PoolRealArray( 0, 0.4, 1, 1.1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ false, true, false, false ]
+"values": [ false, true, true, false ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("effect:playing")
@@ -439,10 +535,48 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.4, 1 ),
+"times": PoolRealArray( 0, 0.4, 1.1 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath(".:velocity")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.3, 0.4, 0.9, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 200, 0 ), Vector2( 0, 0 ), Vector2( 0, 0 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("sound:playing")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.4, 1.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/6/type = "method"
+tracks/6/path = NodePath(".")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 1.8 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "skill3" ],
+"method": "aniFinish"
+} ]
 }
 
 [sub_resource type="AnimationNodeAnimation" id=29]
@@ -548,13 +682,16 @@ frame = 2
 [node name="effect" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 21 )
-frame = 2
+frame = 1
 
 [node name="shadow" type="Sprite" parent="."]
 show_behind_parent = true
 position = Vector2( 0, 22 )
 scale = Vector2( 2, 1 )
 texture = ExtResource( 3 )
+
+[node name="sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
 
 [node name="player" type="AnimationPlayer" parent="."]
 anims/idle = SubResource( 22 )

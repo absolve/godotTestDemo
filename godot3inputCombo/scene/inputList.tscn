@@ -17,6 +17,7 @@ margin_top = 10.0
 margin_right = 320.0
 margin_bottom = 29.0
 size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 0.223529, 0.223529, 1 )
 custom_fonts/font = ExtResource( 1 )
 clip_text = true
 uppercase = true

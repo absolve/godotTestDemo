@@ -48,14 +48,29 @@ func checkCombo():
 				break
 	#如果有连招被触发就执行连招,根据优先级进行排序
 	if existCombo.size()>0:
-		print(existCombo)
+#		print(existCombo)
 		existCombo.sort_custom(self,"sortCombo")
-		print('=====',existCombo)
+#		print('=====',existCombo)
 		var skill=existCombo[0].name
 		state=Game.state.skill
 		animation_state.travel(skill)
-		print(skill)
-	
+#		print(skill)
+
+#动画结束回调	
+func aniFinish(name:String):
+	if name.begins_with("punch"):
+		if inputList.size()>0&&inputList[inputList.size()-1]=="punch":
+			if name=="punch1":
+				animation_state.travel("punch2")
+			elif name=="punch2":
+				animation_state.travel("punch3")
+			else:
+				state=Game.state.idle	
+		else:
+			state=Game.state.idle
+	elif name.begins_with("skill"):
+		state=Game.state.idle
+		
 func _physics_process(delta):
 	
 	if Input.is_action_just_pressed("down"):
@@ -84,7 +99,7 @@ func _physics_process(delta):
 		input_vector = input_vector.normalized()
 		if input_vector != Vector2.ZERO:
 			state=Game.state.move
-			velocity=velocity.move_toward(input_vector*200,delta*1000)
+			velocity=velocity.move_toward(input_vector*200,delta*2000)
 			animation_state.travel("move")
 		else:
 			velocity=input_vector
@@ -105,22 +120,13 @@ func _physics_process(delta):
 			
 		velocity = move_and_slide(velocity)
 	elif state==Game.state.attack:		
-		if !player.is_playing():
-			if inputList.size()>0&&inputList[inputList.size()-1]=="punch":
-				if animation_state.get_current_node()=="punch1":
-					animation_state.travel("punch2")
-				elif animation_state.get_current_node()=="punch2":
-					animation_state.travel("punch3")
-				else:
-					state=Game.state.idle	
-			else:
-				state=Game.state.idle
+		pass
 	elif state==Game.state.skill:
 #		print(animation_state.get_current_node())
 #		print(animation_state.is_playing())
 #		print(player.is_playing())
-		if !animation_state.get_current_node().begins_with("skill"):
-			state=Game.state.idle
+#		if !animation_state.get_current_node().begins_with("skill"):
+#			state=Game.state.idle
 		if dir==Game.direction.left:
 			velocity=-velocity
 		velocity = move_and_slide(velocity)

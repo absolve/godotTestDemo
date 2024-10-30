@@ -10,7 +10,7 @@ func _ready():
 
 
 func addInputList(name):
-	if inputList.size()>=10:
+	if inputList.size()>=7:
 		inputList.remove(0)
 	inputList.append(name)	
 
