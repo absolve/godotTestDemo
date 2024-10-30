@@ -28,6 +28,12 @@ func add2InputList(key:String):
 		inputList.pop_front()
 	inputList.push_back(key)
 
+func sortCombo(a,b):
+	if a.priority>b.priority:
+		return true
+	else:
+		return false	
+
 #检查连招
 func checkCombo():
 	var temp = "".join(inputList)
@@ -40,8 +46,11 @@ func checkCombo():
 			if temp.find_last(str1)!=-1:
 				existCombo.append(i)
 				break
-	#如果有连招被触发就执行连招
+	#如果有连招被触发就执行连招,根据优先级进行排序
 	if existCombo.size()>0:
+		print(existCombo)
+		existCombo.sort_custom(self,"sortCombo")
+		print('=====',existCombo)
 		var skill=existCombo[0].name
 		state=Game.state.skill
 		animation_state.travel(skill)

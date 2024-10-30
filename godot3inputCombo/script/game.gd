@@ -7,7 +7,11 @@ var combos=[{
 	'priority':0,
 },{
 	'name':"skill2",
-	'combos':[["up","down","punch"]],
+	'combos':[["left",'right',"punch"],["right",'left',"punch"]],
+	'priority':1,
+},{
+	'name':"skill3",
+	'combos':[["up",'down',"punch"]],
 	'priority':0,
 }]
 

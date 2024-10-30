@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=2]
+[gd_scene load_steps=62 format=2]
 
 [ext_resource path="res://script/player.gd" type="Script" id=1]
 [ext_resource path="res://sprite/Char_3_No_Armor.png" type="Texture" id=2]
@@ -59,6 +59,18 @@ region = Rect2( 768, 192, 64, 64 )
 atlas = ExtResource( 2 )
 region = Rect2( 832, 192, 64, 64 )
 
+[sub_resource type="AtlasTexture" id=52]
+atlas = ExtResource( 2 )
+region = Rect2( 384, 128, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=53]
+atlas = ExtResource( 2 )
+region = Rect2( 448, 128, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=54]
+atlas = ExtResource( 2 )
+region = Rect2( 512, 128, 64, 64 )
+
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 2 )
 region = Rect2( 0, 0, 64, 64 )
@@ -91,6 +103,11 @@ animations = [ {
 "frames": [ SubResource( 46 ), SubResource( 47 ) ],
 "loop": true,
 "name": "attack3",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 52 ), SubResource( 53 ), SubResource( 54 ) ],
+"loop": true,
+"name": "attack4",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 6 ) ],
@@ -377,6 +394,57 @@ tracks/4/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 200, 0 ), Vector2( 0, 0 ) ]
 }
 
+[sub_resource type="Animation" id=55]
+resource_name = "skill3"
+tracks/0/type = "value"
+tracks/0/path = NodePath("ani:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "attack4" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ani:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("effect:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.4, 1, 1.001 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("effect:playing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.4, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+
 [sub_resource type="AnimationNodeAnimation" id=29]
 animation = "idle"
 
@@ -397,6 +465,9 @@ animation = "skill1"
 
 [sub_resource type="AnimationNodeAnimation" id=49]
 animation = "skill2"
+
+[sub_resource type="AnimationNodeAnimation" id=56]
+animation = "skill3"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=34]
 
@@ -432,6 +503,12 @@ auto_advance = true
 switch_mode = 2
 auto_advance = true
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=57]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=58]
+switch_mode = 2
+auto_advance = true
+
 [sub_resource type="AnimationNodeStateMachine" id=27]
 states/idle/node = SubResource( 29 )
 states/idle/position = Vector2( -0.5, 41.5 )
@@ -446,14 +523,17 @@ states/punch3/position = Vector2( 238.75, 246 )
 states/skill1/node = SubResource( 43 )
 states/skill1/position = Vector2( 209.782, -77.2931 )
 states/skill2/node = SubResource( 49 )
-states/skill2/position = Vector2( 355.115, -42.1819 )
-transitions = [ "idle", "move", SubResource( 34 ), "move", "idle", SubResource( 35 ), "idle", "punch1", SubResource( 36 ), "punch1", "idle", SubResource( 37 ), "punch1", "punch2", SubResource( 38 ), "punch2", "punch3", SubResource( 39 ), "punch2", "idle", SubResource( 40 ), "punch3", "idle", SubResource( 41 ), "idle", "skill1", SubResource( 44 ), "skill1", "idle", SubResource( 45 ), "idle", "skill2", SubResource( 50 ), "skill2", "idle", SubResource( 51 ) ]
+states/skill2/position = Vector2( 337.115, -78.357 )
+states/skill3/node = SubResource( 56 )
+states/skill3/position = Vector2( 349.282, -17.3667 )
+transitions = [ "idle", "move", SubResource( 34 ), "move", "idle", SubResource( 35 ), "idle", "punch1", SubResource( 36 ), "punch1", "idle", SubResource( 37 ), "punch1", "punch2", SubResource( 38 ), "punch2", "punch3", SubResource( 39 ), "punch2", "idle", SubResource( 40 ), "punch3", "idle", SubResource( 41 ), "idle", "skill1", SubResource( 44 ), "skill1", "idle", SubResource( 45 ), "idle", "skill2", SubResource( 50 ), "skill2", "idle", SubResource( 51 ), "idle", "skill3", SubResource( 57 ), "skill3", "idle", SubResource( 58 ) ]
 start_node = "idle"
 graph_offset = Vector2( -120.385, -121.7 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=28]
 
 [node name="player" type="KinematicBody2D"]
+z_index = 10
 script = ExtResource( 1 )
 
 [node name="shape" type="CollisionShape2D" parent="."]
@@ -462,12 +542,13 @@ shape = SubResource( 1 )
 
 [node name="ani" type="AnimatedSprite" parent="."]
 frames = SubResource( 7 )
-animation = "attack1"
+animation = "attack4"
+frame = 2
 
 [node name="effect" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 21 )
-frame = 1
+frame = 2
 
 [node name="shadow" type="Sprite" parent="."]
 show_behind_parent = true
@@ -483,6 +564,7 @@ anims/punch2 = SubResource( 25 )
 anims/punch3 = SubResource( 26 )
 anims/skill1 = SubResource( 42 )
 anims/skill2 = SubResource( 48 )
+anims/skill3 = SubResource( 55 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 27 )
