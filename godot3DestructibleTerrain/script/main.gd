@@ -6,8 +6,14 @@ onready var img=$Sprite
 onready var cpolygon2D=$StaticBody2D/CollisionPolygon2D
 
 func _ready():
-#	var bm = BitMap.new()
-#	bm.create_from_image_alpha(img.texture.get_data())
+	var bm = BitMap.new()
+	bm.create_from_image_alpha(img.texture.get_data())
+	for i in range(img.texture.get_height()):
+		for y in range(100):
+			bm.set_bit(Vector2(y,i),false)
+	var texture = ImageTexture.new()
+	texture.create_from_image(bm.convert_to_image())
+	img.texture=texture
 #	print(img.texture.get_width())
 #	var rect = Rect2(0,0,img.texture.get_width(),img.texture.get_height())
 #	var my_array = bm.opaque_to_polygons(rect)
