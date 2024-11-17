@@ -676,13 +676,10 @@ shape = SubResource( 1 )
 
 [node name="ani" type="AnimatedSprite" parent="."]
 frames = SubResource( 7 )
-animation = "attack4"
-frame = 2
 
 [node name="effect" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 21 )
-frame = 1
 
 [node name="shadow" type="Sprite" parent="."]
 show_behind_parent = true
@@ -706,4 +703,5 @@ anims/skill3 = SubResource( 55 )
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 27 )
 anim_player = NodePath("../player")
+active = true
 parameters/playback = SubResource( 28 )

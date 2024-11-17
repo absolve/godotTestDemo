@@ -2,10 +2,14 @@ extends Node2D
 
 
 
-onready var img=$Sprite
-onready var cpolygon2D=$StaticBody2D/CollisionPolygon2D
+var spritePath="res://sprite/battle_city.png"
+var tile=preload("res://scene/tile.tscn")
+var carve_radius = 40  #角度
+
+onready var tiles=$tiles
 
 func _ready():
+	OS.center_window()
 #	var bm = BitMap.new()
 #	bm.create_from_image_alpha(img.texture.get_data())
 #	for i in range(img.texture.get_height()):
@@ -22,8 +26,10 @@ func _ready():
 #	var my_polygon = Polygon2D.new()
 #	my_polygon.set_polygons(my_array)
 #	cpolygon2D.set_polygon(my_polygon.polygon)
-	var temp=create_polygon_from_sprite(img)
-	print(temp)
+#	var temp=create_polygon_from_sprite(img)
+#	print(temp)
+
+	loadPolygonFromImg(spritePath)
 	pass
 
 # The sprite parameter must be a Sprite node.
@@ -72,3 +78,50 @@ func create_polygon_from_sprite(sprite):
 			return polygon
 	else:
 		return false
+
+
+func loadPolygonFromImg(sprite):
+	var texture = load(sprite)
+	var image = texture.get_data()
+
+	var bitmap = BitMap.new()
+	bitmap.create_from_image_alpha(image, 0.01)
+	var bitmap_rect = Rect2(Vector2(0, 0), bitmap.get_size())
+	var polygons = bitmap.opaque_to_polygons(bitmap_rect, 0) 
+	print(polygons.size())
+	if polygons.size() > 0:	
+		for i in polygons:	
+			var polygon = Polygon2D.new()
+			polygon.polygon=i
+			polygon.texture=texture
+			polygon.position = Vector2.ZERO
+			add_child(polygon)
+			var temp=tile.instance()
+#			temp.position = Vector2.ZERO
+			tiles.add_child(temp)
+			temp.setPolygon2D(i)
+
+#鼠标圆
+func mouseCircle():
+	var nb_points = 15
+	var pol = []
+	for i in range(nb_points):
+		var angle = lerp(-PI, PI, float(i)/nb_points)
+		pol.push_back(get_global_mouse_position() + Vector2(cos(angle), sin(angle)) * carve_radius)
+	return pol
+			
+func _physics_process(delta):
+	if Input.is_action_pressed("click"):
+		var temp=mouseCircle()
+		for i in tiles.get_children():
+			var clipped_polygons=Geometry.clip_polygons_2d(i.polygon2D.polygon,temp)
+			var n_clipped_polygons = len(clipped_polygons)
+			match n_clipped_polygons:
+				0:
+					i.free()	
+				1:
+					i.setPolygon2D(clipped_polygons[0])
+				2:
+					pass
+				_:
+					i.setPolygon2D(clipped_polygons[0])	
