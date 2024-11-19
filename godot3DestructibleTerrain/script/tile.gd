@@ -19,5 +19,4 @@ func getTexture():
 #获取当前多边形数组 需要加上位置信息
 func getPolygon2D():
 	return Transform2D(0,position).xform(polygon2D.polygon)
-	free()
 	pass

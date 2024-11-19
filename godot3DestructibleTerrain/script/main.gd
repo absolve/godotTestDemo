@@ -41,52 +41,6 @@ func _ready():
 	
 	pass
 
-# The sprite parameter must be a Sprite node.
-func create_polygon_from_sprite(sprite):
-	# Get the sprite's texture.
-	var texture = sprite.texture
-	# Get the sprite texture's size.
-	var texture_size = sprite.texture.get_size()
-	# Get the image from the sprite's texture.
-	var image = texture.get_data()
-
-	# Create a new bitmap.
-	var bitmap = BitMap.new()
-	# Create the bitmap from the image. We set the minimum alpha threshold.
-	bitmap.create_from_image_alpha(image, 0.01) # 0.1 (default threshold).
-	# Get the rect of the bitmap.
-	var bitmap_rect = Rect2(Vector2(0, 0), bitmap.get_size())
-	# Grow the bitmap if you need (we don't need it in this case).
-#	bitmap.grow_mask(0, rect) # 2
-	# Convert all the opaque parts of the bitmap into polygons.
-	var polygons = bitmap.opaque_to_polygons(bitmap_rect, 0) # 2 (default epsilon).
-
-	# Check if there are polygons.
-	if polygons.size() > 0:
-		# Loop through all the polygons.
-		for i in range(polygons.size()):
-			# Create a new 'Polygon2D'.
-			var polygon = Polygon2D.new()
-			# Set the polygon.
-			polygon.polygon = polygons[i]
-			# Set the texture.
-			polygon.texture = texture
-
-			# Check if the sprite is centered to get the proper position.
-			if sprite.centered:
-				polygon.position = sprite.position - (texture_size / 2)
-			else:
-				polygon.position = sprite.position
-
-			# Take the sprite's scale into account and apply it to the position.
-			polygon.scale = sprite.scale
-			polygon.position *= polygon.scale
-
-			polygon.name = "poly_sprite"
-
-			return polygon
-	else:
-		return false
 
 #从图片中载入
 func loadPolygonFromImg(sprite,pos:Vector2=Vector2.ZERO):
@@ -122,9 +76,40 @@ func mouseCircle():
 		var angle = lerp(-PI, PI, float(i)/nb_points)
 		pol.push_back(get_global_mouse_position() + Vector2(cos(angle), sin(angle)) * carve_radius)
 	return pol
+
+func _split_polygon(clip_polygon: Array,default_quadrant_polygon):
+	"""
+	Returns two polygons produced by vertically
+	splitting split_polygon in half
+	"""
+	var avg_x = _avg_position(clip_polygon).x
+	print(avg_x)
+	var left_subquadrant = []
+	left_subquadrant.append_array(default_quadrant_polygon)
+	left_subquadrant.duplicate()
+	left_subquadrant[1] = Vector2(avg_x, left_subquadrant[1].y)
+	left_subquadrant[2] = Vector2(avg_x, left_subquadrant[2].y)
+	var right_subquadrant = []
+	right_subquadrant.append_array(default_quadrant_polygon)
+	right_subquadrant.duplicate()
+	right_subquadrant[0] = Vector2(avg_x, right_subquadrant[0].y)
+	right_subquadrant[3] = Vector2(avg_x, right_subquadrant[3].y)
+	var pol1 = Geometry.clip_polygons_2d(left_subquadrant, clip_polygon)[0]
+	var pol2 = Geometry.clip_polygons_2d(right_subquadrant, clip_polygon)[0]
+	return [pol1, pol2]
+
+func _avg_position(array: Array):
+	"""
+	Average 2D position in an
+	array of positions
+	"""
+	var sum = Vector2()
+	for p in array:
+		sum += p
+	return sum/len(array)
 			
 func _physics_process(delta):
-	if Input.is_action_pressed("click"):
+	if Input.is_action_just_pressed("click"):
 		var temp=mouseCircle()
 #		print(get_global_mouse_position())
 #		var mouse_polygon = Transform2D(0, get_global_mouse_position()).xform(temp)
@@ -136,38 +121,66 @@ func _physics_process(delta):
 					0:
 						i.free()	
 					1:
-						i.setPolygon2D(clipped_polygons[0])
-						i.setPolygon2DTexture(clipped_polygons[0])
+						var newPolygons=Transform2D(0, -i.position).xform(clipped_polygons[0])
+						i.setPolygon2D(newPolygons)
+						i.setPolygon2DTexture(newPolygons)
 					2:
 						if Geometry.is_polygon_clockwise(clipped_polygons[0]) or \
-						Geometry.is_polygon_clockwise(clipped_polygons[1]):
-							for x in n_clipped_polygons:
-								var new=tile.instance()
+						Geometry.is_polygon_clockwise(clipped_polygons[1]):  #挖一个洞的时候
+#							for x in clipped_polygons:
+#								var new=tile.instance()
 #								new.position = i.position
+#								tiles.add_child(new)
+#								var newClipPolygons= Geometry.intersect_polygons_2d(x,i.getPolygon2D())[0]
+#								var newPolygons=Transform2D(0, -i.position).xform(x)
+#								new.setPolygon2D(newPolygons)
+#								new.setPolygon2DTexture(newPolygons)
+#								new.setTexture(i.getTexture())
+#							var newClipPolygons= Geometry.intersect_polygons_2d(clipped_polygons[0],
+#							clipped_polygons[1])
+#							if newClipPolygons:
+#								var hole=Geometry.intersect_polygons_2d(i.getPolygon2D(),newClipPolygons[0])[0]
+#
+#								var new=tile.instance()
+#								new.position = i.position
+#								tiles.add_child(new)
+#								var newPolygons=Transform2D(0, -i.position).xform(hole)
+#								new.setPolygon2D(newPolygons)
+#								new.setPolygon2DTexture(newPolygons)
+#								i.free()
+							for p in _split_polygon(temp,i.getPolygon2D()):
+								var pol1=Geometry.intersect_polygons_2d(p,i.getPolygon2D())[0]
+								
+								var new=tile.instance()
+								new.position = i.position
 								tiles.add_child(new)
-								new.setPolygon2D(clipped_polygons[x])
-								new.setPolygon2DTexture(clipped_polygons[x])
-								new.setTexture(i.getTexture())
+								var newPolygons=Transform2D(0, -i.position).xform(pol1)
+								new.setPolygon2D(newPolygons)
+								new.setPolygon2DTexture(newPolygons)
 							i.free()
 						else:
-							i.setPolygon2D(clipped_polygons[0])
-							i.setPolygon2DTexture(clipped_polygons[0])
+							var newPolygons1=Transform2D(0, -i.position).xform(clipped_polygons[0])
+							i.setPolygon2D(newPolygons1)
+							i.setPolygon2DTexture(newPolygons1)
 							var new=tile.instance()
 							new.position = i.position
 							tiles.add_child(new)
-							new.setPolygon2D(clipped_polygons[1])
-							new.setPolygon2DTexture(clipped_polygons[1])
+							var newPolygons=Transform2D(0, -i.position).xform(clipped_polygons[1])
+							new.setPolygon2D(newPolygons)
+							new.setPolygon2DTexture(newPolygons)
 #							new.setTexture(i.getTexture().duplicate())
 					_:
-						i.setPolygon2D(clipped_polygons[0])	
-						i.setPolygon2DTexture(clipped_polygons[0])
+						var newPolygons1=Transform2D(0, -i.position).xform(clipped_polygons[0])
+						i.setPolygon2D(newPolygons1)	
+						i.setPolygon2DTexture(newPolygons1)
 						for x in range(n_clipped_polygons-1):
 							var new=tile.instance()
-#							new.position = i.position
+							new.position = i.position
 							tiles.add_child(new)
-							new.setPolygon2D(clipped_polygons[x+1])
-							new.setPolygon2DTexture(clipped_polygons[x+1])
-							new.setTexture(i.getTexture().duplicate())
+							var newPolygons=Transform2D(0, -i.position).xform(clipped_polygons[x+1])
+							new.setPolygon2D(newPolygons)
+							new.setPolygon2DTexture(newPolygons)
+#							new.setTexture(i.getTexture().duplicate())
 							
 				
 	elif Input.is_action_just_pressed("click_right"):
