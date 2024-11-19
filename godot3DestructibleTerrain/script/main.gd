@@ -126,7 +126,7 @@ func _physics_process(delta):
 						i.setPolygon2DTexture(newPolygons)
 					2:
 						if Geometry.is_polygon_clockwise(clipped_polygons[0]) or \
-						Geometry.is_polygon_clockwise(clipped_polygons[1]):  #挖一个洞的时候
+						Geometry.is_polygon_clockwise(clipped_polygons[1]):  #挖一个洞的时候，目前没有好的办法
 #							for x in clipped_polygons:
 #								var new=tile.instance()
 #								new.position = i.position
@@ -136,28 +136,7 @@ func _physics_process(delta):
 #								new.setPolygon2D(newPolygons)
 #								new.setPolygon2DTexture(newPolygons)
 #								new.setTexture(i.getTexture())
-#							var newClipPolygons= Geometry.intersect_polygons_2d(clipped_polygons[0],
-#							clipped_polygons[1])
-#							if newClipPolygons:
-#								var hole=Geometry.intersect_polygons_2d(i.getPolygon2D(),newClipPolygons[0])[0]
-#
-#								var new=tile.instance()
-#								new.position = i.position
-#								tiles.add_child(new)
-#								var newPolygons=Transform2D(0, -i.position).xform(hole)
-#								new.setPolygon2D(newPolygons)
-#								new.setPolygon2DTexture(newPolygons)
-#								i.free()
-							for p in _split_polygon(temp,i.getPolygon2D()):
-								var pol1=Geometry.intersect_polygons_2d(p,i.getPolygon2D())[0]
-								
-								var new=tile.instance()
-								new.position = i.position
-								tiles.add_child(new)
-								var newPolygons=Transform2D(0, -i.position).xform(pol1)
-								new.setPolygon2D(newPolygons)
-								new.setPolygon2DTexture(newPolygons)
-							i.free()
+							pass
 						else:
 							var newPolygons1=Transform2D(0, -i.position).xform(clipped_polygons[0])
 							i.setPolygon2D(newPolygons1)
