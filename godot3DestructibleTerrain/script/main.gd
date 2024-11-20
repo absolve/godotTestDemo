@@ -14,6 +14,7 @@ onready var balls=$balls
 
 func _ready():
 	OS.center_window()
+	VisualServer.set_default_clear_color(Color('#1d1b1d'))
 #	var bm = BitMap.new()
 #	bm.create_from_image_alpha(img.texture.get_data())
 #	for i in range(img.texture.get_height()):
@@ -33,13 +34,11 @@ func _ready():
 #	var temp=create_polygon_from_sprite(img)
 #	print(temp)
 
-#	loadPolygonFromImg(spritePath)
-	loadPolygonFromImg(bgPath,Vector2(0,420))
-#	loadPolygonFromImg(bgPath,Vector2(320,420))
-#	loadPolygonFromImg(bgPath,Vector2(640,420))
+	loadPolygonFromImg(spritePath,Vector2(349,50))
+	loadPolygonFromImg(bgPath,Vector2(0,450))
+	loadPolygonFromImg(bgPath,Vector2(320,450))
+	loadPolygonFromImg(bgPath,Vector2(640,450))
 	
-	
-	pass
 
 
 #从图片中载入
@@ -54,19 +53,14 @@ func loadPolygonFromImg(sprite,pos:Vector2=Vector2.ZERO):
 	print(polygons.size())
 	if polygons.size() > 0:	
 		for i in polygons:	
-#			var polygon = Polygon2D.new()
-#			polygon.polygon=i
-#			polygon.texture=texture
-#			polygon.position = Vector2.ZERO
-#			add_child(polygon)
 			var temp=tile.instance()
+			temp.textureImg=sprite
 			temp.position = pos
 			tiles.add_child(temp)
 			temp.setPolygon2D(i)
 			temp.setPolygon2DTexture(i)
 			temp.setTexture(texture)
-#	var pos1=Transform2D(0, Vector2(10,10)).xform(polygons[0])
-#	print(pos1)
+
 			
 #鼠标圆
 func mouseCircle():
@@ -77,53 +71,22 @@ func mouseCircle():
 		pol.push_back(get_global_mouse_position() + Vector2(cos(angle), sin(angle)) * carve_radius)
 	return pol
 
-func _split_polygon(clip_polygon: Array,default_quadrant_polygon):
-	"""
-	Returns two polygons produced by vertically
-	splitting split_polygon in half
-	"""
-	var avg_x = _avg_position(clip_polygon).x
-	print(avg_x)
-	var left_subquadrant = []
-	left_subquadrant.append_array(default_quadrant_polygon)
-	left_subquadrant.duplicate()
-	left_subquadrant[1] = Vector2(avg_x, left_subquadrant[1].y)
-	left_subquadrant[2] = Vector2(avg_x, left_subquadrant[2].y)
-	var right_subquadrant = []
-	right_subquadrant.append_array(default_quadrant_polygon)
-	right_subquadrant.duplicate()
-	right_subquadrant[0] = Vector2(avg_x, right_subquadrant[0].y)
-	right_subquadrant[3] = Vector2(avg_x, right_subquadrant[3].y)
-	var pol1 = Geometry.clip_polygons_2d(left_subquadrant, clip_polygon)[0]
-	var pol2 = Geometry.clip_polygons_2d(right_subquadrant, clip_polygon)[0]
-	return [pol1, pol2]
-
-func _avg_position(array: Array):
-	"""
-	Average 2D position in an
-	array of positions
-	"""
-	var sum = Vector2()
-	for p in array:
-		sum += p
-	return sum/len(array)
 			
 func _physics_process(delta):
 	if Input.is_action_just_pressed("click"):
 		var temp=mouseCircle()
-#		print(get_global_mouse_position())
-#		var mouse_polygon = Transform2D(0, get_global_mouse_position()).xform(temp)
 		for i in tiles.get_children():
 			if Geometry.intersect_polygons_2d(i.getPolygon2D(),temp): #判断多边形是否相交
 				var clipped_polygons=Geometry.clip_polygons_2d(i.getPolygon2D(),temp)
-				var n_clipped_polygons = len(clipped_polygons)
-				match n_clipped_polygons:
+				var clippedPolygonsSize = len(clipped_polygons)
+				match clippedPolygonsSize:
 					0:
 						i.free()	
 					1:
 						var newPolygons=Transform2D(0, -i.position).xform(clipped_polygons[0])
 						i.setPolygon2D(newPolygons)
 						i.setPolygon2DTexture(newPolygons)
+						i.setTexture(i.getTexture().duplicate())
 					2:
 						if Geometry.is_polygon_clockwise(clipped_polygons[0]) or \
 						Geometry.is_polygon_clockwise(clipped_polygons[1]):  #挖一个洞的时候，目前没有好的办法
@@ -143,28 +106,29 @@ func _physics_process(delta):
 							i.setPolygon2DTexture(newPolygons1)
 							var new=tile.instance()
 							new.position = i.position
+							new.textureImg=i.textureImg
 							tiles.add_child(new)
 							var newPolygons=Transform2D(0, -i.position).xform(clipped_polygons[1])
 							new.setPolygon2D(newPolygons)
 							new.setPolygon2DTexture(newPolygons)
-#							new.setTexture(i.getTexture().duplicate())
+							new.loadTexture()
 					_:
 						var newPolygons1=Transform2D(0, -i.position).xform(clipped_polygons[0])
 						i.setPolygon2D(newPolygons1)	
 						i.setPolygon2DTexture(newPolygons1)
-						for x in range(n_clipped_polygons-1):
+						for x in range(clippedPolygonsSize-1):  #添加新的多边形
 							var new=tile.instance()
+							new.textureImg=i.textureImg
 							new.position = i.position
 							tiles.add_child(new)
 							var newPolygons=Transform2D(0, -i.position).xform(clipped_polygons[x+1])
 							new.setPolygon2D(newPolygons)
 							new.setPolygon2DTexture(newPolygons)
-#							new.setTexture(i.getTexture().duplicate())
-							
-				
+							new.loadTexture()
+
 	elif Input.is_action_just_pressed("click_right"):
 		for i in ballNum:
 			var temp=ball.instance()
-			temp.position=get_global_mouse_position() + Vector2(randi()%20,randi()%20)
+			temp.position=get_global_mouse_position() + Vector2(randi()%30,randi()%30)
 			balls.add_child(temp)
 		
