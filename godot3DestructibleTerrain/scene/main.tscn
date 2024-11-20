@@ -11,4 +11,4 @@ script = ExtResource( 2 )
 [node name="balls" type="Node" parent="."]
 
 [node name="player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 470, 304 )
+position = Vector2( 166, 320 )

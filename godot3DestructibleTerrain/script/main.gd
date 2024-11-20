@@ -34,7 +34,7 @@ func _ready():
 #	var temp=create_polygon_from_sprite(img)
 #	print(temp)
 
-	loadPolygonFromImg(spritePath,Vector2(349,50))
+	loadPolygonFromImg(spritePath,Vector2(349,80))
 	loadPolygonFromImg(bgPath,Vector2(0,450))
 	loadPolygonFromImg(bgPath,Vector2(320,450))
 	loadPolygonFromImg(bgPath,Vector2(640,450))

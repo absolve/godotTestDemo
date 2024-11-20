@@ -5,7 +5,7 @@ onready var sprite=$Sprite
 onready var shape=$CollisionPolygon2D
  
 var speed = 500  #速度
-var jumpSpeed=400  #跳跃速度
+var jumpSpeed=500  #跳跃速度
 
 func _ready():
 	var image = sprite.texture.get_data()
