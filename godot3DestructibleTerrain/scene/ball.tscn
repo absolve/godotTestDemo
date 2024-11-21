@@ -7,6 +7,8 @@
 
 [node name="ball" type="RigidBody2D"]
 modulate = Color( 0.752941, 0.490196, 0.972549, 1 )
+collision_layer = 8
+collision_mask = 9
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

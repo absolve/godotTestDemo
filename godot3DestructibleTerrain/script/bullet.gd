@@ -6,7 +6,7 @@ var bodyList=[] #获取地形
 #var polygons=[] #多边形点集合
 var radius=40  #半径
 
-
+var explosion=preload("res://scene/explosion.tscn")
 
 
 func _physics_process(delta):
@@ -27,7 +27,9 @@ func explode():
 		if i.has_method('clip'):
 			i.clip(polygons)
 	#添加一个爆炸效果
-
+	var temp=explosion.instance()
+	temp.position=position
+	get_parent().add_child(temp)
 	call_deferred("queue_free")
 
 
