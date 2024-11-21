@@ -15,15 +15,20 @@ script = ExtResource( 1 )
 texture = ExtResource( 2 )
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 1 )
 
 [node name="collision" type="Area2D" parent="."]
+collision_layer = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="collision"]
 shape = SubResource( 2 )
 
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]
 [connection signal="body_entered" from="collision" to="." method="_on_collision_body_entered"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

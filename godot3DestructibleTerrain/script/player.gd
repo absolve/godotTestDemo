@@ -4,6 +4,7 @@ onready var canon=$canon
 onready var sprite=$Sprite
 onready var shape=$CollisionPolygon2D
  
+var bullet=preload("res://scene/bullet.tscn")
 var speed = 500  #速度
 var jumpSpeed=500  #跳跃速度
 
@@ -15,6 +16,13 @@ func _ready():
 	var polygons = bitmap.opaque_to_polygons(bitmap_rect, 0) 
 	shape.polygon=Transform2D(0,-bitmap.get_size()/2).xform(polygons[0])
 	
+func shoot():
+	var b = bullet.instance()
+	get_parent().add_child(b)
+	b.transform =canon.global_transform
+	b.velocity = b.transform.x * 400
+	
+	
 
 func _physics_process(delta):
 	canon.look_at(get_global_mouse_position())
@@ -25,4 +33,6 @@ func _physics_process(delta):
 		apply_central_impulse(global_transform.x * speed * delta)
 	elif Input.is_action_just_pressed("jump"):
 		apply_central_impulse(Vector2.UP * jumpSpeed)
-
+	
+	if Input.is_action_just_pressed("click"):
+		shoot()

@@ -86,7 +86,6 @@ func _physics_process(delta):
 						var newPolygons=Transform2D(0, -i.position).xform(clipped_polygons[0])
 						i.setPolygon2D(newPolygons)
 						i.setPolygon2DTexture(newPolygons)
-						i.setTexture(i.getTexture().duplicate())
 					2:
 						if Geometry.is_polygon_clockwise(clipped_polygons[0]) or \
 						Geometry.is_polygon_clockwise(clipped_polygons[1]):  #挖一个洞的时候，目前没有好的办法
