@@ -57,9 +57,10 @@ func clip(polygon):
 					var newPolygons=Transform2D(0, position).xform(clipped_polygons[1])
 					new.call_deferred('setPolygon2D',newPolygons)
 					new.call_deferred('setPolygon2DTexture',newPolygons)
+					new.call_deferred('loadTexture')
 #					new.setPolygon2D(newPolygons)
 #					new.setPolygon2DTexture(newPolygons)
-					new.loadTexture()
+#					new.loadTexture()
 			_:
 				var newPolygons1=Transform2D(0, -position).xform(clipped_polygons[0])	
 #				setPolygon2D(newPolygons1)
