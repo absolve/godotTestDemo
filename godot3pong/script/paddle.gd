@@ -4,18 +4,18 @@ extends KinematicBody2D
 var speed=400
 puppet var vec=Vector2.ZERO
 onready var _screen_size_y = get_viewport_rect().size.y
+var isOnline=false
 
 func _ready():
 		
-	
-	
-	print(is_network_master())
-	pass # Replace with function body.
+	if get_multiplayer().has_network_peer():
+		isOnline=true
+		print(is_network_master())
 
 
 
 func _physics_process(delta):
-	if is_network_master():
+	if isOnline&&is_network_master():
 		if Input.is_action_pressed("move_down"):
 			vec=Vector2(0,speed)
 		elif Input.is_action_pressed("move_up"):

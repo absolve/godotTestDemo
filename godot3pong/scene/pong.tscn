@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://script/pong.gd" type="Script" id=1]
 [ext_resource path="res://scene/paddle.tscn" type="PackedScene" id=2]
+[ext_resource path="res://sprite/separator.png" type="Texture" id=3]
+[ext_resource path="res://scene/ball.tscn" type="PackedScene" id=4]
 
 [node name="pong" type="Node2D"]
 script = ExtResource( 1 )
@@ -12,9 +14,17 @@ margin_bottom = 20.0
 text = "add"
 
 [node name="paddle" parent="." instance=ExtResource( 2 )]
-position = Vector2( 107, 175 )
+position = Vector2( 50, 240 )
 
 [node name="paddle2" parent="." instance=ExtResource( 2 )]
-position = Vector2( 553, 182 )
+position = Vector2( 590, 240 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 320, 240 )
+scale = Vector2( 1.2, 1.2 )
+texture = ExtResource( 3 )
+
+[node name="ball" parent="." instance=ExtResource( 4 )]
+position = Vector2( 320, 240 )
 
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

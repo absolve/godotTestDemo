@@ -1,16 +1,18 @@
 extends Node2D
 
 var test=preload("res://scene/testSprite.tscn")
-
+var isOnline=false
 onready var player2=$paddle2
 
 func _ready():
-	print(is_network_master())
-	print("Unique id: ", get_tree().get_network_unique_id())
-	if is_network_master():
-		player2.set_network_master(get_tree().get_network_connected_peers()[0])
-	else:
-		player2.set_network_master(get_tree().get_network_unique_id())
+	if get_multiplayer().has_network_peer():
+		isOnline=true
+		print(is_network_master())
+		print("Unique id: ", get_tree().get_network_unique_id())
+		if is_network_master():
+			player2.set_network_master(get_tree().get_network_connected_peers()[0])
+		else:
+			player2.set_network_master(get_tree().get_network_unique_id())
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
