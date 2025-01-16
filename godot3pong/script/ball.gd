@@ -3,12 +3,11 @@ extends KinematicBody2D
 var speed=100
 master var vec=Vector2(-speed,-speed)
 remotesync var stop=false
-var isOnline=false
+
 onready var _screen_size = get_viewport_rect().size
 
 func _ready():
-	if get_multiplayer().has_network_peer():
-		isOnline=true
+	pass
 
 
 
@@ -25,6 +24,9 @@ func _physics_process(delta):
 			vec=vec.bounce(Vector2.DOWN)
 		else:
 			vec=vec.bounce(Vector2.UP)
+	if position.x<0 || position.x>_screen_size.x:
+		position.x=_screen_size.x/2
+
 
 func bounce():
 	if vec.x<0:
@@ -32,7 +34,7 @@ func bounce():
 	else:
 		vec.x=-abs(vec.x)
 	vec.y+=randi()%10	
-	if isOnline:
+	if Game.isOnline:
 		rset('vec',vec)
 	
 remotesync func setStop():

@@ -28,32 +28,46 @@ margin_bottom = 147.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="panel/Panel/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="panel/Panel/VBoxContainer"]
 margin_right = 272.0
-margin_bottom = 16.0
+margin_bottom = 36.0
+custom_constants/margin_top = 10
+custom_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="panel/Panel/VBoxContainer/MarginContainer"]
+margin_top = 10.0
+margin_right = 272.0
+margin_bottom = 26.0
 custom_fonts/font = ExtResource( 2 )
 text = "address"
 uppercase = true
 
 [node name="LineEdit" type="LineEdit" parent="panel/Panel/VBoxContainer"]
-margin_top = 20.0
+margin_top = 40.0
 margin_right = 272.0
-margin_bottom = 44.0
+margin_bottom = 64.0
 text = "127.0.0.1"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="panel/Panel/VBoxContainer"]
-margin_top = 48.0
+[node name="MarginContainer2" type="MarginContainer" parent="panel/Panel/VBoxContainer"]
+margin_top = 68.0
 margin_right = 272.0
-margin_bottom = 70.0
+margin_bottom = 110.0
+custom_constants/margin_top = 10
+custom_constants/margin_bottom = 10
 
-[node name="btnHost" type="Button" parent="panel/Panel/VBoxContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="panel/Panel/VBoxContainer/MarginContainer2"]
+margin_top = 10.0
+margin_right = 272.0
+margin_bottom = 32.0
+
+[node name="btnHost" type="Button" parent="panel/Panel/VBoxContainer/MarginContainer2/HBoxContainer"]
 margin_right = 134.0
 margin_bottom = 22.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 2 )
 text = "host"
 
-[node name="btnJoin" type="Button" parent="panel/Panel/VBoxContainer/HBoxContainer"]
+[node name="btnJoin" type="Button" parent="panel/Panel/VBoxContainer/MarginContainer2/HBoxContainer"]
 margin_left = 138.0
 margin_right = 272.0
 margin_bottom = 22.0
@@ -62,9 +76,9 @@ custom_fonts/font = ExtResource( 2 )
 text = "join"
 
 [node name="status" type="Label" parent="panel/Panel/VBoxContainer"]
-margin_top = 74.0
+margin_top = 114.0
 margin_right = 272.0
-margin_bottom = 88.0
+margin_bottom = 128.0
 
-[connection signal="pressed" from="panel/Panel/VBoxContainer/HBoxContainer/btnHost" to="." method="_on_btnHost_pressed"]
-[connection signal="pressed" from="panel/Panel/VBoxContainer/HBoxContainer/btnJoin" to="." method="_on_btnJoin_pressed"]
+[connection signal="pressed" from="panel/Panel/VBoxContainer/MarginContainer2/HBoxContainer/btnHost" to="." method="_on_btnHost_pressed"]
+[connection signal="pressed" from="panel/Panel/VBoxContainer/MarginContainer2/HBoxContainer/btnJoin" to="." method="_on_btnJoin_pressed"]

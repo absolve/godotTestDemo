@@ -1,12 +1,11 @@
 extends Node2D
 
 var test=preload("res://scene/testSprite.tscn")
-var isOnline=false
 onready var player2=$paddle2
 
 func _ready():
 	if get_multiplayer().has_network_peer():
-		isOnline=true
+		Game.isOnline=true
 		print(is_network_master())
 		print("Unique id: ", get_tree().get_network_unique_id())
 		if is_network_master():
