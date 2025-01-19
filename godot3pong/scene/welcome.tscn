@@ -45,13 +45,14 @@ uppercase = true
 [node name="LineEdit" type="LineEdit" parent="panel/Panel/VBoxContainer"]
 margin_top = 40.0
 margin_right = 272.0
-margin_bottom = 64.0
+margin_bottom = 66.0
+custom_fonts/font = ExtResource( 2 )
 text = "127.0.0.1"
 
 [node name="MarginContainer2" type="MarginContainer" parent="panel/Panel/VBoxContainer"]
-margin_top = 68.0
+margin_top = 70.0
 margin_right = 272.0
-margin_bottom = 110.0
+margin_bottom = 112.0
 custom_constants/margin_top = 10
 custom_constants/margin_bottom = 10
 
@@ -76,9 +77,9 @@ custom_fonts/font = ExtResource( 2 )
 text = "join"
 
 [node name="status" type="Label" parent="panel/Panel/VBoxContainer"]
-margin_top = 114.0
+margin_top = 116.0
 margin_right = 272.0
-margin_bottom = 128.0
+margin_bottom = 130.0
 
 [connection signal="pressed" from="panel/Panel/VBoxContainer/MarginContainer2/HBoxContainer/btnHost" to="." method="_on_btnHost_pressed"]
 [connection signal="pressed" from="panel/Panel/VBoxContainer/MarginContainer2/HBoxContainer/btnJoin" to="." method="_on_btnJoin_pressed"]

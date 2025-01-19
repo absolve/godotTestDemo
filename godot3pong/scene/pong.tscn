@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://script/pong.gd" type="Script" id=1]
 [ext_resource path="res://scene/paddle.tscn" type="PackedScene" id=2]
 [ext_resource path="res://sprite/separator.png" type="Texture" id=3]
 [ext_resource path="res://scene/ball.tscn" type="PackedScene" id=4]
+[ext_resource path="res://font/new_dynamicfont.tres" type="DynamicFont" id=5]
 
 [node name="pong" type="Node2D"]
 script = ExtResource( 1 )
@@ -26,5 +27,23 @@ texture = ExtResource( 3 )
 
 [node name="ball" parent="." instance=ExtResource( 4 )]
 position = Vector2( 320, 240 )
+
+[node name="p1Score" type="Label" parent="."]
+margin_left = 140.0
+margin_top = 30.0
+margin_right = 180.0
+margin_bottom = 44.0
+custom_fonts/font = ExtResource( 5 )
+text = "0"
+align = 1
+
+[node name="p2Score" type="Label" parent="."]
+margin_left = 480.0
+margin_top = 30.0
+margin_right = 520.0
+margin_bottom = 44.0
+custom_fonts/font = ExtResource( 5 )
+text = "0"
+align = 1
 
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
