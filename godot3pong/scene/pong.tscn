@@ -15,9 +15,11 @@ margin_bottom = 20.0
 text = "add"
 
 [node name="paddle" parent="." instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
 position = Vector2( 50, 240 )
 
 [node name="paddle2" parent="." instance=ExtResource( 2 )]
+modulate = Color( 0.0313726, 0.588235, 1, 1 )
 position = Vector2( 590, 240 )
 
 [node name="Sprite" type="Sprite" parent="."]

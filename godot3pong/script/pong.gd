@@ -17,7 +17,7 @@ func _ready():
 			player2.set_network_master(get_tree().get_network_connected_peers()[0])
 		else:
 			player2.set_network_master(get_tree().get_network_unique_id())
-
+	Game.connect("update_score",self,'updateScore')
 
 remotesync func addTest():
 	var temp=test.instance()
@@ -26,14 +26,20 @@ remotesync func addTest():
 
 
 #添加分数
-remotesync func addScore(p1):
+remote func addScore(p1):
 	if p1:
 		p1Score+=1
-		p1ScoreLabel=str(p1Score)
+		p1ScoreLabel.text=str(p1Score)
 	else:
 		p2Score+=1
-		p2ScoreLabel=str(p1Score)
+		p2ScoreLabel.text=str(p2Score)
 
+#更新分数
+func updateScore(pos):
+	if pos<0:
+		rpc('addScore',false)
+	else:
+		rpc('addScore',true)	
 
 
 func _on_Button_pressed():

@@ -3,6 +3,8 @@ extends Node2D
 onready var panel=$panel
 onready var address=$panel/Panel/VBoxContainer/LineEdit
 onready var status=$panel/Panel/VBoxContainer/status
+onready var btnHost=$panel/Panel/VBoxContainer/MarginContainer2/HBoxContainer/btnHost
+onready var btnJoin=$panel/Panel/VBoxContainer/MarginContainer2/HBoxContainer/btnJoin
 const DEFAULT_PORT = 9999
 
 var peer
@@ -21,23 +23,28 @@ func _ready():
 
 func setStatus(msg):
 	status.text=str(msg)
-	
-	pass
+
 
 func _player_connected(id):
 	print('_player_connected ',id)
 	panel.hide()
 	var temp=pong.instance()
 	add_child(temp)
-	pass
+
 
 func _player_disconnected(id):
 	print('_player_disconnected ',id)
 	if get_tree().is_network_server():  #自身是服务器
 		print('Client disconnected')
 	else:
-		
 		print('Server disconnected')
+	if has_node('pong'):
+		get_node('pong').free()
+	get_tree().set_network_peer(null)	
+	panel.show()
+	btnHost.set_disabled(false)	
+	btnJoin.set_disabled(false)		
+	setStatus('')	
 
 func _connected_ok():
 	print('_connected_ok')
@@ -46,10 +53,19 @@ func _connected_ok():
 func _connected_fail():
 	setStatus('connected fail')
 	print('_connected_fail')
+	get_tree().set_network_peer(null)	
+	btnHost.set_disabled(false)	
+	btnJoin.set_disabled(false)		
 
 func _server_disconnected():
 	print('_server_disconnected')
-
+	if has_node('pong'):
+		get_node('pong').free()
+	get_tree().set_network_peer(null)	
+	panel.show()
+	btnHost.set_disabled(false)	
+	btnJoin.set_disabled(false)		
+	setStatus('')	
 
 func _on_btnHost_pressed():
 	peer = NetworkedMultiplayerENet.new()
@@ -60,8 +76,8 @@ func _on_btnHost_pressed():
 		return
 	get_tree().set_network_peer(peer)
 	setStatus("Connecting...")
-		
-	
+	btnHost.set_disabled(true)	
+	btnJoin.set_disabled(true)	
 
 
 func _on_btnJoin_pressed():
@@ -74,3 +90,5 @@ func _on_btnJoin_pressed():
 	peer.set_compression_mode(NetworkedMultiplayerENet.COMPRESS_RANGE_CODER)
 	peer.create_client(ip, DEFAULT_PORT)
 	get_tree().set_network_peer(peer)
+	btnHost.set_disabled(true)	
+	btnJoin.set_disabled(true)	
