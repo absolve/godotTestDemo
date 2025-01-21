@@ -25,7 +25,10 @@ func _physics_process(delta):
 		else:
 			vec=vec.bounce(Vector2.UP)
 	if position.x<0 || position.x>_screen_size.x:
-		Game.emit_signal("update_score",position.x)
+		if is_network_master()&&position.x<0:
+			Game.emit_signal("update_score",position.x)
+		elif position.x>_screen_size.x:
+			Game.emit_signal("update_score",position.x)	
 		position.x=_screen_size.x/2
 		
 
