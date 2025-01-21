@@ -26,7 +26,7 @@ remote func addTest():
 
 
 #添加分数
-remote func addScore(p1):
+remotesync func addScore(p1):
 	print('addScore',multiplayer.get_rpc_sender_id())
 	if p1:
 		p1Score+=1
