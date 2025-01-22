@@ -1,7 +1,7 @@
-extends KinematicBody2D
+extends Area2D
 
 var speed=100
-master var vec=Vector2(-speed,-speed)
+remote var vec=Vector2(-speed,-speed)
 remotesync var stop=false
 
 onready var _screen_size = get_viewport_rect().size
@@ -14,22 +14,18 @@ func _ready():
 func _physics_process(delta):
 	
 	if !stop:
-		var collision =move_and_collide(vec*delta)
-		if collision:
-			bounce()
+		translate(vec* delta)
 			
 			
 	if (position.y<0 and vec.y<0) or (position.y>_screen_size.y and vec.y>0):
-		if vec.y<0:
-			vec=vec.bounce(Vector2.DOWN)
-		else:
-			vec=vec.bounce(Vector2.UP)
+		vec.y=-vec.y
+		
 	if position.x<0 || position.x>_screen_size.x:
 		if is_network_master()&&position.x<0:
 			Game.emit_signal("update_score",position.x)
-		elif position.x>_screen_size.x:
+		elif !is_network_master() &&position.x>_screen_size.x:
 			Game.emit_signal("update_score",position.x)	
-		position.x=_screen_size.x/2
+		rpc('resetBall')
 		
 
 func bounce():
@@ -37,13 +33,16 @@ func bounce():
 		vec.x=abs(vec.x)
 	else:
 		vec.x=-abs(vec.x)
-	vec.y+=randi()%10	
+#	vec.y+=randi()%10	
 	if Game.isOnline:
 		rset('vec',vec)
 	
 remotesync func setStop():
 	stop=true
 
-func resetBall():
-	
-	pass
+remotesync func resetBall():
+	position.x=_screen_size.x/2
+
+
+func _on_ball_body_entered(body):
+	bounce()

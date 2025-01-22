@@ -1,6 +1,7 @@
 extends Node2D
 
 var test=preload("res://scene/testSprite.tscn")
+onready var player1=$paddle
 onready var player2=$paddle2
 onready var p1ScoreLabel=$p1Score
 onready var p2ScoreLabel=$p2Score
@@ -14,8 +15,10 @@ func _ready():
 		print(is_network_master())
 		print("Unique id: ", get_tree().get_network_unique_id())
 		if is_network_master():
+			player1.showLable()
 			player2.set_network_master(get_tree().get_network_connected_peers()[0])
 		else:
+			player2.showLable()
 			player2.set_network_master(get_tree().get_network_unique_id())
 	Game.connect("update_score",self,'updateScore')
 
@@ -37,7 +40,7 @@ remotesync func addScore(p1):
 
 #更新分数
 func updateScore(pos):
-	print('updateScore')
+#	print('updateScore')
 	if pos<0:
 		rpc('addScore',false)
 	else:

@@ -12,6 +12,7 @@ var pong=preload("res://scene/pong.tscn")
 
 
 func _ready():
+	seed(0)
 	VisualServer.set_default_clear_color('#000')
 	OS.center_window()
 	get_tree().connect("network_peer_connected", self, "_player_connected")

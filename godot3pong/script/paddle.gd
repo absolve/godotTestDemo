@@ -4,7 +4,7 @@ extends KinematicBody2D
 var speed=400
 puppet var vec=Vector2.ZERO
 onready var _screen_size_y = get_viewport_rect().size.y
-
+onready var label=$Label
 
 func _ready():
 	if Game.isOnline:
@@ -26,6 +26,9 @@ func _physics_process(delta):
 		
 	translate(vec * delta)
 	position.y = clamp(position.y, 16, _screen_size_y - 16)
+
+func showLable():
+	label.visible=true
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
