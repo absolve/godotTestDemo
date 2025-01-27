@@ -12,7 +12,8 @@ var p2Score=0
 func _ready():
 	if get_multiplayer().has_network_peer():
 		Game.isOnline=true
-		print(is_network_master())
+		print('get_network_master',get_network_master())
+		print('is_network_master ',is_network_master())
 		print("Unique id: ", get_tree().get_network_unique_id())
 		if is_network_master():
 			player1.showLable()
@@ -21,11 +22,6 @@ func _ready():
 			player2.showLable()
 			player2.set_network_master(get_tree().get_network_unique_id())
 	Game.connect("update_score",self,'updateScore')
-
-remote func addTest():
-	var temp=test.instance()
-	temp.position=Vector2(randi()%100,randi()%100)
-	add_child(temp)
 
 
 #添加分数
@@ -46,6 +42,11 @@ func updateScore(pos):
 	else:
 		rpc('addScore',true)	
 
+
+master func addTest():
+	var temp=test.instance()
+	temp.position=Vector2(randi()%100,randi()%100)
+	add_child(temp)
 
 func _on_Button_pressed():
 #	addTest()

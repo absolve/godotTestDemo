@@ -20,7 +20,7 @@ func _ready():
 	get_tree().connect("connected_to_server", self, "_connected_ok")
 	get_tree().connect("connection_failed", self, "_connected_fail")
 	get_tree().connect("server_disconnected", self, "_server_disconnected")
-
+	
 
 func setStatus(msg):
 	status.text=str(msg)
@@ -79,7 +79,7 @@ func _on_btnHost_pressed():
 	setStatus("Connecting...")
 	btnHost.set_disabled(true)	
 	btnJoin.set_disabled(true)	
-
+	
 
 func _on_btnJoin_pressed():
 	var ip = address.get_text()
@@ -93,3 +93,4 @@ func _on_btnJoin_pressed():
 	get_tree().set_network_peer(peer)
 	btnHost.set_disabled(true)	
 	btnJoin.set_disabled(true)	
+	
