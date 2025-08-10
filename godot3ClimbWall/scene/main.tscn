@@ -1,6 +1,234 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://script/main.gd" type="Script" id=1]
+[ext_resource path="res://scene/tile.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scene/cat.tscn" type="PackedScene" id=3]
 
 [node name="main" type="Node2D"]
 script = ExtResource( 1 )
+
+[node name="tile" parent="." instance=ExtResource( 2 )]
+position = Vector2( 8, 232 )
+
+[node name="tile2" parent="." instance=ExtResource( 2 )]
+position = Vector2( 24, 232 )
+spriteIndex = 1
+
+[node name="tile3" parent="." instance=ExtResource( 2 )]
+position = Vector2( 40, 232 )
+spriteIndex = 1
+
+[node name="tile4" parent="." instance=ExtResource( 2 )]
+position = Vector2( 56, 232 )
+spriteIndex = 1
+
+[node name="tile5" parent="." instance=ExtResource( 2 )]
+position = Vector2( 72, 232 )
+spriteIndex = 1
+
+[node name="tile6" parent="." instance=ExtResource( 2 )]
+position = Vector2( 88, 232 )
+spriteIndex = 1
+
+[node name="tile7" parent="." instance=ExtResource( 2 )]
+position = Vector2( 104, 232 )
+spriteIndex = 1
+
+[node name="tile8" parent="." instance=ExtResource( 2 )]
+position = Vector2( 120, 232 )
+spriteIndex = 1
+
+[node name="tile9" parent="." instance=ExtResource( 2 )]
+position = Vector2( 136, 232 )
+spriteIndex = 1
+
+[node name="tile10" parent="." instance=ExtResource( 2 )]
+position = Vector2( 152, 232 )
+spriteIndex = 1
+
+[node name="tile11" parent="." instance=ExtResource( 2 )]
+position = Vector2( 168, 232 )
+spriteIndex = 1
+
+[node name="tile12" parent="." instance=ExtResource( 2 )]
+position = Vector2( 184, 232 )
+spriteIndex = 1
+
+[node name="tile13" parent="." instance=ExtResource( 2 )]
+position = Vector2( 200, 232 )
+spriteIndex = 1
+
+[node name="tile14" parent="." instance=ExtResource( 2 )]
+position = Vector2( 216, 232 )
+spriteIndex = 1
+
+[node name="tile15" parent="." instance=ExtResource( 2 )]
+position = Vector2( 232, 232 )
+spriteIndex = 1
+
+[node name="tile16" parent="." instance=ExtResource( 2 )]
+position = Vector2( 248, 232 )
+spriteIndex = 1
+
+[node name="tile17" parent="." instance=ExtResource( 2 )]
+position = Vector2( 264, 232 )
+spriteIndex = 1
+
+[node name="tile18" parent="." instance=ExtResource( 2 )]
+position = Vector2( 280, 232 )
+spriteIndex = 1
+
+[node name="tile19" parent="." instance=ExtResource( 2 )]
+position = Vector2( 296, 232 )
+spriteIndex = 1
+
+[node name="tile20" parent="." instance=ExtResource( 2 )]
+position = Vector2( 312, 232 )
+spriteIndex = 2
+
+[node name="tile21" parent="." instance=ExtResource( 2 )]
+position = Vector2( 8, 136 )
+spriteIndex = 3
+
+[node name="tile22" parent="." instance=ExtResource( 2 )]
+position = Vector2( 8, 152 )
+spriteIndex = 7
+
+[node name="tile23" parent="." instance=ExtResource( 2 )]
+position = Vector2( 8, 168 )
+spriteIndex = 7
+
+[node name="tile24" parent="." instance=ExtResource( 2 )]
+position = Vector2( 8, 184 )
+spriteIndex = 7
+
+[node name="tile25" parent="." instance=ExtResource( 2 )]
+position = Vector2( 8, 200 )
+spriteIndex = 7
+
+[node name="tile26" parent="." instance=ExtResource( 2 )]
+position = Vector2( 8, 216 )
+spriteIndex = 7
+
+[node name="tile27" parent="." instance=ExtResource( 2 )]
+position = Vector2( 24, 136 )
+spriteIndex = 5
+
+[node name="tile28" parent="." instance=ExtResource( 2 )]
+position = Vector2( 24, 152 )
+spriteIndex = 8
+
+[node name="tile29" parent="." instance=ExtResource( 2 )]
+position = Vector2( 24, 168 )
+spriteIndex = 8
+
+[node name="tile30" parent="." instance=ExtResource( 2 )]
+position = Vector2( 24, 184 )
+spriteIndex = 8
+
+[node name="tile31" parent="." instance=ExtResource( 2 )]
+position = Vector2( 24, 200 )
+spriteIndex = 8
+
+[node name="tile32" parent="." instance=ExtResource( 2 )]
+position = Vector2( 24, 216 )
+spriteIndex = 8
+
+[node name="tile33" parent="." instance=ExtResource( 2 )]
+position = Vector2( 192, 120 )
+spriteIndex = 3
+
+[node name="tile34" parent="." instance=ExtResource( 2 )]
+position = Vector2( 208, 120 )
+spriteIndex = 4
+
+[node name="tile35" parent="." instance=ExtResource( 2 )]
+position = Vector2( 224, 120 )
+spriteIndex = 4
+
+[node name="tile36" parent="." instance=ExtResource( 2 )]
+position = Vector2( 240, 120 )
+spriteIndex = 5
+
+[node name="tile37" parent="." instance=ExtResource( 2 )]
+position = Vector2( 192, 136 )
+spriteIndex = 7
+
+[node name="tile38" parent="." instance=ExtResource( 2 )]
+position = Vector2( 208, 136 )
+spriteIndex = 6
+
+[node name="tile39" parent="." instance=ExtResource( 2 )]
+position = Vector2( 224, 136 )
+spriteIndex = 6
+
+[node name="tile40" parent="." instance=ExtResource( 2 )]
+position = Vector2( 240, 136 )
+spriteIndex = 8
+
+[node name="tile41" parent="." instance=ExtResource( 2 )]
+position = Vector2( 192, 152 )
+spriteIndex = 7
+
+[node name="tile42" parent="." instance=ExtResource( 2 )]
+position = Vector2( 208, 152 )
+spriteIndex = 6
+
+[node name="tile43" parent="." instance=ExtResource( 2 )]
+position = Vector2( 224, 152 )
+spriteIndex = 6
+
+[node name="tile44" parent="." instance=ExtResource( 2 )]
+position = Vector2( 240, 152 )
+spriteIndex = 8
+
+[node name="tile45" parent="." instance=ExtResource( 2 )]
+position = Vector2( 192, 168 )
+spriteIndex = 7
+
+[node name="tile46" parent="." instance=ExtResource( 2 )]
+position = Vector2( 208, 168 )
+spriteIndex = 6
+
+[node name="tile47" parent="." instance=ExtResource( 2 )]
+position = Vector2( 224, 168 )
+spriteIndex = 6
+
+[node name="tile48" parent="." instance=ExtResource( 2 )]
+position = Vector2( 240, 168 )
+spriteIndex = 8
+
+[node name="cat" parent="." instance=ExtResource( 3 )]
+position = Vector2( 72, 200 )
+
+[node name="tile51" parent="." instance=ExtResource( 2 )]
+position = Vector2( 296, 168 )
+spriteIndex = 7
+
+[node name="tile52" parent="." instance=ExtResource( 2 )]
+position = Vector2( 296, 184 )
+spriteIndex = 7
+
+[node name="tile53" parent="." instance=ExtResource( 2 )]
+position = Vector2( 296, 200 )
+spriteIndex = 7
+
+[node name="tile54" parent="." instance=ExtResource( 2 )]
+position = Vector2( 296, 216 )
+spriteIndex = 7
+
+[node name="tile57" parent="." instance=ExtResource( 2 )]
+position = Vector2( 312, 168 )
+spriteIndex = 8
+
+[node name="tile58" parent="." instance=ExtResource( 2 )]
+position = Vector2( 312, 184 )
+spriteIndex = 8
+
+[node name="tile59" parent="." instance=ExtResource( 2 )]
+position = Vector2( 312, 200 )
+spriteIndex = 8
+
+[node name="tile60" parent="." instance=ExtResource( 2 )]
+position = Vector2( 312, 216 )
+spriteIndex = 8
