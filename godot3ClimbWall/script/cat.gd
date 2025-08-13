@@ -8,11 +8,11 @@ var state=IDLE #状态
 var vec=Vector2.ZERO
 #var walkSpeed=600
 var dir=Right	#方向
-var gravity=600  #重力
+var gravity=500  #重力
 var acceleration=300
 var maxXVel=300
 var aniSpeed=220 #动画速度
-var jumpSpeed=400
+var jumpSpeed=300
 
 onready var ani=$ani
 
@@ -31,6 +31,10 @@ func _physics_process(delta):
 		elif Input.is_action_pressed("move_right"):
 			state=WALK
 			dir=Right	
+		if Input.is_action_pressed("jump"):
+			vec.y=-jumpSpeed
+			state=INAIR
+			return	
 		animation('idle')	
 	elif state==WALK:
 		
@@ -85,11 +89,11 @@ func _physics_process(delta):
 			else:
 				vec.x=maxXVel
 		
-		
 		if is_on_floor():
 			state=WALK	
+		
 					
-	vec = move_and_slide(vec)
+	vec = move_and_slide(vec,Vector2.UP)
 		
 				
 func animation(type):
