@@ -72,10 +72,16 @@ func _physics_process(delta):
 			ani.speed_scale=1+abs(vec.x)/aniSpeed
 		animation('walk')	
 	elif state==INAIR: #在空中
-		if vec.y<0:
+		if vec.y<0: #向上
 			animation('jump')
 		else:
 			animation('fall')
+			
+		#如果在墙上
+		if is_on_wall() && !is_on_floor():
+			if Input.is_action_pressed("move_left") || Input.is_action_pressed("move_right"):
+				animation('climb')
+			
 		if Input.is_action_pressed("move_left"):
 			dir=LEFT
 			if vec.x>-maxXVel:
