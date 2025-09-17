@@ -28,7 +28,7 @@ func _ready():
 		keymap["right"]="p2_right"
 		keymap["shoot"]="p2_shoot"	
 		ani.material.set_shader_param('ischange',true)
-
+	
 func _physics_process(delta):
 	if Input.is_action_pressed(keymap["down"]):	
 		vec=Vector2(0,speed)
