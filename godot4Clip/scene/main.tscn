@@ -1,41 +1,23 @@
-[gd_scene load_steps=6 format=3 uid="uid://t0jdc02gp75q"]
+[gd_scene load_steps=3 format=3 uid="uid://t0jdc02gp75q"]
 
-[ext_resource type="Texture2D" uid="uid://twmxkcnffh3j" path="res://sprite/enemies50x8.png" id="1_itxqv"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_itxqv"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wp4xf"]
-atlas = ExtResource("1_itxqv")
-region = Rect2(384, 64, 32, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_brvut"]
-atlas = ExtResource("1_itxqv")
-region = Rect2(416, 64, 32, 64)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_0ha60"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wp4xf")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_brvut")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
+[ext_resource type="Script" uid="uid://dlm1bt36lqi70" path="res://script/main.gd" id="1_v0l8b"]
+[ext_resource type="PackedScene" uid="uid://bon2cb43oaku5" path="res://scene/plant.tscn" id="2_v0l8b"]
 
 [node name="main" type="Node2D"]
 clip_children = 1
+script = ExtResource("1_v0l8b")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-clip_children = 1
-position = Vector2(16, 32)
-scale = Vector2(0.5, 1)
-texture = SubResource("GradientTexture2D_itxqv")
+[node name="plant" parent="." instance=ExtResource("2_v0l8b")]
+position = Vector2(152, 200)
+scale = Vector2(2, 2)
 
-[node name="ani" type="AnimatedSprite2D" parent="Sprite2D"]
-scale = Vector2(2, 1)
-sprite_frames = SubResource("SpriteFrames_0ha60")
-centered = false
+[node name="plant2" parent="." instance=ExtResource("2_v0l8b")]
+position = Vector2(400, 224)
+
+[node name="plant3" parent="." instance=ExtResource("2_v0l8b")]
+position = Vector2(280, 208)
+scale = Vector2(1.5, 1.5)
+
+[node name="plant4" parent="." instance=ExtResource("2_v0l8b")]
+position = Vector2(504, 240)
+scale = Vector2(0.5, 0.5)

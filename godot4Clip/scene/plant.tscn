@@ -1,6 +1,45 @@
-[gd_scene load_steps=2 format=3 uid="uid://bon2cb43oaku5"]
+[gd_scene load_steps=8 format=3 uid="uid://bon2cb43oaku5"]
 
 [ext_resource type="Script" uid="uid://dbxjfrb63x24u" path="res://script/plant.gd" id="1_ljeog"]
+[ext_resource type="Texture2D" uid="uid://bj0haj6bcefry" path="res://sprite/enemies50x8.png" id="2_jg8dt"]
+
+[sub_resource type="Gradient" id="Gradient_jg8dt"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_58bds"]
+gradient = SubResource("Gradient_jg8dt")
+width = 32
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_58bds"]
+atlas = ExtResource("2_jg8dt")
+region = Rect2(384, 128, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ote7a"]
+atlas = ExtResource("2_jg8dt")
+region = Rect2(416, 128, 32, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4hkua"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_58bds")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ote7a")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
 
 [node name="plant" type="Node2D"]
 script = ExtResource("1_ljeog")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+clip_children = 1
+texture = SubResource("GradientTexture2D_58bds")
+
+[node name="ani" type="AnimatedSprite2D" parent="Sprite2D"]
+position = Vector2(0, 64)
+sprite_frames = SubResource("SpriteFrames_4hkua")
+frame = 1
+frame_progress = 0.777366
