@@ -3,7 +3,7 @@ extends Node
 
 
 enum playerState{
-	IDLE,WALK,RUN,JUMP,ATTACK
+	IDLE,WALK,RUN,INAIR,ATTACK
 }
 
 enum direction{

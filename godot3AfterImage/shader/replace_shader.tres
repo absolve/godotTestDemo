@@ -1,0 +1,27 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform vec4 Color:hint_color=vec4(0);
+
+bool colorMatch(vec4 c1, vec4 c2, float maxDiff) {
+    return (
+        abs(c1.r - c2.r) < maxDiff
+        && abs(c1.g - c2.g) < maxDiff
+        && abs(c1.b - c2.b) < maxDiff
+    );
+}
+
+void fragment() {
+    vec4 color = texture(TEXTURE, UV);
+	float variance = 0.0001;
+	if(color.a == 1.0&&!colorMatch(color,Color,variance)){
+		color.a=0.;
+	}
+	COLOR=color;
+}"
+
+[resource]
+shader = SubResource( 1 )
+shader_param/Color = Color( 0, 0, 0, 0 )
