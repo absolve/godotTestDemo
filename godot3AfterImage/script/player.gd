@@ -5,8 +5,11 @@ var vec=Vector2.ZERO
 var state=Game.playerState.IDLE
 var dir=Game.direction.RIGHT
 var walkSpeed=200
+var runSpeed=300
 var gravity=600  #重力
 var jumpSpeed=400 # 跳跃力 
+var lastMoveframes=0 #上次移动按键的帧
+const fastMoveDelay=20 #快速按键的间隔
 
 onready var ani=$ani
 
@@ -28,25 +31,46 @@ func _physics_process(delta):
 			state=Game.playerState.INAIR	
 		animation('idle')
 	elif state==Game.playerState.WALK:
-		
 		if Input.is_action_pressed("move_left"):
 			dir=Game.direction.LEFT
-			vec.x=-walkSpeed
+#			print(Engine.get_physics_frames()-lastMoveframes)
+			if abs(vec.x)<runSpeed:
+				vec.x=-walkSpeed
+			else:
+				vec.x=-runSpeed
 		elif Input.is_action_pressed("move_right"):
-			dir=Game.direction.RIGHT
-			vec.x=walkSpeed
+			dir=Game.direction.RIGHT	
+#			print(Engine.get_physics_frames()-lastMoveframes)	
+			if abs(vec.x)<runSpeed:
+				vec.x=walkSpeed	
+			else:
+				vec.x=runSpeed		
 		else:
 			vec.x=0
+	
+		if vec.x!=0:
+			if Engine.get_physics_frames()-lastMoveframes<fastMoveDelay:
+				if vec.x>0:
+					vec.x=runSpeed
+				else:
+					vec.x=-runSpeed
+	
+		if (dir==Game.direction.LEFT && Input.is_action_just_released("move_right"))||\
+			(dir==Game.direction.RIGHT &&Input.is_action_just_released("move_left")):
+			lastMoveframes=Engine.get_physics_frames()
+		
 		
 		if Input.is_action_pressed("jump"):
 			vec.y=-jumpSpeed
 			state=Game.playerState.INAIR
-
-		
+			return
+	
 		if vec.x==0&&is_on_floor():
 			state=Game.playerState.IDLE
-			
-		animation('walk')
+		if abs(vec.x)==runSpeed:
+			animation('run')
+		else:
+			animation('walk')
 	elif state==Game.playerState.INAIR:
 		if Input.is_action_pressed("move_left"):
 			dir=Game.direction.LEFT
@@ -69,7 +93,7 @@ func animation(type):
 		ani.flip_h=true
 	else:
 		ani.flip_h=false
-	if type=='idle'||type=='walk':
+	if type=='idle'||type=='walk'||type=='run':
 		ani.play(type)
 	elif type=='jump'||type=='fall':
 		ani.play(type)

@@ -42,6 +42,7 @@ func addBlueImage(texture,pos:Vector2,scale=Vector2(1,1),flipH=false,flipV=false
 	temp.flip_h=flipH
 	temp.flip_v=flipV
 	temp.modulate.a=0.5
+	temp.z_index=1
 #	temp.time=1
 	add_child(temp)
 	
@@ -56,6 +57,7 @@ func addSkeletonImage(texture,pos:Vector2,scale=Vector2(1,1),flipH=false,flipV=f
 	temp.flip_v=flipV
 #	temp.modulate.a=0.5
 #	temp.time=1
+	temp.z_index=1
 	add_child(temp)
 	
 	
