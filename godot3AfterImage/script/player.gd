@@ -55,8 +55,8 @@ func _physics_process(delta):
 				else:
 					vec.x=-runSpeed
 	
-		if (dir==Game.direction.LEFT && Input.is_action_just_released("move_right"))||\
-			(dir==Game.direction.RIGHT &&Input.is_action_just_released("move_left")):
+		if (dir==Game.direction.RIGHT && Input.is_action_just_released("move_right"))||\
+			(dir==Game.direction.LEFT &&Input.is_action_just_released("move_left")):
 			lastMoveframes=Engine.get_physics_frames()
 		
 		
