@@ -18,6 +18,7 @@ func addImage(texture,pos:Vector2,scale=Vector2(1,1),flipH=false,flipV=false):
 #	temp.modulate.a=0.5
 	temp.flip_h=flipH
 	temp.flip_v=flipV
+	temp.z_index=1
 	add_child(temp)
 
 #黑色图片
@@ -30,6 +31,7 @@ func addBlackImage(texture,pos:Vector2,scale=Vector2(1,1),flipH=false,flipV=fals
 	temp.flip_h=flipH
 	temp.flip_v=flipV
 	temp.modulate.a=0.5
+	temp.z_index=1
 	add_child(temp)
 
 

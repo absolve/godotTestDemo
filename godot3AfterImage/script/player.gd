@@ -9,7 +9,7 @@ var runSpeed=300
 var gravity=600  #重力
 var jumpSpeed=400 # 跳跃力 
 var lastMoveframes=0 #上次移动按键的帧
-const fastMoveDelay=20 #快速按键的间隔
+const fastMoveDelay=10 #快速按键的间隔
 
 onready var ani=$ani
 
@@ -98,8 +98,8 @@ func animation(type):
 	elif type=='jump'||type=='fall':
 		ani.play(type)
 #		print(Engine.get_physics_frames())
-		if Engine.get_physics_frames() % 6 == 0:
+		if Engine.get_physics_frames() % 6 == 0: #隔一定帧数添加残影
 #			AfterImage.addImage(ani.frames.get_frame(type,ani.frame),position,ani.scale,ani.flip_h)
 #			AfterImage.addBlackImage(ani.frames.get_frame(type,ani.frame),position,ani.scale,ani.flip_h)
-			AfterImage.addBlueImage(ani.frames.get_frame(type,ani.frame),position,ani.scale,ani.flip_h)
-#			AfterImage.addSkeletonImage(ani.frames.get_frame(type,ani.frame),position,ani.scale,ani.flip_h)	
+#			AfterImage.addBlueImage(ani.frames.get_frame(type,ani.frame),position,ani.scale,ani.flip_h)
+			AfterImage.addSkeletonImage(ani.frames.get_frame(type,ani.frame),position,ani.scale,ani.flip_h)	
