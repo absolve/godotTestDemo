@@ -13,3 +13,5 @@ godot3inputCombo 按键连招功能
 godot3DestructibleTerrain 简单的可破坏地形  
 godot3SfxManage 声音管理  
 godot4Clip 图片裁剪  
+godot3AfterImage 残影效果  
+godot3SpriteFlip 精灵翻转功能  

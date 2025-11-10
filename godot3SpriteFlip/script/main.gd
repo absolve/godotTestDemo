@@ -1,12 +1,21 @@
 extends Node2D
 
 
+var time=9  #倒计时时间
 
+onready var ani=$ani
+onready var player=$player
 
 func _ready():
-	pass # Replace with function body.
+	ani.play(str(time))
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+
+#下一个计数
+func nextCount():
+	time-=1
+	if time<=0:
+		time=0
+		
+		
+
