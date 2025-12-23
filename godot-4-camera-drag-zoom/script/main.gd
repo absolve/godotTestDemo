@@ -1,0 +1,34 @@
+extends Node2D
+
+@onready var camera=$Camera2D
+
+var dragging = false
+var minZoom=Vector2(0.5,0.5)
+var maxZoom=Vector2(2,2)
+var zoomSpeed=0.1
+var mouse_start_pos=Vector2.ZERO
+
+func _ready():
+	
+	pass
+
+
+func _unhandled_input(_event):
+	if Input.is_action_just_pressed("move"):
+		mouse_start_pos=_event.position
+		dragging=true
+	elif Input.is_action_just_released("move")	:
+		dragging=false
+	
+	if dragging:
+		camera.offset+=(mouse_start_pos-get_viewport().get_mouse_position())*(1/camera.zoom.x)
+		mouse_start_pos=_event.position
+
+	if Input.is_action_pressed("zoomIn"):
+		#print("zoomIn")
+		camera.zoom=clamp(lerp(camera.zoom,maxZoom,zoomSpeed),minZoom,maxZoom)
+		
+	if Input.is_action_pressed("zoomOut"):
+		#print("zoomOut")
+		camera.zoom=clamp(lerp(camera.zoom,minZoom,zoomSpeed),minZoom,maxZoom)
+	
