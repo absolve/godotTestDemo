@@ -20,6 +20,15 @@ func _unhandled_input(_event):
 	elif Input.is_action_just_released("move")	:
 		dragging=false
 	
+	if OS.get_name()=="Android":
+		if _event is InputEventMagnifyGesture:
+			var zoom_change = _event.factor * zoomSpeed - zoomSpeed
+			camera.zoom+=Vector2(zoom_change,zoom_change)
+			camera.zoom=clamp(camera.zoom,minZoom,maxZoom)
+		if _event is InputEventPanGesture:
+			camera.offset+=_event.delta
+	
+	
 	if dragging:
 		camera.offset+=(mouse_start_pos-get_viewport().get_mouse_position())*(1/camera.zoom.x)
 		mouse_start_pos=_event.position
