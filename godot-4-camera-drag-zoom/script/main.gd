@@ -14,30 +14,39 @@ func _ready():
 
 
 func _unhandled_input(_event):
-	if Input.is_action_just_pressed("move"):
-		mouse_start_pos=_event.position
-		dragging=true
-	elif Input.is_action_just_released("move")	:
-		dragging=false
+	
+	if OS.get_name()=="Windows":
+		if Input.is_action_just_pressed("move"):
+			mouse_start_pos=_event.position
+			dragging=true
+		elif Input.is_action_just_released("move")	:
+			dragging=false
 	
 	if OS.get_name()=="Android":
 		if _event is InputEventMagnifyGesture:
-			var zoom_change = _event.factor * zoomSpeed - zoomSpeed
-			camera.zoom+=Vector2(zoom_change,zoom_change)
+			#var zoom_change = _event.factor * zoomSpeed 
+			#camera.zoom+=Vector2(zoom_change,zoom_change)
+			camera.zoom*=_event.factor
 			camera.zoom=clamp(camera.zoom,minZoom,maxZoom)
 		if _event is InputEventPanGesture:
 			camera.offset+=_event.delta
+		
 	
-	
-	if dragging:
+	if dragging :
 		camera.offset+=(mouse_start_pos-get_viewport().get_mouse_position())*(1/camera.zoom.x)
 		mouse_start_pos=_event.position
-
-	if Input.is_action_pressed("zoomIn"):
-		#print("zoomIn")
-		camera.zoom=clamp(lerp(camera.zoom,maxZoom,zoomSpeed),minZoom,maxZoom)
 		
-	if Input.is_action_pressed("zoomOut"):
-		#print("zoomOut")
-		camera.zoom=clamp(lerp(camera.zoom,minZoom,zoomSpeed),minZoom,maxZoom)
+	if OS.get_name()=="Windows":
+		if Input.is_action_pressed("zoomIn"):
+			#print("zoomIn")
+			camera.zoom=clamp(lerp(camera.zoom,maxZoom,zoomSpeed),minZoom,maxZoom)
+			
+		if Input.is_action_pressed("zoomOut"):
+			#print("zoomOut")
+			camera.zoom=clamp(lerp(camera.zoom,minZoom,zoomSpeed),minZoom,maxZoom)
 	
+
+
+func _on_button_pressed() -> void:
+	camera.zoom=Vector2(1,1)
+	camera.offset=Vector2.ZERO

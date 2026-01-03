@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=1024
 window/size/viewport_height=768
+window/stretch/mode="viewport"
 
 [input]
 
@@ -46,3 +47,4 @@ pointing/android/enable_pan_and_scale_gestures=true
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true
