@@ -1,6 +1,7 @@
 extends Node2D
 
 @onready var camera=$Camera2D
+@onready var slider=$CanvasLayer/Control/VSlider
 
 var dragging = false
 var minZoom=Vector2(0.5,0.5)
@@ -30,7 +31,11 @@ func _unhandled_input(_event):
 			camera.zoom=clamp(camera.zoom,minZoom,maxZoom)
 		if _event is InputEventPanGesture:
 			camera.offset+=_event.delta
-		
+		if _event is InputEventScreenTouch and _event.pressed:
+			dragging = true
+			mouse_start_pos = get_global_mouse_position()
+		elif _event is InputEventScreenTouch and not _event.pressed:
+			dragging = false
 	
 	if dragging :
 		camera.offset+=(mouse_start_pos-get_viewport().get_mouse_position())*(1/camera.zoom.x)
@@ -50,3 +55,7 @@ func _unhandled_input(_event):
 func _on_button_pressed() -> void:
 	camera.zoom=Vector2(1,1)
 	camera.offset=Vector2.ZERO
+	slider.value=1
+
+func _on_v_slider_value_changed(value):
+	camera.zoom=Vector2(value,value)

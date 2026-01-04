@@ -30,4 +30,16 @@ offset_right = 100.0
 offset_bottom = 59.0
 text = "reset"
 
+[node name="VSlider" type="VSlider" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 80.0
+offset_right = 72.0
+offset_bottom = 152.0
+min_value = 0.5
+max_value = 2.0
+step = 0.1
+value = 1.0
+
 [connection signal="pressed" from="CanvasLayer/Control/Button" to="." method="_on_button_pressed"]
+[connection signal="value_changed" from="CanvasLayer/Control/VSlider" to="." method="_on_v_slider_value_changed"]
