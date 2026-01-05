@@ -29,13 +29,13 @@ func _unhandled_input(_event):
 			#camera.zoom+=Vector2(zoom_change,zoom_change)
 			camera.zoom*=_event.factor
 			camera.zoom=clamp(camera.zoom,minZoom,maxZoom)
-		if _event is InputEventPanGesture:
+		elif _event is InputEventPanGesture:
 			camera.offset+=_event.delta
-		if _event is InputEventScreenTouch and _event.pressed:
-			dragging = true
-			mouse_start_pos = get_global_mouse_position()
-		elif _event is InputEventScreenTouch and not _event.pressed:
-			dragging = false
+		#elif _event is InputEventScreenTouch and _event.pressed:
+			#dragging = true
+			#mouse_start_pos = get_global_mouse_position()
+		#elif _event is InputEventScreenTouch and not _event.pressed:
+			#dragging = false
 	
 	if dragging :
 		camera.offset+=(mouse_start_pos-get_viewport().get_mouse_position())*(1/camera.zoom.x)
