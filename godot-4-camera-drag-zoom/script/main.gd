@@ -24,17 +24,11 @@ func _unhandled_input(_event):
 
 	if OS.get_name() == "Android":
 		if _event is InputEventMagnifyGesture:
-			#var zoom_change = _event.factor * zoomSpeed
-			#camera.zoom+=Vector2(zoom_change,zoom_change)
 			camera.zoom *= _event.factor
 			camera.zoom = clamp(camera.zoom, minZoom, maxZoom)
 		elif _event is InputEventPanGesture:
 			camera.offset += _event.delta
-		#elif _event is InputEventScreenTouch and _event.pressed:
-		#dragging = true
-		#mouse_start_pos = get_global_mouse_position()
-		#elif _event is InputEventScreenTouch and not _event.pressed:
-		#dragging = false
+		
 
 	if dragging:
 		camera.offset += (
