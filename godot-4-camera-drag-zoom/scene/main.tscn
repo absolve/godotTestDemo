@@ -32,10 +32,11 @@ text = "reset"
 
 [node name="VSlider" type="VSlider" parent="CanvasLayer/Control"]
 layout_mode = 0
-offset_left = 56.0
-offset_top = 80.0
-offset_right = 72.0
-offset_bottom = 152.0
+offset_left = 17.0
+offset_top = 81.0
+offset_right = 65.0
+offset_bottom = 171.0
+scale = Vector2(2, 2)
 min_value = 0.5
 max_value = 2.0
 step = 0.1

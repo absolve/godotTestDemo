@@ -39,10 +39,6 @@ zoomOut={
 ]
 }
 
-[input_devices]
-
-pointing/android/enable_pan_and_scale_gestures=true
-
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
