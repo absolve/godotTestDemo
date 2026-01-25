@@ -73,15 +73,15 @@ func zoom(value):
 		if  OS.get_name() == "Windows":
 			zoomPosOffset=get_local_mouse_position()
 		if OS.get_name() == "Android":
-			zoomPosOffset=get_global_mouse_position()
-			#print('1',zoomPosOffset)
+			zoomPosOffset=get_local_mouse_position()
+
 	camera.zoom = clamp(lerp(camera.zoom, value, zoomSpeed), minZoom, maxZoom)
 	if zoomToCursor:
 		if  OS.get_name() == "Windows":
 			camera.offset+=zoomPosOffset-get_local_mouse_position()
 		if OS.get_name() == "Android":
-			camera.offset+=zoomPosOffset-get_global_mouse_position()
-			#print('2',get_global_mouse_position())
+			camera.offset+=zoomPosOffset-get_local_mouse_position()
+
 			
 func _on_button_pressed() -> void:
 	camera.zoom = Vector2(1, 1)
