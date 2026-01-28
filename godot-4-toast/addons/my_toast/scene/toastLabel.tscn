@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://d4m6iqp7ikk7j"]
+
+[ext_resource type="Script" uid="uid://de7xofhbwr3d2" path="res://addons/my_toast/script/toast_label.gd" id="1_sig03"]
+
+[node name="ToastLabel" type="Label"]
+offset_right = 129.0
+offset_bottom = 23.0
+script = ExtResource("1_sig03")
