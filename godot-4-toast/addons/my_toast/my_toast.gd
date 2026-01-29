@@ -1,14 +1,17 @@
 @tool
 extends EditorPlugin
 
+var scriptName="myToast"
 
 func _enable_plugin():
 	# Add autoloads here.
+	add_autoload_singleton(scriptName,"res://addons/my_toast/script/myToastAutoload.gd")
 	pass
 
 
 func _disable_plugin():
 	# Remove autoloads here.
+	remove_autoload_singleton(scriptName)
 	pass
 
 

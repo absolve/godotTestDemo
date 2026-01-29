@@ -5,4 +5,6 @@
 [node name="ToastLabel" type="Label"]
 offset_right = 129.0
 offset_bottom = 23.0
+text = "1212"
+horizontal_alignment = 1
 script = ExtResource("1_sig03")
