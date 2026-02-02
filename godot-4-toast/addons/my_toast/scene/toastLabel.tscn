@@ -1,10 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://d4m6iqp7ikk7j"]
+[gd_scene load_steps=3 format=3 uid="uid://d4m6iqp7ikk7j"]
 
 [ext_resource type="Script" uid="uid://de7xofhbwr3d2" path="res://addons/my_toast/script/toast_label.gd" id="1_sig03"]
+[ext_resource type="StyleBox" uid="uid://dfse2py70lh2u" path="res://addons/my_toast/style/label_style_box_flat.tres" id="1_vtc4u"]
 
 [node name="ToastLabel" type="Label"]
 offset_right = 129.0
 offset_bottom = 23.0
-text = "1212"
+theme_override_styles/normal = ExtResource("1_vtc4u")
 horizontal_alignment = 1
 script = ExtResource("1_sig03")
