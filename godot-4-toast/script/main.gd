@@ -5,4 +5,4 @@ extends Node2D
 
 
 func _on_button_pressed():
-	myToast.display("hello world","bottom")
+	myToast.display("hello world",myToast.direction.bottom)

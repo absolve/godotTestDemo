@@ -15,7 +15,7 @@ var margin={'top':20,'bottom':50,'left':20,'right':20}
 func _ready():
 	screenSize=get_viewport_rect()
 	init()
-	print(screenSize)
+	#print(screenSize)
 	
 func init():
 	if dir=='bottom':
@@ -29,10 +29,18 @@ func init():
 	tween.tween_property(self,"modulate:a", 0, 1).set_delay(displayTime)
 	tween.tween_callback(removeLabel)
 
-func movePos():
+func movePos(index):
+	var tween=create_tween()
+	var offsetY=0
+	if dir=='bottom':
+		offsetY=screenSize.size.y-(size.y+margin.bottom)*(index+1)+index*margin.bottom/2
+		tween.tween_property(self, "position",Vector2(position.x,offsetY),0.4)	
+		tween.set_trans(Tween.TRANS_SINE)
+	elif dir=='top':
+		offsetY=size.y*(index+1)+margin.top
+		tween.tween_property(self, "position",Vector2(position.x,offsetY),0.4)	
+		#tween.set_trans(Tween.TRANS_LINEAR)
 	
-	pass
-
 func removeLabel():
 	remove.emit(self)
 	queue_free()
