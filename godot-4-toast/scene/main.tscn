@@ -13,10 +13,37 @@ offset_bottom = 40.0
 
 [node name="Button" type="Button" parent="Control"]
 layout_mode = 0
-offset_left = 51.0
+offset_left = 48.0
 offset_top = 138.0
-offset_right = 164.0
-offset_bottom = 201.0
-text = "show"
+offset_right = 163.0
+offset_bottom = 188.0
+text = "bottom"
+
+[node name="top" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 232.0
+offset_right = 161.0
+offset_bottom = 282.0
+text = "top"
+
+[node name="message" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 328.0
+offset_right = 161.0
+offset_bottom = 378.0
+text = "top message"
+
+[node name="message2" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 432.0
+offset_right = 161.0
+offset_bottom = 482.0
+text = "message"
 
 [connection signal="pressed" from="Control/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Control/top" to="." method="_on_top_pressed"]
+[connection signal="pressed" from="Control/message" to="." method="_on_message_pressed"]
+[connection signal="pressed" from="Control/message2" to="." method="_on_message_2_pressed"]

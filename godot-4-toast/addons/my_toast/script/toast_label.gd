@@ -10,7 +10,7 @@ var str:String:  #字符串
 		text=str(value)
 var dir="bottom"  #top bottom
 var screenSize:Rect2
-var margin={'top':20,'bottom':50,'left':20,'right':20}
+var margin={'top':20,'bottom':30,'left':20,'right':20}
 		
 func _ready():
 	screenSize=get_viewport_rect()
@@ -19,9 +19,9 @@ func _ready():
 	
 func init():
 	if dir=='bottom':
-		position=Vector2(screenSize.size.x/2-size.x/2,screenSize.size.y-size.y-margin.bottom)
+		position=Vector2(screenSize.size.x/2-size.x/2,screenSize.size.y-size.y-margin.bottom/2)
 	elif dir=="top":
-		position=Vector2(screenSize.size.x/2-size.x/2,size.y+margin.top)
+		position=Vector2(screenSize.size.x/2-size.x/2,size.y+margin.top/2)
 	
 	var tween=create_tween()
 	tween.tween_property(self,"modulate:a", 0, 0)
@@ -33,13 +33,13 @@ func movePos(index):
 	var tween=create_tween()
 	var offsetY=0
 	if dir=='bottom':
-		offsetY=screenSize.size.y-(size.y+margin.bottom)*(index+1)+index*margin.bottom/2
+		offsetY=screenSize.size.y-(size.y+margin.bottom/2)*(index+1)
 		tween.tween_property(self, "position",Vector2(position.x,offsetY),0.4)	
 		tween.set_trans(Tween.TRANS_SINE)
 	elif dir=='top':
-		offsetY=size.y*(index+1)+margin.top
+		offsetY=(size.y+margin.top/2)*(index+1)
 		tween.tween_property(self, "position",Vector2(position.x,offsetY),0.4)	
-		#tween.set_trans(Tween.TRANS_LINEAR)
+		tween.set_trans(Tween.TRANS_SINE)
 	
 func removeLabel():
 	remove.emit(self)
