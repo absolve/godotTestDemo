@@ -44,7 +44,7 @@ func removeLabel(node):
 			break
 	for i in bottomLabel:
 		if i ==	node:
-			bottomLabel.	erase(i)
+			bottomLabel.erase(i)
 			break
 	for i in bottomMoveLabel:
 		if i ==	node:
