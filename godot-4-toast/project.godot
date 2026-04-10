@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 myToast="*res://addons/my_toast/script/myToastAutoload.gd"
 
+[display]
+
+window/stretch/mode="viewport"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/my_toast/plugin.cfg")
