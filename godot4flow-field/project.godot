@@ -11,8 +11,15 @@ config_version=5
 [application]
 
 config/name="godot4flow field"
+run/main_scene="uid://ch058u0mggla5"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=1024
+window/size/viewport_height=768
+window/stretch/mode="viewport"
 
 [physics]
 
