@@ -1,9 +1,13 @@
 [gd_scene format=3 uid="uid://ch058u0mggla5"]
 
 [ext_resource type="Script" uid="uid://du7t5s8aijc7h" path="res://script/main.gd" id="1_itxqv"]
+[ext_resource type="PackedScene" uid="uid://w0ctpcmsd7vn" path="res://scene/enemy.tscn" id="2_v0l8b"]
 
 [node name="main" type="Node2D" unique_id=1130539910]
 script = ExtResource("1_itxqv")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=366442616]
 anchor_mode = 0
+
+[node name="enemy" parent="." unique_id=942472227 instance=ExtResource("2_v0l8b")]
+position = Vector2(16, 16)

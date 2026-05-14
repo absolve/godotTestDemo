@@ -2,7 +2,11 @@
 
 [ext_resource type="Script" uid="uid://bi11gojns4pli" path="res://script/enemy.gd" id="1_h08p8"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h08p8"]
+size = Vector2(32, 32)
+
 [node name="enemy" type="CharacterBody2D" unique_id=942472227]
 script = ExtResource("1_h08p8")
 
 [node name="shape" type="CollisionShape2D" parent="." unique_id=306430851]
+shape = SubResource("RectangleShape2D_h08p8")
