@@ -1,16 +1,20 @@
 extends Node2D
 
 @onready var camera=$Camera2D
-
+@onready var timer=$Timer
 
 var font: FontFile
 var warm_color = Color(1.0, 0.6, 0.2) 
 var cool_color = Color(0.2, 0.5, 1.0)
+@export var maxCount=2
+var count=0
+var enemy=preload("res://scene/enemy.tscn")
 
 func _ready() -> void:
 	font=ThemeDB.fallback_font
 	FlowField.computeFields(Vector2(30,20))
-	pass
+	timer.start()
+
 		
 
 
@@ -24,9 +28,13 @@ func _input(_event: InputEvent) -> void:
 		var y1 = floori(get_global_mouse_position().y/ FlowField.cellSize.y)
 		print(x1,y1)
 		FlowField.computeFields(Vector2(x1,y1))
-
-
-
+	if Input.is_action_just_pressed("rightClick"):
+		var x1 = floori(get_global_mouse_position().x/ FlowField.cellSize.x)
+		var y1 = floori(get_global_mouse_position().y/ FlowField.cellSize.y)
+		FlowField.addObstacle(Vector2(x1,y1))
+		
+		
+		
 func _draw() -> void:
 	
 	#绘制距离
@@ -38,7 +46,7 @@ func _draw() -> void:
 				else:
 					var c=warm_color.lerp(cool_color,min(FlowField.mapSize.x,FlowField.distanceField["%s-%s"%[x,y]])/FlowField.mapSize.x)
 					draw_rect(Rect2(Vector2(x*FlowField.cellSize.x,y*FlowField.cellSize.y),FlowField.cellSize),c)
-	
+	#绘制方向
 	for x in range(FlowField.mapSize.x):
 		for y in range(FlowField.mapSize.y):
 			if FlowField.flowField.has("%s-%s"%[x,y]):
@@ -93,7 +101,8 @@ func _draw() -> void:
 	for i in range(FlowField.mapSize.y):
 		draw_line(Vector2(0,i*FlowField.cellSize.y),Vector2(FlowField.mapSize.x*FlowField.cellSize.x,i*FlowField.cellSize.y),Color.WHITE,1)	
 
-
+	for i in FlowField.obstacle.keys():
+		draw_rect(Rect2(FlowField.obstacle[i]*FlowField.cellSize.x,FlowField.cellSize),Color.RED)
 	
 	var x1 = floor(get_local_mouse_position().x)
 	var y1 = floor(get_local_mouse_position().y)
@@ -102,3 +111,13 @@ func _draw() -> void:
 	draw_string(font, get_local_mouse_position() + Vector2(20, 20), "%s-%s" % [floori(x1 / FlowField.cellSize.x),
 	 floori(y1 / FlowField.cellSize.y)],
 	HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color.WHITE)
+
+
+func _on_timer_timeout() -> void:
+	count+=1
+	if count<=maxCount:
+		var e=enemy.instantiate()
+		e.position=Vector2(FlowField.cellSize)/2
+		add_child(e)
+		timer.start()
+	
