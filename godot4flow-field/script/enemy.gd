@@ -21,6 +21,20 @@ const dir4Ortho = [
 	Vector2(-1,0),  # 左
 	Vector2(1,0)    # 右
 ]
+#每个方向与主方向的夹角
+var dir4OrthoDot={
+	Vector2(0,-1):0,
+	Vector2(1,1): 0,
+	Vector2(-1,1):0,
+	Vector2(-1,-1):0
+}
+	
+class dirInfo:
+	var dir:Vector2
+	var dot:float
+	var canMove:bool #是否可以移动
+	func _init(_dir:Vector2):
+		self.dir=_dir
 	
 #4个正反向对应的对焦方向	
 var diagDepend = {
@@ -33,11 +47,13 @@ var diagDepend = {
 var shapeQuery=PhysicsShapeQueryParameters2D.new()
 var bestDir:Vector2=Vector2.ZERO
 var currDir:Vector2=Vector2.ZERO  #当前移动方向
-var lockDirFrame=4 #锁定方向的帧数
-var lockDirTimer=4
+var lockDirFrame=20 #锁定方向的帧数
+var lockDirTimer=20
 var isTrapped=false  #是否被困住 如果上下左方向不能移动就是被困住
 var trappedDir=[]
 var trappedCount=0 #无法移动的方向
+var recent_positions: Array[Vector2i] = [] #走过的格子
+
 
 func _ready() -> void:
 	shapeQuery.collide_with_areas=true
@@ -79,15 +95,49 @@ func _physics_process(_delta: float) -> void:
 	var result=space_state.intersect_shape(shapeQuery,4)
 	if result.size()==0:
 		bestDir=dir
+		var current_grid =Vector2i(int(global_position.x/FlowField.cellSize.x),int(global_position.x/FlowField.cellSize.x))
+		if recent_positions.size()>0&& recent_positions[-1]==current_grid:
+			pass
+		else:
+			recent_positions.append(current_grid)
+		if 	recent_positions.size()>4:
+			recent_positions.pop_front()
+			
 	else:
+		var selectDir:Array[dirInfo]=[]
+		var current_grid =Vector2i(int(global_position.x/FlowField.cellSize.x),int(global_position.x/FlowField.cellSize.x))
 		for i in dir4Ortho:
 			shapeQuery.transform=Transform2D(global_rotation,global_position+
 												i.normalized()*speed*_delta)
 			var r=space_state.intersect_shape(shapeQuery,4)
-			if r.size()==0:
-				bestDir=i
+			var di=dirInfo.new(i)
+			di.dot=dir.dot(i)
+			if r.is_empty():	#可以移动的方向
+				di.canMove=true
+				selectDir.append(di)
+				
+		#排序与流场方向接近的	
+		selectDir.sort_custom(func(a, b): return a.dot > b.dot)
+		#选出一个合适的方向 
+		for i in selectDir:
+			var next_grid =current_grid+Vector2i(i.dir)
+			if !recent_positions.has(next_grid):
+				bestDir=i.dir
+			
+				recent_positions.append(current_grid)
+				if 	recent_positions.size()>10:
+					recent_positions.pop_front()
 				break
-	currDir=bestDir
+				
+	
+	
+	#限制当前方向移动几帧 然后才切换方向 防止频繁切换方向出现抖动
+	if lockDirTimer<lockDirFrame:
+		lockDirTimer+=1
+	else:
+		if currDir!=bestDir:
+			lockDirTimer=0
+		currDir=bestDir	
 	
 	##获取附近的敌人，判断是不是主要方向被堵住了
 	#var e=radar.get_overlapping_bodies()
@@ -140,13 +190,7 @@ func _physics_process(_delta: float) -> void:
 
 		
 	
-	#限制当前方向移动几帧 然后才切换方向 防止频繁切换方向出现抖动
-	if lockDirTimer<lockDirFrame:
-		lockDirTimer+=1
-	else:
-		if currDir!=bestDir:
-			lockDirTimer=0
-		currDir=bestDir	
+	
 	
 	#if trappedCount>=trappedDir.size(): #被困住就不动
 		#currDir=Vector2.ZERO
