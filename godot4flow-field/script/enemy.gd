@@ -53,27 +53,41 @@ func _physics_process(_delta: float) -> void:
 	bestDir=Vector2.ZERO
 	isTrapped=false
 	trappedCount=0
-	
-	#寻找合适的方向
-	var aviodDir=[]
-	var idx=dirs.find(dir)
-	aviodDir.push_front(dir)
-	for i in range(1,4): #顺时针
-		aviodDir.append(dirs[wrapi(idx+i,0,8)])
-	for i in range(1,4): #逆时针
-		aviodDir.append(dirs[wrapi(idx-i,0,8)])
-	aviodDir.append(dir*-1)	
 	var space_state = get_world_2d().direct_space_state
-	#如果7个方向都被阻挡 就试下反方向 没有方向就停止
-	for i in aviodDir:
-		shapeQuery.transform=Transform2D(global_rotation,global_position+
+	#寻找合适的方向
+	#var aviodDir=[]
+	#var idx=dirs.find(dir)
+	#aviodDir.push_front(dir)
+	#for i in range(1,4): #顺时针
+		#aviodDir.append(dirs[wrapi(idx+i,0,8)])
+	#for i in range(1,4): #逆时针
+		#aviodDir.append(dirs[wrapi(idx-i,0,8)])
+	#aviodDir.append(dir*-1)	
+	
+	##如果7个方向都被阻挡 就试下反方向 没有方向就停止
+	#for i in aviodDir:
+		#shapeQuery.transform=Transform2D(global_rotation,global_position+
+												#i.normalized()*speed*_delta)
+		#var r=space_state.intersect_shape(shapeQuery,4)
+		#if r.size()==0:
+			#bestDir=i
+			#break
+			
+	#先判断流场方向是否可以行走  如果不行就判断四正交主方向是否可以行走
+	shapeQuery.transform=Transform2D(global_rotation,global_position+
+												dir.normalized()*speed*_delta)
+	var result=space_state.intersect_shape(shapeQuery,4)
+	if result.size()==0:
+		bestDir=dir
+	else:
+		for i in dir4Ortho:
+			shapeQuery.transform=Transform2D(global_rotation,global_position+
 												i.normalized()*speed*_delta)
-		var r=space_state.intersect_shape(shapeQuery,4)
-		if r.size()==0:
-			bestDir=i
-			break
-	
-	
+			var r=space_state.intersect_shape(shapeQuery,4)
+			if r.size()==0:
+				bestDir=i
+				break
+	currDir=bestDir
 	
 	##获取附近的敌人，判断是不是主要方向被堵住了
 	#var e=radar.get_overlapping_bodies()
