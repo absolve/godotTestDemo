@@ -33,9 +33,11 @@ class dirInfo:
 	var dir:Vector2
 	var dot:float
 	var canMove:bool #是否可以移动
-	var distance:Vector2i  #距离目标的距离
+	var distance  #距离目标的距离
 	func _init(_dir:Vector2):
 		self.dir=_dir
+	func _to_string():
+		return "dir:%s distance:%s"%[dir,distance]
 	
 #4个正反向对应的对焦方向	
 var diagDepend = {
@@ -63,7 +65,8 @@ func _ready() -> void:
 	shapeQuery.exclude=[get_rid()]
 	shapeQuery.shape=shape.shape
 	trappedDir.append_array([Vector2(0,-1),Vector2(1,0),Vector2(0,1),Vector2(-1,0)])
-	
+	print(floori(global_position.x/FlowField.cellSize.x),
+									floori(global_position.x/FlowField.cellSize.x))
 	
 
 func _physics_process(_delta: float) -> void:
@@ -97,7 +100,66 @@ func _physics_process(_delta: float) -> void:
 	var result=space_state.intersect_shape(shapeQuery,4)
 	if result.size()==0:
 		bestDir=dir
-		var current_grid =Vector2i(int(global_position.x/FlowField.cellSize.x),int(global_position.x/FlowField.cellSize.x))
+		var current_grid =Vector2i(floori(global_position.x/FlowField.cellSize.x)
+		,floori(global_position.y/FlowField.cellSize.y))
+		if recent_positions.size()>0&& recent_positions[-1]==current_grid:
+			pass
+		else:
+			recent_positions.append(current_grid)
+		if 	recent_positions.size()>4:
+			recent_positions.pop_front()
+		nextGrid=null	
+	else:
+		var selectDir:Array[dirInfo]=[]
+		#print(FlowField.target)
+		
+		var current_grid =Vector2i(floori(global_position.x/FlowField.cellSize.x),
+									floori(global_position.y/FlowField.cellSize.y))
+		for i in dir4Ortho:
+			shapeQuery.transform=Transform2D(global_rotation,global_position+
+												i.normalized()*speed*_delta)
+			var next_grid =current_grid+Vector2i(i)
+			var r=space_state.intersect_shape(shapeQuery,4)
+			var di=dirInfo.new(i)
+			di.dot=dir.dot(i)
+			di.distance=next_grid.distance_squared_to(FlowField.target)
+			if r.is_empty():	#可以移动的方向
+				di.canMove=true
+				selectDir.append(di)
+				
+		#距离近的
+		selectDir.sort_custom(func(a, b): return a.distance < b.distance)
+		#print(selectDir)
+		if nextGrid==null :
+			#print(current_grid,' ',selectDir)
+			if !selectDir.is_empty():
+				bestDir=selectDir[0].dir
+				nextGrid=current_grid+Vector2i(currDir)
+		else:
+			#如果当前方向可以继续行走到附近格子继续前进
+			#如果不能就重新选择附近的格子
+			shapeQuery.transform=Transform2D(global_rotation,global_position+
+												currDir.normalized()*speed*_delta)
+			var r=space_state.intersect_shape(shapeQuery,4)
+			if r.is_empty():
+				bestDir=currDir
+			else :  #重新选择前进到附近的格子
+				for i in selectDir:
+					var next_grid=current_grid+Vector2i(i.dir)
+					if !recent_positions.has(next_grid):
+						bestDir=i.dir
+						nextGrid=next_grid
+						break
+					
+			if current_grid==nextGrid:
+				for i in selectDir:
+					var next_grid=current_grid+Vector2i(i.dir)
+					if !recent_positions.has(next_grid):
+						bestDir=i.dir
+						nextGrid=next_grid
+						break
+		
+				
 		if recent_positions.size()>0&& recent_positions[-1]==current_grid:
 			pass
 		else:
@@ -105,33 +167,17 @@ func _physics_process(_delta: float) -> void:
 		if 	recent_positions.size()>4:
 			recent_positions.pop_front()
 			
-	else:
-		var selectDir:Array[dirInfo]=[]
-		var current_grid =Vector2i(int(global_position.x/FlowField.cellSize.x),int(global_position.x/FlowField.cellSize.x))
-		for i in dir4Ortho:
-			shapeQuery.transform=Transform2D(global_rotation,global_position+
-												i.normalized()*speed*_delta)
-			var next_grid =current_grid+Vector2i(i.dir)
-			var r=space_state.intersect_shape(shapeQuery,4)
-			var di=dirInfo.new(i)
-			di.dot=dir.dot(i)
-			di.distance=next_grid.distance_squared_to(current_grid)
-			if r.is_empty():	#可以移动的方向
-				di.canMove=true
-				selectDir.append(di)
-				
-		#距离近的
-		selectDir.sort_custom(func(a, b): return a.distance < b.distance)
-		#选出一个合适的方向 
-		for i in selectDir:
-			var next_grid =current_grid+Vector2i(i.dir)
-			if !recent_positions.has(next_grid):
-				bestDir=i.dir
 			
-				recent_positions.append(current_grid)
-				if 	recent_positions.size()>10:
-					recent_positions.pop_front()
-				break
+		##选出一个合适的方向 
+		#for i in selectDir:
+			#var next_grid =current_grid+Vector2i(i.dir)
+			#if !recent_positions.has(next_grid):
+				#bestDir=i.dir
+			#
+				#recent_positions.append(current_grid)
+				#if 	recent_positions.size()>10:
+					#recent_positions.pop_front()
+				#break
 				
 	
 	

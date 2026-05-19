@@ -16,6 +16,7 @@ script = ExtResource("1_h08p8")
 shape = SubResource("RectangleShape2D_h08p8")
 
 [node name="radar" type="Area2D" parent="." unique_id=789438694]
+visible = false
 collision_layer = 0
 collision_mask = 3
 
