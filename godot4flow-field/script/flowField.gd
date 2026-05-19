@@ -11,7 +11,7 @@ var flowField:Dictionary={}
 var obstacle:Dictionary={}
 
 var showAni=false  #显示计算动画
-var target=null
+var target=null   #目标格子
 
 #计算流场
 func computeFields(_target:Vector2):
