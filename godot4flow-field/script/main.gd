@@ -12,7 +12,9 @@ var enemy=preload("res://scene/enemy.tscn")
 
 func _ready() -> void:
 	font=ThemeDB.fallback_font
-	FlowField.computeFields(Vector2(30,20))
+	#FlowField.target=[Vector2(30,20),Vector2(30,10)]
+	FlowField.target=[Vector2(30,20)]
+	FlowField.computeFields()
 	timer.start()
 
 		
@@ -27,6 +29,7 @@ func _input(_event: InputEvent) -> void:
 		var x1 = floori(get_global_mouse_position().x/ FlowField.cellSize.x)
 		var y1 = floori(get_global_mouse_position().y/ FlowField.cellSize.y)
 		print(x1,y1)
+		
 		FlowField.computeFields(Vector2(x1,y1))
 	if Input.is_action_just_pressed("rightClick"):
 		var x1 = floori(get_global_mouse_position().x/ FlowField.cellSize.x)
@@ -91,8 +94,9 @@ func _draw() -> void:
 					draw_circle(Vector2(x*FlowField.cellSize.x,y*FlowField.cellSize.y+FlowField.cellSize.y),
 					FlowField.cellSize.x/8,Color.YELLOW)
 					
-	if FlowField.target!=null:
-		draw_circle(FlowField.target*FlowField.cellSize.x+FlowField.cellSize/2,FlowField.cellSize.x/3,Color.RED)
+	if FlowField.target!=null && !FlowField.target.is_empty():
+		for i in FlowField.target:
+			draw_circle(i*FlowField.cellSize.x+FlowField.cellSize/2,FlowField.cellSize.x/3,Color.RED)
 		
 		
 	for i in range(FlowField.mapSize.x):

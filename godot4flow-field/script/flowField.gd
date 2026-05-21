@@ -11,11 +11,12 @@ var flowField:Dictionary={}
 var obstacle:Dictionary={}
 
 var showAni=false  #显示计算动画
-var target=null   #目标格子
+var target:Array[Vector2]=[]   #目标格子坐标
 
 #计算流场
-func computeFields(_target:Vector2):
-	target=_target
+func computeFields(_target:Vector2=Vector2.INF):
+	if _target!=Vector2.INF:
+		target.append(_target)
 	#初始化每个格子的距离
 	for x in range(mapSize.x):
 		for y in range(mapSize.y):
@@ -24,9 +25,11 @@ func computeFields(_target:Vector2):
 	var dirs = [Vector2(-1,0),Vector2(1,0),Vector2(0,-1),Vector2(0,1),
 		Vector2(-1,-1),Vector2(-1,1),Vector2(1,-1),Vector2(1,1)]
 	var t:Array[Vector2] =[]
-	t.append(_target)
-	distanceField["%s-%s"%[int(_target.x),int(_target.y)]]=0
-	#flowField["%s-%s"%[int(_target.x),int(_target.y)]]=null
+	t.append_array(target)
+	#t.append(_target)
+	for i in  target:
+		distanceField["%s-%s"%[int(i.x),int(i.y)]]=0
+	
 	while t.size()>0:
 		var p=t.pop_front()
 		for i in dirs:  #获取邻居格子
@@ -37,6 +40,8 @@ func computeFields(_target:Vector2):
 				continue
 			if distanceField["%s-%s"%[int(pos.x),int(pos.y)]]==INF:
 				distanceField["%s-%s"%[int(pos.x),int(pos.y)]]=distanceField["%s-%s"%[int(p.x),int(p.y)]]+1
+				if i.x!=0||i.y!=0: #对角线加0.5
+					distanceField["%s-%s"%[int(pos.x),int(pos.y)]]+=0.5
 				t.append(pos)
 		if showAni:
 			await get_tree().process_frame
@@ -75,6 +80,8 @@ func addObstacle(pos:Vector2):
 		obstacle.erase("%s-%s"%[int(pos.x),int(pos.y)])
 	else:
 		obstacle["%s-%s"%[int(pos.x),int(pos.y)]]=pos	
-	if target!=null:
-		computeFields(target)
-		
+	computeFields()
+	
+func clearTargrt():
+	target.clear()
+	computeFields()
