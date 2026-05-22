@@ -83,7 +83,8 @@ func _physics_process(_delta: float) -> void:
 	shapeQuery.transform=Transform2D(global_rotation,global_position+
 												dir.normalized()*speed*_delta)
 	var current_grid =Vector2i(floori(global_position.x/FlowField.cellSize.x)	
-		,floori(global_position.y/FlowField.cellSize.y))										
+		,floori(global_position.y/FlowField.cellSize.y))			
+	var nextg=current_grid+dir		#目标下一个格子
 	var result=space_state.intersect_shape(shapeQuery,4)
 	if result.size()==0: #如果当前方向的格子敌人距离比较近就判断为无法前进  必须地图内范围
 		bestDir=dir

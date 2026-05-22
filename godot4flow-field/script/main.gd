@@ -29,7 +29,7 @@ func _input(_event: InputEvent) -> void:
 		var x1 = floori(get_global_mouse_position().x/ FlowField.cellSize.x)
 		var y1 = floori(get_global_mouse_position().y/ FlowField.cellSize.y)
 		print(x1,y1)
-		
+		FlowField.target=[]
 		FlowField.computeFields(Vector2(x1,y1))
 	if Input.is_action_just_pressed("rightClick"):
 		var x1 = floori(get_global_mouse_position().x/ FlowField.cellSize.x)
