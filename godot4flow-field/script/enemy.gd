@@ -57,8 +57,8 @@ var trappedDir=[]
 var trappedCount=0 #无法移动的方向
 var recent_positions: Array[Vector2i] = [] #走过的格子
 var nextGrid=null
-var limitDistance=5 #当敌人周边的格子方向有敌人，判定阻挡的距离
-
+var limitDistance=5+32 #当敌人周边的格子方向有敌人，判定阻挡的距离
+var canMove=true  #当前当前方向可以移动
 
 func _ready() -> void:
 	shapeQuery.collide_with_areas=true
@@ -75,6 +75,7 @@ func _physics_process(_delta: float) -> void:
 	bestDir=Vector2.ZERO
 	isTrapped=false
 	trappedCount=0
+	canMove=true
 	if FlowField.target.is_empty():
 		return
 	var space_state = get_world_2d().direct_space_state
@@ -84,9 +85,20 @@ func _physics_process(_delta: float) -> void:
 												dir.normalized()*speed*_delta)
 	var current_grid =Vector2i(floori(global_position.x/FlowField.cellSize.x)	
 		,floori(global_position.y/FlowField.cellSize.y))			
-	var nextg=current_grid+dir		#目标下一个格子
+	var nextg=current_grid+Vector2i(dir	)	#目标下一个格子
+	var body=radar.get_overlapping_bodies()
+	if body:
+		for i in body:
+			if i==self:
+				continue
+			var pos=Vector2i(floori(i.global_position.x/FlowField.cellSize.x)
+				,floori(i.global_position.y/FlowField.cellSize.y))
+			if 	nextg==pos:  #当前格子上有敌人距离比较近就判断为无法行走
+				if global_position.distance_squared_to(i.global_position)<=limitDistance*limitDistance:
+					canMove=false
+					break				
 	var result=space_state.intersect_shape(shapeQuery,4)
-	if result.size()==0: #如果当前方向的格子敌人距离比较近就判断为无法前进  必须地图内范围
+	if result.size()==0 &&canMove: #如果当前方向的格子敌人距离比较近就判断为无法前进  必须地图内范围
 		bestDir=dir
 		#var current_grid =Vector2i(floori(global_position.x/FlowField.cellSize.x)
 		#,floori(global_position.y/FlowField.cellSize.y))
@@ -107,6 +119,8 @@ func _physics_process(_delta: float) -> void:
 			var next_grid =current_grid+Vector2i(i)
 			if next_grid.x<0||next_grid.y<0||next_grid.x>=FlowField.mapSize.x||next_grid.y>=FlowField.mapSize.y:
 				continue
+			#如果距离太近就不判断为不能移动
+			
 			var r=space_state.intersect_shape(shapeQuery,4)
 			var di=dirInfo.new(i)
 			di.dot=dir.dot(i)
@@ -146,8 +160,7 @@ func _physics_process(_delta: float) -> void:
 						bestDir=i.dir
 						nextGrid=next_grid
 						break
-		
-				
+			
 		if recent_positions.size()>0&& recent_positions[-1]==current_grid:
 			pass
 		else:
