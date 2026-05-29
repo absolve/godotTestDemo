@@ -120,7 +120,19 @@ func _physics_process(_delta: float) -> void:
 			if next_grid.x<0||next_grid.y<0||next_grid.x>=FlowField.mapSize.x||next_grid.y>=FlowField.mapSize.y:
 				continue
 			#如果距离太近就不判断为不能移动
-			
+			if body:
+				var hasEnemy=false
+				for b in body:
+					if b==self:
+						continue
+					var pos=Vector2i(floori(b.global_position.x/FlowField.cellSize.x)
+						,floori(b.global_position.y/FlowField.cellSize.y))
+					if 	next_grid==pos:  #当前格子上有敌人距离比较近就判断为无法行走
+						if global_position.distance_squared_to(b.global_position)<=limitDistance*limitDistance:
+							hasEnemy=true
+							break		
+				if hasEnemy:
+					continue
 			var r=space_state.intersect_shape(shapeQuery,4)
 			var di=dirInfo.new(i)
 			di.dot=dir.dot(i)
