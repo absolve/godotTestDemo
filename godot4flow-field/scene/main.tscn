@@ -17,4 +17,10 @@ one_shot = true
 [node name="wall" parent="." unique_id=571988868 instance=ExtResource("2_v0l8b")]
 position = Vector2(208, 208)
 
+[node name="wall2" parent="." unique_id=1407525812 instance=ExtResource("2_v0l8b")]
+position = Vector2(240, 208)
+
+[node name="wall3" parent="." unique_id=667477667 instance=ExtResource("2_v0l8b")]
+position = Vector2(272, 208)
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

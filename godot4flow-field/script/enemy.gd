@@ -56,9 +56,11 @@ var isTrapped=false  #是否被困住 如果上下左方向不能移动就是被
 var trappedDir=[]
 var trappedCount=0 #无法移动的方向
 var recent_positions: Array[Vector2i] = [] #走过的格子
+var recentMaxPos=5
 var nextGrid=null
-var limitDistance=5+32 #当敌人周边的格子方向有敌人，判定阻挡的距离
+var limitDistance=4+32 #当敌人周边的格子方向有敌人，判定阻挡的距离
 var canMove=true  #当前当前方向可以移动
+var tryDir=[]  #在当前格子尝试不同的方向
 
 func _ready() -> void:
 	shapeQuery.collide_with_areas=true
@@ -66,12 +68,12 @@ func _ready() -> void:
 	shapeQuery.exclude=[get_rid()]
 	shapeQuery.shape=shape.shape
 	trappedDir.append_array([Vector2(0,-1),Vector2(1,0),Vector2(0,1),Vector2(-1,0)])
-	print(floori(global_position.x/FlowField.cellSize.x),
-									floori(global_position.x/FlowField.cellSize.x))
+	#print(floori(global_position.x/FlowField.cellSize.x),
+									#floori(global_position.x/FlowField.cellSize.x))
 	
 
 func _physics_process(_delta: float) -> void:
-	var dir=FlowField.getFlowDir(global_position)
+	var dir=FlowField.getFlowDir(global_position)  #获取流场提供的方向
 	bestDir=Vector2.ZERO
 	isTrapped=false
 	trappedCount=0
@@ -106,10 +108,14 @@ func _physics_process(_delta: float) -> void:
 			pass
 		else:
 			recent_positions.append(current_grid)
-		if 	recent_positions.size()>4:
+		if 	recent_positions.size()>recentMaxPos:
 			recent_positions.pop_front()
 		nextGrid=null	
 	else:
+		###在4个方向中分别计算出每个方向距离目标点的距离，优先选择距离最小的方向
+		###选择的方向必须到达指定方向的下一个格子的位置时才可以继续选择方向，记录走过的格子避免反复回头
+		###如果当前还没有到达新方向的位置就碰到的障碍，重新选择新方向，之前的方向作为记录，4个方向都不能离开
+		###当前格子就判定被困住不在移动  等待一段时间后在重新寻找方向
 		var selectDir:Array[dirInfo]=[]
 		#var current_grid =Vector2i(floori(global_position.x/FlowField.cellSize.x),
 									#floori(global_position.y/FlowField.cellSize.y))
@@ -135,13 +141,13 @@ func _physics_process(_delta: float) -> void:
 					continue
 			var r=space_state.intersect_shape(shapeQuery,4)
 			var di=dirInfo.new(i)
-			di.dot=dir.dot(i)
+			#di.dot=dir.dot(i)
 			di.distance=next_grid.distance_squared_to(FlowField.target[0])
 			if r.is_empty():	#可以移动的方向
 				di.canMove=true
 				selectDir.append(di)
 				
-		#距离近的
+		#根据距离进行排序
 		selectDir.sort_custom(func(a, b): return a.distance < b.distance)
 		#print(selectDir)
 		if nextGrid==null :
@@ -151,24 +157,30 @@ func _physics_process(_delta: float) -> void:
 				nextGrid=current_grid+Vector2i(currDir)
 		else:
 			#如果当前方向可以继续行走到附近格子继续前进
-			#如果不能就重新选择附近的格子
+			#如果不能就重新选择走到附近的格子
 			shapeQuery.transform=Transform2D(global_rotation,global_position+
 												currDir.normalized()*speed*_delta)
 			var r=space_state.intersect_shape(shapeQuery,4)
 			if r.is_empty():
 				bestDir=currDir
 			else :  #重新选择前进到附近的格子
+				#记录之前的方向
+				if !tryDir.has(currDir):
+					tryDir.append(currDir)
 				for i in selectDir:
 					var next_grid=current_grid+Vector2i(i.dir)
-					if !recent_positions.has(next_grid):
+					if !currDir.is_equal_approx(i.dir) && !recent_positions.has(next_grid):
 						bestDir=i.dir
 						nextGrid=next_grid
 						break
-					
+				
+						
+			#如果已经到了下个格子则重新选择新的格子			
 			if current_grid==nextGrid:
+				tryDir.clear()
 				for i in selectDir:
 					var next_grid=current_grid+Vector2i(i.dir)
-					if !recent_positions.has(next_grid):
+					if !recent_positions.has(next_grid): #排除之前的方向不往回走
 						bestDir=i.dir
 						nextGrid=next_grid
 						break
@@ -177,7 +189,7 @@ func _physics_process(_delta: float) -> void:
 			pass
 		else:
 			recent_positions.append(current_grid)
-		if 	recent_positions.size()>4:
+		if 	recent_positions.size()>recentMaxPos:
 			recent_positions.pop_front()
 			
 	currDir=bestDir	
