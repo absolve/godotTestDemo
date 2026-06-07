@@ -99,6 +99,8 @@ func _physics_process(_delta: float) -> void:
 				if global_position.distance_squared_to(i.global_position)<=limitDistance*limitDistance:
 					canMove=false
 					break				
+	if recent_positions.has(nextg):			
+		canMove=false
 	var result=space_state.intersect_shape(shapeQuery,4)
 	if result.size()==0 &&canMove: #如果当前方向的格子敌人距离比较近就判断为无法前进  必须地图内范围
 		bestDir=dir
@@ -111,6 +113,7 @@ func _physics_process(_delta: float) -> void:
 		if 	recent_positions.size()>recentMaxPos:
 			recent_positions.pop_front()
 		nextGrid=null	
+		#recent_positions.clear()
 	else:
 		###在4个方向中分别计算出每个方向距离目标点的距离，优先选择距离最小的方向
 		###选择的方向必须到达指定方向的下一个格子的位置时才可以继续选择方向，记录走过的格子避免反复回头
@@ -169,7 +172,7 @@ func _physics_process(_delta: float) -> void:
 					tryDir.append(currDir)
 				for i in selectDir:
 					var next_grid=current_grid+Vector2i(i.dir)
-					if !currDir.is_equal_approx(i.dir) && !recent_positions.has(next_grid):
+					if !currDir.is_equal_approx(i.dir) && !tryDir.has(i.dir):
 						bestDir=i.dir
 						nextGrid=next_grid
 						break
