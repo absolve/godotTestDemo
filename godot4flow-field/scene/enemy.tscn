@@ -6,7 +6,10 @@
 size = Vector2(32, 32)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h08p8"]
-radius = 30.0
+radius = 48.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f87vc"]
+size = Vector2(32, 32)
 
 [node name="enemy" type="CharacterBody2D" unique_id=942472227]
 collision_mask = 3
@@ -14,6 +17,7 @@ script = ExtResource("1_h08p8")
 
 [node name="shape" type="CollisionShape2D" parent="." unique_id=306430851]
 shape = SubResource("RectangleShape2D_h08p8")
+debug_color = Color(0.33965608, 0.6097051, 0.35545835, 0.41960785)
 
 [node name="radar" type="Area2D" parent="." unique_id=789438694]
 visible = false
@@ -23,3 +27,9 @@ collision_mask = 3
 [node name="shape" type="CollisionShape2D" parent="radar" unique_id=1941127262]
 shape = SubResource("CircleShape2D_h08p8")
 debug_color = Color(0.9333752, 0.18266928, 0.46736634, 0.41960785)
+
+[node name="ShapeCast2D" type="ShapeCast2D" parent="." unique_id=363050697]
+shape = SubResource("RectangleShape2D_f87vc")
+max_results = 8
+collision_mask = 3
+collide_with_areas = true
