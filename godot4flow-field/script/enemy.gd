@@ -217,6 +217,13 @@ func selectDir():
 	if shapeCast.is_colliding():
 		#var safe_scale: float = shapeCast.get_closest_collision_safe_fraction()
 		#print("即将碰撞 | 安全移动比例: ", safe_scale)
+		#如果当前方向可以行走先用当前方向
+		if currDir!=Vector2.ZERO:
+			shapeCast.target_position=currDir*dir
+			shapeCast.force_shapecast_update()
+			if !shapeCast.is_colliding():
+				return currDir
+		
 		#根据当前的方向旋转45度 7次旋转一个不会碰撞的角度
 		var newDir=dir
 		var canMoveDir=[]
@@ -228,7 +235,7 @@ func selectDir():
 				var d=dirInfo.new(newDir)
 				d.dot=newDir.dot(newDir)
 				canMoveDir.append(d)
-		canMoveDir.sort_custom(func(a, b): return a.dot > b.dot)
+		canMoveDir.sort_custom(func(a, b): return a.dot >= b.dot)
 		bestDir=canMoveDir[0].dir
 	else:
 		bestDir=dir
