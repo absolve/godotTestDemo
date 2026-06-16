@@ -236,10 +236,12 @@ func selectDir():
 				d.dot=newDir.dot(newDir)
 				canMoveDir.append(d)
 		canMoveDir.sort_custom(func(a, b): return a.dot >= b.dot)
-		bestDir=canMoveDir[0].dir
+		if canMoveDir.size()>0:
+			bestDir=canMoveDir[0].dir
+		else:
+			return Vector2.ZERO	
 	else:
 		bestDir=dir
-	
 	return bestDir.normalized()
 
 
