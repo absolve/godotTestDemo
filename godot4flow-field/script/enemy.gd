@@ -63,7 +63,7 @@ var nextGrid=null
 var limitDistance=4+32 #当敌人周边的格子方向有敌人，判定阻挡的距离
 var canMove=true  #当前当前方向可以移动
 var tryDir=[]  #在当前格子尝试不同的方向
-
+var state=Game.enemyState.move
 
 func _ready() -> void:
 	shapeQuery.collide_with_areas=true
@@ -198,8 +198,11 @@ func _physics_process(_delta: float) -> void:
 		#if 	recent_positions.size()>recentMaxPos:
 			#recent_positions.pop_front()
 	
-			
-	currDir=selectDir()	
+	if state==Game.enemyState.move:
+		currDir=selectFlowField()
+	elif state==Game.enemyState.findDir:
+		currDir=findDir()			
+	#currDir=selectDir()	
 	if global_position.distance_to(FlowField.target[0]*FlowField.cellSize+FlowField.cellSize/2)<FlowField.cellSize.x:
 		
 		pass
@@ -207,8 +210,69 @@ func _physics_process(_delta: float) -> void:
 		velocity =currDir*speed
 		move_and_collide(velocity*_delta)
 
+#根据流场方向
+func selectFlowField():
+	var dir=FlowField.getFlowDir(global_position)  #获取流场提供的方向
+	shapeCast.target_position=size*dir
+	shapeCast.force_shapecast_update()
+	if shapeCast.is_colliding():
+		var newDir=dir
+		var canMoveDir=[]
+		for i in range(7):
+			newDir=newDir.rotated(PI/4)
+			shapeCast.target_position=size*newDir
+			shapeCast.force_shapecast_update()
+			if !shapeCast.is_colliding():
+				var d=dirInfo.new(newDir)
+				d.dot=newDir.dot(newDir)
+				canMoveDir.append(d)
+		canMoveDir.sort_custom(func(a, b): return a.dot >= b.dot)
+		if canMoveDir.size()>0:
+			bestDir=canMoveDir[0].dir
+			state=Game.enemyState.findDir
+		else:
+			bestDir= Vector2.ZERO	
+	else:
+		bestDir=dir	
+	return bestDir	
 
-
+##根据当前方向前进，如果碰到障碍物改变方向，如果当前敌人附近8个方向没有障碍物就
+##切换回流场寻路的方向	
+func findDir():
+	if currDir!=Vector2.ZERO:
+		shapeCast.target_position=size*currDir
+		shapeCast.force_shapecast_update()
+		if !shapeCast.is_colliding():
+			bestDir=currDir
+		else:
+			#根据当前的方向旋转45度 7次旋转一个不会碰撞的角度
+			var newDir=currDir
+			var canMoveDir=[]
+			for i in range(7):
+				newDir=newDir.rotated(PI/4)
+				shapeCast.target_position=size*newDir
+				shapeCast.force_shapecast_update()
+				if !shapeCast.is_colliding():
+					var d=dirInfo.new(newDir)
+					d.dot=newDir.dot(newDir)
+					canMoveDir.append(d)
+			canMoveDir.sort_custom(func(a, b): return a.dot >= b.dot)
+			if canMoveDir.size()>0:
+				bestDir=canMoveDir[0].dir
+			else:
+				bestDir= Vector2.ZERO	
+	#判断敌人周边8个方向的位置是不是没有障碍物，如果是就切换回流场寻路状态
+	var num=0
+	for i in dirs:
+		shapeCast.target_position=size*i
+		shapeCast.force_shapecast_update()
+		if !shapeCast.is_colliding():
+			num+=1
+	if num>=8:
+		state=Game.enemyState.move
+		
+	return bestDir	
+			
 #选择方向
 func selectDir():
 	var dir=FlowField.getFlowDir(global_position)  #获取流场提供的方向
@@ -219,7 +283,7 @@ func selectDir():
 		#print("即将碰撞 | 安全移动比例: ", safe_scale)
 		#如果当前方向可以行走先用当前方向
 		if currDir!=Vector2.ZERO:
-			shapeCast.target_position=currDir*dir
+			shapeCast.target_position=size*currDir
 			shapeCast.force_shapecast_update()
 			if !shapeCast.is_colliding():
 				return currDir
@@ -244,7 +308,11 @@ func selectDir():
 		bestDir=dir
 	return bestDir.normalized()
 
-
+#形成包围的队伍	
+func selectTeamDir():
+	var dir=FlowField.getFlowDir(global_position)  #获取流场提供的方向
+	
+	pass
 
 func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO-size/2,size),Color.BLACK)

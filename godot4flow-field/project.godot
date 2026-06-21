@@ -12,12 +12,13 @@ config_version=5
 
 config/name="godot4flow field"
 run/main_scene="uid://ch058u0mggla5"
-config/features=PackedStringArray("4.6", "GL Compatibility")
+config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
 FlowField="*uid://dr78yhg0h6vse"
+Game="*uid://gscf3rgnosn1"
 
 [display]
 

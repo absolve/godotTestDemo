@@ -12,6 +12,7 @@ radius = 48.0
 size = Vector2(32, 32)
 
 [node name="enemy" type="CharacterBody2D" unique_id=942472227]
+visible = false
 collision_mask = 3
 script = ExtResource("1_h08p8")
 
@@ -30,6 +31,6 @@ debug_color = Color(0.9333752, 0.18266928, 0.46736634, 0.41960785)
 
 [node name="ShapeCast2D" type="ShapeCast2D" parent="." unique_id=363050697]
 shape = SubResource("RectangleShape2D_f87vc")
-max_results = 8
+max_results = 4
 collision_mask = 3
 collide_with_areas = true
