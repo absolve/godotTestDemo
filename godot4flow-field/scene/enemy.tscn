@@ -12,7 +12,6 @@ radius = 48.0
 size = Vector2(32, 32)
 
 [node name="enemy" type="CharacterBody2D" unique_id=942472227]
-visible = false
 collision_mask = 3
 script = ExtResource("1_h08p8")
 

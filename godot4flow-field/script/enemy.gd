@@ -216,28 +216,31 @@ func selectFlowField():
 	shapeCast.target_position=size*dir
 	shapeCast.force_shapecast_update()
 	if shapeCast.is_colliding():
-		var newDir=dir
-		var canMoveDir=[]
-		for i in range(7):
-			newDir=newDir.rotated(PI/4)
-			shapeCast.target_position=size*newDir
-			shapeCast.force_shapecast_update()
-			if !shapeCast.is_colliding():
-				var d=dirInfo.new(newDir)
-				d.dot=newDir.dot(newDir)
-				canMoveDir.append(d)
-		canMoveDir.sort_custom(func(a, b): return a.dot >= b.dot)
-		if canMoveDir.size()>0:
-			bestDir=canMoveDir[0].dir
-			state=Game.enemyState.findDir
-		else:
-			bestDir= Vector2.ZERO	
+		#var newDir=dir
+		#var canMoveDir=[]
+		#for i in range(7):
+			#newDir=newDir.rotated(PI/4)
+			#shapeCast.target_position=size*newDir
+			#shapeCast.force_shapecast_update()
+			#if !shapeCast.is_colliding():
+				#var d=dirInfo.new(newDir)
+				#d.dot=newDir.dot(newDir)
+				#canMoveDir.append(d)
+		#canMoveDir.sort_custom(func(a, b): return a.dot >= b.dot)
+		#if canMoveDir.size()>0:
+			#bestDir=canMoveDir[0].dir
+			#state=Game.enemyState.findDir
+		#else:
+			#bestDir= Vector2.ZERO	
+		bestDir= Vector2.ZERO	
+		state=Game.enemyState.findDir
 	else:
 		bestDir=dir	
 	return bestDir	
 
 ##根据当前方向前进，如果碰到障碍物改变方向，如果当前敌人附近8个方向没有障碍物就
 ##切换回流场寻路的方向	
+##行走至少一个格子后判断流场方向能不能行走
 func findDir():
 	if currDir!=Vector2.ZERO:
 		shapeCast.target_position=size*currDir
@@ -261,6 +264,9 @@ func findDir():
 				bestDir=canMoveDir[0].dir
 			else:
 				bestDir= Vector2.ZERO	
+	
+	
+	
 	#判断敌人周边8个方向的位置是不是没有障碍物，如果是就切换回流场寻路状态
 	var num=0
 	for i in dirs:
