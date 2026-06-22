@@ -5,6 +5,7 @@
 
 [node name="main" type="Node2D" unique_id=1130539910]
 script = ExtResource("1_itxqv")
+maxCount = 10
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=366442616]
 anchor_mode = 0
