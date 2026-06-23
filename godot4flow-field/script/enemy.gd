@@ -216,15 +216,22 @@ func _physics_process(_delta: float) -> void:
 
 #根据流场方向
 func selectFlowField():
+	var current_grid =Vector2i(floori(global_position.x/FlowField.cellSize.x)	
+		,floori(global_position.y/FlowField.cellSize.y))
 	var dir=FlowField.getFlowDir(global_position)  #获取流场提供的方向
 	shapeCast.target_position=size*dir
 	shapeCast.force_shapecast_update()
 	if shapeCast.is_colliding():
 		var newDir=dir
 		var canMoveDir=[]
+		var newGrid:Vector2=Vector2.ZERO
 		for i in range(7):
 			newDir=newDir.rotated(PI/4)
-			shapeCast.target_position=size*newDir
+			newGrid=Vector2(current_grid)+newDir
+			if newGrid.x<0||newGrid.x>FlowField.mapSize.x||\
+				newGrid.y<0||newGrid.x>FlowField.mapSize.y:
+					continue
+			shapeCast.target_position=size/2*newDir
 			shapeCast.force_shapecast_update()
 			if !shapeCast.is_colliding():
 				var d=dirInfo.new(newDir)
@@ -248,6 +255,8 @@ func selectFlowField():
 ##切换回流场寻路的方向	
 ##行走至少一个格子后判断流场方向能不能行走
 func findDir():
+	var current_grid =Vector2i(floori(global_position.x/FlowField.cellSize.x)	
+		,floori(global_position.y/FlowField.cellSize.y))
 	if currDir!=Vector2.ZERO:
 		shapeCast.target_position=size*currDir
 		shapeCast.force_shapecast_update()
@@ -257,9 +266,14 @@ func findDir():
 			#根据当前的方向旋转45度 7次旋转一个不会碰撞的角度
 			var newDir=currDir
 			var canMoveDir=[]
+			var newGrid:Vector2=Vector2.ZERO
 			for i in range(7):
 				newDir=newDir.rotated(PI/4)
-				shapeCast.target_position=size*newDir
+				newGrid=Vector2(current_grid)+newDir
+				if newGrid.x<0||newGrid.x>FlowField.mapSize.x||\
+					newGrid.y<0||newGrid.x>FlowField.mapSize.y:
+						continue
+				shapeCast.target_position=size/2*newDir
 				shapeCast.force_shapecast_update()
 				if !shapeCast.is_colliding():
 					var d=dirInfo.new(newDir)
@@ -281,11 +295,10 @@ func findDir():
 	#if num>=8:
 		#state=Game.enemyState.move
 	#如果移动超过两个格子判断一下流场的方向是否可以行走，如果可以就切换回流场方向移动
-	var current_grid =Vector2i(floori(global_position.x/FlowField.cellSize.x)	
-		,floori(global_position.y/FlowField.cellSize.y))		
+			
 	if lastGrid.distance_squared_to(current_grid)>=2*2:
 		var dir=FlowField.getFlowDir(global_position)  #获取流场提供的方向
-		shapeCast.target_position=size*dir
+		shapeCast.target_position=size/2*dir
 		shapeCast.force_shapecast_update()
 		if !shapeCast.is_colliding():
 			bestDir=dir
