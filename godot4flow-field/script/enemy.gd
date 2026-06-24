@@ -17,19 +17,19 @@ var dirs=[ Vector2(-1,-1),
 	Vector2(-1,0)]
 	
 # 四正交主方向
-const dir4Ortho = [
-	Vector2(0,-1),  # 上
-	Vector2(0,1),   # 下
-	Vector2(-1,0),  # 左
-	Vector2(1,0)    # 右
-]
+#const dir4Ortho = [
+	#Vector2(0,-1),  # 上
+	#Vector2(0,1),   # 下
+	#Vector2(-1,0),  # 左
+	#Vector2(1,0)    # 右
+#]
 #每个方向与主方向的夹角
-var dir4OrthoDot={
-	Vector2(0,-1):0,
-	Vector2(1,1): 0,
-	Vector2(-1,1):0,
-	Vector2(-1,-1):0
-}
+#var dir4OrthoDot={
+	#Vector2(0,-1):0,
+	#Vector2(1,1): 0,
+	#Vector2(-1,1):0,
+	#Vector2(-1,-1):0
+#}
 	
 class dirInfo:
 	var dir:Vector2
@@ -42,40 +42,41 @@ class dirInfo:
 		return "dir:%s distance:%s"%[dir,distance]
 	
 #4个正反向对应的对焦方向	
-var diagDepend = {
-	Vector2(1,-1): [Vector2(0,-1), Vector2(1,0)],   # 右上 依赖上、右
-	Vector2(1,1):  [Vector2(0,1),  Vector2(1,0)],   # 右下 依赖下、右
-	Vector2(-1,1): [Vector2(0,1),  Vector2(-1,0)],  # 左下 依赖下、左
-	Vector2(-1,-1):[Vector2(0,-1), Vector2(-1,0)]  # 左上 依赖上、左
-}
+#var diagDepend = {
+	#Vector2(1,-1): [Vector2(0,-1), Vector2(1,0)],   # 右上 依赖上、右
+	#Vector2(1,1):  [Vector2(0,1),  Vector2(1,0)],   # 右下 依赖下、右
+	#Vector2(-1,1): [Vector2(0,1),  Vector2(-1,0)],  # 左下 依赖下、左
+	#Vector2(-1,-1):[Vector2(0,-1), Vector2(-1,0)]  # 左上 依赖上、左
+#}
 
-var shapeQuery=PhysicsShapeQueryParameters2D.new()
+#var shapeQuery=PhysicsShapeQueryParameters2D.new()
 var bestDir:Vector2=Vector2.ZERO
 var currDir:Vector2=Vector2.ZERO  #当前移动方向
-var lockDirFrame=20 #锁定方向的帧数
-var lockDirTimer=20
-var isTrapped=false  #是否被困住 如果上下左方向不能移动就是被困住
-var trappedDir=[]
-var trappedCount=0 #无法移动的方向
-var recent_positions: Array[Vector2i] = [] #走过的格子
-var recentMaxPos=5
-var nextGrid=null
-var limitDistance=4+32 #当敌人周边的格子方向有敌人，判定阻挡的距离
-var canMove=true  #当前当前方向可以移动
-var tryDir=[]  #在当前格子尝试不同的方向
+#var lockDirFrame=20 #锁定方向的帧数
+#var lockDirTimer=20
+#var isTrapped=false  #是否被困住 如果上下左方向不能移动就是被困住
+#var trappedDir=[]
+#var trappedCount=0 #无法移动的方向
+#var recent_positions: Array[Vector2i] = [] #走过的格子
+#var recentMaxPos=5
+#var nextGrid=null
+#var limitDistance=4+32 #当敌人周边的格子方向有敌人，判定阻挡的距离
+#var canMove=true  #当前当前方向可以移动
+#var tryDir=[]  #在当前格子尝试不同的方向
 var state=Game.enemyState.move
 var lastGrid:Vector2i=Vector2.ZERO  #上一次网格位置
+var minMoveGrid=3 #最少移动格子位置 如果流场方向无法移动
 
 
 func _ready() -> void:
-	shapeQuery.collide_with_areas=true
-	shapeQuery.collision_mask=1+2
-	shapeQuery.exclude=[get_rid()]
-	shapeQuery.shape=shape.shape
-	trappedDir.append_array([Vector2(0,-1),Vector2(1,0),Vector2(0,1),Vector2(-1,0)])
+	#shapeQuery.collide_with_areas=true
+	#shapeQuery.collision_mask=1+2
+	#shapeQuery.exclude=[get_rid()]
+	#shapeQuery.shape=shape.shape
+	#trappedDir.append_array([Vector2(0,-1),Vector2(1,0),Vector2(0,1),Vector2(-1,0)])
 	#print(floori(global_position.x/FlowField.cellSize.x),
 									#floori(global_position.x/FlowField.cellSize.x))
-	
+	pass
 
 func _physics_process(_delta: float) -> void:
 	#var dir=FlowField.getFlowDir(global_position)  #获取流场提供的方向
@@ -205,14 +206,16 @@ func _physics_process(_delta: float) -> void:
 	elif state==Game.enemyState.findDir:
 		currDir=findDir()			
 	#currDir=selectDir()	
-	var current_grid =Vector2i(floori(global_position.x/FlowField.cellSize.x)	
-		,floori(global_position.y/FlowField.cellSize.y))	
-	if current_grid.distance_squared_to(FlowField.target[0])<=1:
+	#var current_grid =Vector2i(floori(global_position.x/FlowField.cellSize.x)	
+		#,floori(global_position.y/FlowField.cellSize.y))	
+	if global_position.distance_squared_to(FlowField.target[0]*size.x+size/2)<=size.x*size.x:
 		
 		pass
 	else:
 		velocity =currDir*speed
 		move_and_collide(velocity*_delta)
+	
+
 
 #根据流场方向
 func selectFlowField():
@@ -228,8 +231,8 @@ func selectFlowField():
 		for i in range(7):
 			newDir=newDir.rotated(PI/4)
 			newGrid=Vector2(current_grid)+newDir
-			if newGrid.x<0||newGrid.x>FlowField.mapSize.x||\
-				newGrid.y<0||newGrid.x>FlowField.mapSize.y:
+			if newGrid.x<0||newGrid.x>FlowField.mapSize.x-1||\
+				newGrid.y<0||newGrid.y>FlowField.mapSize.y-1:
 					continue
 			shapeCast.target_position=size/2*newDir
 			shapeCast.force_shapecast_update()
@@ -249,7 +252,7 @@ func selectFlowField():
 		#state=Game.enemyState.findDir
 	else:
 		bestDir=dir	
-	return bestDir	
+	return bestDir.normalized()	
 
 ##根据当前方向前进，如果碰到障碍物改变方向，如果当前敌人附近8个方向没有障碍物就
 ##切换回流场寻路的方向	
@@ -257,21 +260,23 @@ func selectFlowField():
 func findDir():
 	var current_grid =Vector2i(floori(global_position.x/FlowField.cellSize.x)	
 		,floori(global_position.y/FlowField.cellSize.y))
+	var newGrid:Vector2=Vector2.ZERO
 	if currDir!=Vector2.ZERO:
 		shapeCast.target_position=size*currDir
 		shapeCast.force_shapecast_update()
-		if !shapeCast.is_colliding():
+		newGrid=Vector2(current_grid)+currDir
+		if !shapeCast.is_colliding() &&newGrid.x>=0&&newGrid.x<FlowField.mapSize.x-1&&\
+				newGrid.y>=0&&newGrid.y<FlowField.mapSize.y-1:
 			bestDir=currDir
 		else:
 			#根据当前的方向旋转45度 7次旋转一个不会碰撞的角度
 			var newDir=currDir
-			var canMoveDir=[]
-			var newGrid:Vector2=Vector2.ZERO
+			var canMoveDir=[]	
 			for i in range(7):
 				newDir=newDir.rotated(PI/4)
 				newGrid=Vector2(current_grid)+newDir
-				if newGrid.x<0||newGrid.x>FlowField.mapSize.x||\
-					newGrid.y<0||newGrid.x>FlowField.mapSize.y:
+				if newGrid.x<0||newGrid.x>FlowField.mapSize.x-1||\
+					newGrid.y<0||newGrid.y>FlowField.mapSize.y-1:
 						continue
 				shapeCast.target_position=size/2*newDir
 				shapeCast.force_shapecast_update()
@@ -284,28 +289,21 @@ func findDir():
 				bestDir=canMoveDir[0].dir
 			else:
 				bestDir= Vector2.ZERO	
-	
-	##判断敌人周边8个方向的位置是不是没有障碍物，如果是就切换回流场寻路状态
-	#var num=0
-	#for i in dirs:
-		#shapeCast.target_position=size*i
-		#shapeCast.force_shapecast_update()
-		#if !shapeCast.is_colliding():
-			#num+=1
-	#if num>=8:
-		#state=Game.enemyState.move
-	#如果移动超过两个格子判断一下流场的方向是否可以行走，如果可以就切换回流场方向移动
-			
-	if lastGrid.distance_squared_to(current_grid)>=2*2:
+	else:
+		state=Game.enemyState.move
+		
+		
+	if lastGrid.distance_squared_to(current_grid)>minMoveGrid*minMoveGrid:
 		var dir=FlowField.getFlowDir(global_position)  #获取流场提供的方向
 		shapeCast.target_position=size/2*dir
 		shapeCast.force_shapecast_update()
 		if !shapeCast.is_colliding():
 			bestDir=dir
 			state=Game.enemyState.move
-	return bestDir	
+	return bestDir.normalized()	
 			
-#选择方向
+			
+#选择方向  todo
 func selectDir():
 	var dir=FlowField.getFlowDir(global_position)  #获取流场提供的方向
 	shapeCast.target_position=size*dir
@@ -340,7 +338,7 @@ func selectDir():
 		bestDir=dir
 	return bestDir.normalized()
 
-#形成包围的队伍	
+#形成包围的队伍	todo
 func selectTeamDir():
 	var dir=FlowField.getFlowDir(global_position)  #获取流场提供的方向
 	
