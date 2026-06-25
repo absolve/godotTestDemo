@@ -1,11 +1,14 @@
 [gd_scene format=3 uid="uid://b6qvv53rkcfke"]
 
+[ext_resource type="Script" uid="uid://uequp38am4u4" path="res://script/wall.gd" id="1_80ewm"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r5nqj"]
 size = Vector2(32, 32)
 
 [node name="wall" type="StaticBody2D" unique_id=571988868]
 collision_layer = 2
 collision_mask = 0
+script = ExtResource("1_80ewm")
 
 [node name="shape" type="CollisionShape2D" parent="." unique_id=921712533]
 shape = SubResource("RectangleShape2D_r5nqj")
