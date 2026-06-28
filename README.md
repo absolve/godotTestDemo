@@ -39,6 +39,7 @@
 ### Godot 4.x 项目
 - **godot-4-camera-drag-zoom**：相机平移缩放功能（使用 Godot 4.5）
 - **godot-4-toast**：消息提醒系统（使用 Godot 4.x）
+- **godot4flow-field**：流场寻路算法演示（使用 Godot 4.x），通过预计算流向场实现高效路径寻路，适合大量单位同时寻路的场景，支持单目标和多目标两种模式
 
 ## 许可证
 本项目采用 MIT 许可证，详情请参阅 [LICENSE](LICENSE) 文件。
