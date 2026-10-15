@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://dmskj8i7vlbkd"]
+
+[ext_resource type="Script" uid="uid://dnyc8rjj346os" path="res://script/custom_camera.gd" id="1_r38ya"]
+
+[node name="CustomCamera" type="Camera2D" unique_id=1331816399]
+anchor_mode = 0
+script = ExtResource("1_r38ya")
+
+[node name="AudioListener2D" type="AudioListener2D" parent="." unique_id=210082174 groups=["audio_listener"]]
+current = true

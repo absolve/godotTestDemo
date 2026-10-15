@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://mc0rk57nfi1e"]
+
+[ext_resource type="Script" uid="uid://gg57j0x0ltps" path="res://script/volume_bar.gd" id="1_85cv7"]
+
+[node name="volumeBar" type="HBoxContainer" unique_id=1032903125]
+offset_right = 140.0
+offset_bottom = 196.0
+script = ExtResource("1_85cv7")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1490409576]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=884873279]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "left"
+horizontal_alignment = 1
+
+[node name="VolumeBarLeft" type="ProgressBar" parent="VBoxContainer" unique_id=2011153461]
+layout_mode = 2
+size_flags_vertical = 3
+fill_mode = 3
+show_percentage = false
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="." unique_id=1862857895]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer2" unique_id=383322352]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "right"
+horizontal_alignment = 1
+
+[node name="VolumeBarRight" type="ProgressBar" parent="VBoxContainer2" unique_id=750953125]
+layout_mode = 2
+size_flags_vertical = 3
+fill_mode = 3
+show_percentage = false

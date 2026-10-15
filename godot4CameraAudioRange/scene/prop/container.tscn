@@ -1,0 +1,59 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="PackedScene" path="res://scene/prop/prop_base.tscn" id="1_base"]
+[ext_resource type="Texture2D" path="res://sprite/prop/container.png" id="2_sheet"]
+[ext_resource type="AudioStream" path="res://sound/sfx/container_rattle.ogg" id="3_sfx"]
+
+[sub_resource type="AtlasTexture" id="Atlas_0"]
+atlas = ExtResource("2_sheet")
+region = Rect2(0, 0, 192, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_1"]
+atlas = ExtResource("2_sheet")
+region = Rect2(192, 0, 192, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_2"]
+atlas = ExtResource("2_sheet")
+region = Rect2(384, 0, 192, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_3"]
+atlas = ExtResource("2_sheet")
+region = Rect2(576, 0, 192, 64)
+
+[sub_resource type="SpriteFrames" id="Frames"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_0")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_1")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_2")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_3")
+}
+],
+"loop": true,
+"name": &"default",
+"speed": 5
+}]
+
+[node name="container" instance=ExtResource("1_base")]
+snapToGrid = false
+
+[node name="Anim" parent="." index="0"]
+sprite_frames = SubResource("Frames")
+
+[node name="Sound" type="AudioStreamPlayer2D" parent="." index="1" groups=["audio_spot"]]
+stream = ExtResource("3_sfx")
+volume_db = -10.0
+max_distance = 1000.0
+attenuation = 1.0
+autoplay = true
+bus = &"Sfx"

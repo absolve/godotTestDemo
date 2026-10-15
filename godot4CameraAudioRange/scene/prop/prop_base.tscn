@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://script/level/prop.gd" id="1_script"]
+
+[node name="prop" type="Node2D" groups=["prop"]]
+script = ExtResource("1_script")
+
+[node name="Anim" type="AnimatedSprite2D" parent="."]

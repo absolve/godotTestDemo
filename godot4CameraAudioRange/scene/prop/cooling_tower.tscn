@@ -1,0 +1,82 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="PackedScene" path="res://scene/prop/prop_base.tscn" id="1_base"]
+[ext_resource type="Texture2D" path="res://sprite/prop/cooling_tower.png" id="2_sheet"]
+
+[sub_resource type="AtlasTexture" id="Atlas_0"]
+atlas = ExtResource("2_sheet")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="Atlas_1"]
+atlas = ExtResource("2_sheet")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="Atlas_2"]
+atlas = ExtResource("2_sheet")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="Atlas_3"]
+atlas = ExtResource("2_sheet")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="Atlas_4"]
+atlas = ExtResource("2_sheet")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="Atlas_5"]
+atlas = ExtResource("2_sheet")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="Atlas_6"]
+atlas = ExtResource("2_sheet")
+region = Rect2(768, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="Atlas_7"]
+atlas = ExtResource("2_sheet")
+region = Rect2(896, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="Frames"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_0")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_1")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_2")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_3")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_4")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_5")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_6")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_7")
+}
+],
+"loop": true,
+"name": &"default",
+"speed": 9
+}]
+
+[node name="cooling_tower" instance=ExtResource("1_base")]
+snapToGrid = false
+
+[node name="Anim" parent="." index="0"]
+sprite_frames = SubResource("Frames")

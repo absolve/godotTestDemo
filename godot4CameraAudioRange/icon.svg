@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" shape-rendering="crispEdges">
+  <!--
+    Machine-TD app icon.
+
+    Subject: the DRONE BASE tower: a square turret pad whose deck reads as a
+    big "H" (helipad marking), the same shape as sprite/tower/tower_drone.svg.
+
+    PALETTE is taken verbatim from sprite/tower/redesigned/tower_drone.svg:
+      outline    #1A1C2C      ring / shadow  #5E7A8C
+      lit        #94B0C2      body           #333C57
+      mid        #566C86      marking        #A8C0CE
+      marking hi #DCEAF2      accent         #FFC61A  (hazard stripes)
+
+    SIMPLIFIED for an icon. The in-game tower stacks four concentric rings plus
+    corner bolts and inner struts, which is far too busy at 16x16. This keeps
+    only what identifies the silhouette:
+      - ONE chamfered-square outline (dark) around a lit frame
+      - a dark deck carrying the big "H"
+      - four hazard-yellow dashes, one centred on each edge
+
+    IMPORTANT: no viewBox here. Godot's SVG importer IGNORES viewBox and
+    interprets coordinates 1:1 against width/height (verified by rasterising test
+    SVGs and comparing ink bounding boxes: a viewBox="0 0 32 32" square landed at
+    its raw pixel coordinates instead of being scaled up). The art is therefore
+    authored directly in 256-unit space, every coordinate a multiple of 4, so
+    edges stay on whole pixels at 1x / 2x / 4x. The design is mirror-symmetric
+    about both axes, which is what keeps it legible when small.
+
+    NOTE: this file must stay valid XML. XML forbids a double hyphen inside a
+    comment, which is why none of these comments use a dash-dash separator; a
+    browser rejects the whole document over it even though Godot's more lenient
+    SVG parser still loads it.
+  -->
+  <g stroke="#1A1C2C" stroke-linejoin="miter">
+
+    <!-- ============ outer chamfered square ============ -->
+    <path d="M52 8H204L248 52V204L204 248H52L8 204V52Z" fill="#1A1C2C" stroke-width="8"/>
+    <!-- lit frame ring -->
+    <path d="M56 20H200L236 56V200L200 236H56L20 200V56Z" fill="#94B0C2" stroke-width="4"/>
+    <!-- deck -->
+    <path d="M60 32H196L224 60V196L196 224H60L32 196V60Z" fill="#333C57" stroke-width="4"/>
+
+    <!-- ============ the "H" marking ============ -->
+    <!-- mid-tone backing plate, tucked in so the deck still frames it -->
+    <path d="M84 64H172V192H84Z" fill="#566C86" stroke-width="4"/>
+    <!-- H: two uprights + crossbar -->
+    <path d="M104 84H124V118H132V84H152V172H132V138H124V172H104Z" fill="#A8C0CE" stroke-width="5"/>
+
+    <!-- ============ hazard-yellow dashes, one per edge ============ -->
+    <path d="M100 14H156V30H100Z" fill="#FFC61A" stroke-width="4"/>
+    <path d="M100 226H156V242H100Z" fill="#FFC61A" stroke-width="4"/>
+    <path d="M14 100H30V156H14Z" fill="#FFC61A" stroke-width="4"/>
+    <path d="M226 100H242V156H226Z" fill="#FFC61A" stroke-width="4"/>
+  </g>
+</svg>

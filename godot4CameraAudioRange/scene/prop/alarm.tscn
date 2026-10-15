@@ -1,0 +1,121 @@
+[gd_scene format=3 uid="uid://dfp2syaadtud8"]
+
+[ext_resource type="PackedScene" path="res://scene/prop/prop_base.tscn" id="1_base"]
+[ext_resource type="Texture2D" uid="uid://xni7whbmkkaj" path="res://sprite/prop/alarm.png" id="2_sheet"]
+[ext_resource type="Script"  path="res://script/level/prop_alarm.gd" id="3_script"]
+
+[sub_resource type="AtlasTexture" id="Atlas_6"]
+atlas = ExtResource("2_sheet")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_7"]
+atlas = ExtResource("2_sheet")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_8"]
+atlas = ExtResource("2_sheet")
+region = Rect2(512, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_9"]
+atlas = ExtResource("2_sheet")
+region = Rect2(576, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_10"]
+atlas = ExtResource("2_sheet")
+region = Rect2(640, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_11"]
+atlas = ExtResource("2_sheet")
+region = Rect2(704, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_0"]
+atlas = ExtResource("2_sheet")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_1"]
+atlas = ExtResource("2_sheet")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_2"]
+atlas = ExtResource("2_sheet")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_3"]
+atlas = ExtResource("2_sheet")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_4"]
+atlas = ExtResource("2_sheet")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="Atlas_5"]
+atlas = ExtResource("2_sheet")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="Frames"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_7")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_8")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_9")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_10")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_11")
+}],
+"loop": 1,
+"name": &"alarm",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_5")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="Circle_detect"]
+radius = 80.0
+
+[node name="alarm" unique_id=265241294 instance=ExtResource("1_base")]
+script = ExtResource("3_script")
+triggerRadius = 280.0
+releaseDelay = 1.2
+
+[node name="Anim" parent="." index="0"]
+sprite_frames = SubResource("Frames")
+animation = &"idle"
+
+[node name="Detect" type="Area2D" parent="." index="1" unique_id=363597977]
+collision_layer = 0
+collision_mask = 2
+
+[node name="shape" type="CollisionShape2D" parent="Detect" index="0" unique_id=1676544294]
+shape = SubResource("Circle_detect")

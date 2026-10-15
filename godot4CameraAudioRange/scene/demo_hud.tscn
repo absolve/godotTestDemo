@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://chax7td12ge0v"]
+
+[ext_resource type="Script" uid="uid://carkmk4yglnyt" path="res://script/demo_hud.gd" id="1_hud"]
+[ext_resource type="PackedScene" uid="uid://mc0rk57nfi1e" path="res://scene/volume_bar.tscn" id="2_q131b"]
+
+[node name="DemoHud" type="CanvasLayer" unique_id=1580457285]
+layer = 100
+script = ExtResource("1_hud")
+
+[node name="SpotOverlay" type="Node2D" parent="." unique_id=306663894]
+
+[node name="Readout" type="Label" parent="." unique_id=1453706575]
+offset_top = 48.0
+offset_right = 205.0
+offset_bottom = 79.0
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(1, 0.85, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.9)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 22
+
+[node name="volumeBar" parent="." unique_id=1032903125 instance=ExtResource("2_q131b")]
+offset_left = 8.0
+offset_top = 365.0
+offset_right = 148.0
+offset_bottom = 561.0
+enable = true
