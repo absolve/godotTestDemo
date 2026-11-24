@@ -1,0 +1,23 @@
+; Engine configuration file.
+; Minimal standalone demo extracted from the Box Head remake navigation logic.
+
+config_version=5
+
+[application]
+
+config/name="Box Head Flow Field Demo"
+run/main_scene="res://main.tscn"
+config/features=PackedStringArray("4.4", "GL Compatibility")
+
+[display]
+
+window/size/viewport_width=1100
+window/size/viewport_height=700
+window/size/window_width_override=1100
+window/size/window_height_override=700
+window/stretch/mode="canvas_items"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
